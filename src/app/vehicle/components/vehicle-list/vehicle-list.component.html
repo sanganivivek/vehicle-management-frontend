@@ -1,0 +1,142 @@
+<div class="vehicle-page-bg">
+  <div class="vehicle-container mt-4">
+    <div class="header-section">
+      <h2 class="title">Vehicle Management</h2>
+      <button class="btn btn-primary add-btn" (click)="addVehicle()">
+        <i class="bi bi-plus-circle"></i> Add Vehicle
+      </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <input
+        type="text"
+        class="form-control search-box"
+        placeholder="Search by Registration Number or Vehicle Name..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      />
+      <select
+        class="form-select brand-dropdown"
+        [(ngModel)]="selectedBrand"
+        (change)="onBrandFilter()"
+      >
+        <option value="">All Brands</option>
+        <option *ngFor="let brand of brands" [value]="brand.brandName">
+          {{ brand.brandName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Loader -->
+    <div *ngIf="loading" class="loader-section">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!loading" class="table-wrapper">
+      <table class="table custom-table">
+        <thead>
+          <tr>
+            <th (click)="sort('regNo')" class="sortable">
+              Registration No {{ getSortIcon("regNo") }}
+            </th>
+            <th (click)="sort('brand')" class="sortable">
+              Brand {{ getSortIcon("brand") }}
+            </th>
+            <th (click)="sort('model')" class="sortable">
+              Model {{ getSortIcon("model") }}
+            </th>
+            <th (click)="sort('vehicleName')" class="sortable">
+              Vehicle Name {{ getSortIcon("vehicleName") }}
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let vehicle of vehicles">
+            <td>{{ vehicle.regNo }}</td>
+            <td>{{ vehicle.brand }}</td>
+            <td>{{ vehicle.model }}</td>
+            <td>{{ vehicle.vehicleName || 'N/A' }}</td>
+            <td>
+              <div class="action-icons">
+                <button
+                  class="icon-btn edit-icon"
+                  (click)="editVehicle(vehicle.regNo)"
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button
+                  class="icon-btn delete-icon"
+                  (click)="deleteVehicle(vehicle.regNo)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="vehicles.length === 0">
+            <td colspan="5" class="no-data">No vehicles found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Vehicle Count Display -->
+    <div class="pagination-info" *ngIf="!loading && vehicles.length > 0">
+      {{ getDisplayRange() }}
+    </div>
+
+    <!-- Pagination -->
+    <nav class="pagination-wrapper" *ngIf="!loading && totalRecords > 0">
+      <ul class="custom-pagination">
+        <!-- Previous -->
+        <li
+          class="page-item"
+          [class.disabled]="currentPage === 1"
+          (click)="prevPage()"
+        >
+          <span class="page-link">‹ Prev</span>
+        </li>
+
+        <!-- Page Numbers -->
+        <li
+          class="page-item number"
+          *ngFor="let p of pagesArray"
+          [class.active]="currentPage === p"
+          (click)="goToPage(p)"
+        >
+          <span class="page-link">{{ p }}</span>
+        </li>
+
+        <!-- Next -->
+        <li
+          class="page-item"
+          [class.disabled]="currentPage === totalPages"
+          (click)="nextPage()"
+        >
+          <span class="page-link">Next ›</span>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<style>
+.pagination-info {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #666;
+}
+.page-item.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.page-item {
+  cursor: pointer;
+}
+</style>

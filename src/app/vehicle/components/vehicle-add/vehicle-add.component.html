@@ -1,0 +1,96 @@
+<div class="vehicle-page-bg">
+  <div class="form-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <h3 class="form-title">Add New Vehicle</h3>
+      </div>
+
+      <div class="form-body">
+        <form [formGroup]="vehicleForm">
+          <!-- Form Grid (2 Column Layout) -->
+          <div class="form-grid">
+            <!-- Vehicle Name -->
+            <div class="form-group">
+              <label class="form-label">Vehicle Name *</label>
+              <input
+                type="text"
+                class="form-control form-input"
+                formControlName="vehicleName"
+              />
+              <mat-error
+                *ngIf="(submitted || f['vehicleName'].touched) && f['vehicleName'].errors"
+              >
+                <span *ngIf="f['vehicleName'].errors['required']"
+                  >Vehicle Name is required</span
+                >
+                <span *ngIf="f['vehicleName'].errors['maxlength']"
+                  >Maximum 50 characters allowed</span
+                >
+              </mat-error>
+            </div>
+
+            <!-- Brand -->
+            <div class="form-group">
+              <label class="form-label">Brand *</label>
+              <select class="form-control form-input" formControlName="brandId">
+                <option value="">Select Brand</option>
+                <option *ngFor="let brand of brands" [value]="brand.brandId">
+                  {{ brand.brandName }}
+                </option>
+              </select>
+
+              <mat-error
+                *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors"
+              >
+                <span *ngIf="f['brandId'].errors['required']"
+                  >Brand is required</span
+                >
+              </mat-error>
+            </div>
+
+            <!-- Model -->
+            <div class="form-group">
+              <label class="form-label">Model *</label>
+              <select
+                class="form-control form-input"
+                formControlName="modelId"
+                [disabled]="!models.length"
+              >
+                <option value="">Select Model</option>
+                <option *ngFor="let model of models" [value]="model.modelId">
+                  {{ model.modelName }}
+                </option>
+              </select>
+
+              <mat-error
+                *ngIf="(submitted || f['modelId'].touched) && f['modelId'].errors"
+              >
+                <span *ngIf="f['modelId'].errors['required']"
+                  >Model is required</span
+                >
+              </mat-error>
+            </div>
+
+          </div>
+          <!-- end grid -->
+
+          <!-- Buttons -->
+          <div class="btn-row">
+            <button type="button" class="btn btn-cancel" (click)="onCancel()">
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-submit"
+              (click)="onSubmit()"
+              [disabled]="vehicleForm.invalid || loading"
+            >
+              {{ loading ? "Saving..." : "Save" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

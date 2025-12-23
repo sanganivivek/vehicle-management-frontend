@@ -1,0 +1,54 @@
+<div class="vehicle-page-bg">
+  <div class="form-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <h3 class="form-title">Add New Brand</h3>
+      </div>
+
+      <div class="form-body">
+        <form [formGroup]="brandForm">
+          <!-- Form Grid (2 Column Layout) -->
+          <div class="form-grid">
+            <!-- Brand Name -->
+            <div class="form-group">
+              <label class="form-label">Brand Name *</label>
+              <input
+                type="text"
+                class="form-control form-input"
+                formControlName="brandName"
+              />
+              <mat-error
+                *ngIf="(submitted || f['brandName'].touched) && f['brandName'].errors"
+              >
+                <span *ngIf="f['brandName'].errors['required']"
+                  >Brand Name is required</span
+                >
+                <span *ngIf="f['brandName'].errors['maxlength']"
+                  >Maximum 50 characters allowed</span
+                >
+              </mat-error>
+            </div>
+
+          </div>
+          <!-- end grid -->
+
+          <!-- Buttons -->
+          <div class="btn-row">
+            <button type="button" class="btn btn-cancel" (click)="onCancel()">
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-submit"
+              (click)="onSubmit()"
+              [disabled]="brandForm.invalid || loading"
+            >
+              {{ loading ? "Saving..." : "Save" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
