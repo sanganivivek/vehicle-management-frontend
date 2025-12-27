@@ -120,8 +120,8 @@ export class VehicleEditComponent implements OnInit {
       debounceTime(500),
       switchMap(vehicleName => 
         this.vehicleService.getVehicles().pipe(
-          map((vehicles: VehicleListDTO[]) => {
-            const exists = vehicles.some((v: VehicleListDTO) => 
+          map((response: any) => {
+            const exists = response.result.some((v: VehicleListDTO) => 
               v.vehicleName?.toLowerCase() === vehicleName.toLowerCase() && v.regNo !== this.vehicleId
             );
             return exists ? { vehicleNameExists: true } : null;

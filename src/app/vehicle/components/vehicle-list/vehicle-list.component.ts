@@ -47,10 +47,10 @@ export class VehicleListComponent implements OnInit {
     };
     
     this.vehicleService.getVehicles(queryParams).subscribe({
-      next: (vehicles: VehicleListDTO[]) => {
-        console.log('Vehicles loaded successfully:', vehicles);
-        this.vehicles = vehicles;
-        this.totalRecords = vehicles.length;
+      next: (response: any) => {
+        console.log('Vehicles loaded successfully:', response);
+        this.vehicles = response.result;
+        this.totalRecords = response.result.length;
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
         this.generatePagesArray();
         this.loading = false;
