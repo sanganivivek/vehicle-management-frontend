@@ -1,5 +1,3 @@
-// src/app/vehicle/models/vehicle.model.ts
-
 export interface Vehicle {
   vehicleId: string;
   regNo: string;
@@ -9,16 +7,17 @@ export interface Vehicle {
   isActive: boolean;
 }
 
-// ✅ Added Brand interface (Required for loading brands)
+// ✅ ADDED: Required for your Brand dropdowns
 export interface Brand {
   brandId: string;
   brandName: string;
 }
 
-// ✅ Added CreateModelDTO (Required for saving model)
+// ✅ ADDED: Required for "Add Model". 
+// CRITICAL: We use 'name' here because your C# Backend expects "Name", not "modelName".
 export interface CreateModelDTO {
   brandId: string;
-  name: string;   // <--- MUST be 'name' to match C# backend property 'Name'
+  name: string;   
 }
 
 export interface CreateVehicleDTO {
