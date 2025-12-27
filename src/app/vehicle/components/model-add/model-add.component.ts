@@ -81,7 +81,7 @@ export class ModelAddComponent implements OnInit {
     this.loading = true;
     const model: CreateModelDTO = {
       brandId: this.modelForm.value.brandId,
-      modelName: this.modelForm.value.modelName
+      name: this.modelForm.value.name 
     };
 
     this.modelService.addModel(model).subscribe({

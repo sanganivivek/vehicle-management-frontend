@@ -1,53 +1,39 @@
-// Brand interfaces
+// src/app/vehicle/models/vehicle.model.ts
+
+export interface Vehicle {
+  vehicleId: string;
+  regNo: string;
+  brand: string;
+  model: string;
+  modelYear: number;
+  isActive: boolean;
+}
+
+// ✅ Added Brand interface (Required for loading brands)
 export interface Brand {
   brandId: string;
   brandName: string;
 }
 
-export interface CreateBrandDTO {
-  brandName: string;
-}
-
-// Model interfaces
-export interface Model {
-  modelId: string;
-  modelName: string;
-  brandId: string;
-}
-
-// Create Model DTO (for POST requests)
+// ✅ Added CreateModelDTO (Required for saving model)
 export interface CreateModelDTO {
-  modelName: string;
   brandId: string;
+  name: string;   // <--- MUST be 'name' to match C# backend property 'Name'
 }
 
-// Vehicle DTO from backend (enriched with brand and model names)
-export interface VehicleListDTO {
+export interface CreateVehicleDTO {
   regNo: string;
   brand: string;
   model: string;
-  vehicleName?: string;
-  brandId?: string;
-  modelId?: string;
-}
-
-// Vehicle interfaces
-export interface VehicleMaster {
-  vehicleId?: string;
-  regNo: string;
-  vehicleName: string;
-  brandId: string;
-  modelId: string;
   modelYear: number;
   isActive: boolean;
 }
 
-// Query parameters for vehicle search
-export interface VehicleQueryParams {
-  Brand?: string;
-  Search?: string;
-  SortBy?: string;
-  SortOrder?: string;
-  Page?: number;
-  PageSize?: number;
+export interface UpdateVehicleDTO {
+  vehicleId: string;
+  regNo: string;
+  brand: string;
+  model: string;
+  modelYear: number;
+  isActive: boolean;
 }
