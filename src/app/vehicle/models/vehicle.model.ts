@@ -1,29 +1,52 @@
+// --- Main Vehicle Entities ---
 export interface Vehicle {
-  vehicleId: string;
+  vehicleId?: string;
   regNo: string;
-  brand: string;
-  model: string;
+  vehicleName?: string;
+  brand?: string;
+  brandId?: string;
+  model?: string;
+  modelId?: string;
   modelYear: number;
   isActive: boolean;
 }
 
-// ✅ ADDED: Required for your Brand dropdowns
+// Often used as an alias for Vehicle in lists
+export interface VehicleListDTO extends Vehicle {}
+
+// Often used as the full entity details
+export interface VehicleMaster extends Vehicle {}
+
+// --- Brand Interfaces ---
 export interface Brand {
   brandId: string;
   brandName: string;
 }
 
-// ✅ ADDED: Required for "Add Model". 
-// CRITICAL: We use 'name' here because your C# Backend expects "Name", not "modelName".
-export interface CreateModelDTO {
-  brandId: string;
-  name: string;   
+export interface CreateBrandDTO {
+  brandName: string;
 }
 
+// --- Model Interfaces ---
+export interface Model {
+  modelId: string;
+  modelName: string;
+  brandId: string;
+}
+
+export interface CreateModelDTO {
+  brandId: string;
+  name: string; // Matches Backend DTO 'Name'
+}
+
+// --- Vehicle DTOs (Data Transfer Objects) ---
 export interface CreateVehicleDTO {
   regNo: string;
+  vehicleName?: string;
   brand: string;
+  brandId?: string;
   model: string;
+  modelId?: string;
   modelYear: number;
   isActive: boolean;
 }
@@ -31,8 +54,21 @@ export interface CreateVehicleDTO {
 export interface UpdateVehicleDTO {
   vehicleId: string;
   regNo: string;
+  vehicleName?: string;
   brand: string;
+  brandId?: string;
   model: string;
+  modelId?: string;
   modelYear: number;
   isActive: boolean;
+}
+
+// --- Service Parameters ---
+export interface VehicleQueryParams {
+  search?: string;
+  brand?: string;
+  sortBy?: string;
+  sortOrder?: string;
+  page?: number;
+  pageSize?: number;
 }

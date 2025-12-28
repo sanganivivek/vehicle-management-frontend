@@ -38,12 +38,12 @@ export class VehicleListComponent implements OnInit {
     this.loading = true;
     
     const queryParams: VehicleQueryParams = {
-      Brand: this.selectedBrand || undefined,
-      Search: this.searchTerm || undefined,
-      SortBy: this.sortColumn,
-      SortOrder: this.sortOrder,
-      Page: this.currentPage,
-      PageSize: this.pageSize
+      brand: this.selectedBrand || undefined,
+      search: this.searchTerm || undefined,
+      sortBy: this.sortColumn,
+      sortOrder: this.sortOrder,
+      page: this.currentPage,
+      pageSize: this.pageSize
     };
     
     this.vehicleService.getVehicles(queryParams).subscribe({
