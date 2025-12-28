@@ -29,24 +29,10 @@ export class ModelAddComponent implements OnInit {
       modelName: ['', [Validators.required, Validators.maxLength(50)]]
     });
     
-    // Test API connectivity first
-    this.testApiConnection();
     this.loadBrands();
   }
 
-  testApiConnection(): void {
-    const testUrl = `${this.brandService['apiUrl']}/test`;
-    console.log('Testing API connection to:', testUrl);
-    
-    this.brandService['http'].get(testUrl).subscribe({
-      next: (response) => {
-        console.log('API test successful:', response);
-      },
-      error: (error) => {
-        console.error('API test failed:', error);
-      }
-    });
-  }
+
   
   loadBrands(): void {
     console.log('Loading brands from:', this.brandService);
@@ -71,26 +57,36 @@ export class ModelAddComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('Save Clicked'); // Debug 1
+
     this.submitted = true;
     this.modelForm.markAllAsTouched();
 
     if (this.modelForm.invalid) {
+      console.error('Form Invalid:', this.modelForm.errors); // Debug 2: See if fields are missing
       return;
     }
 
     this.loading = true;
-    const model: CreateModelDTO = {
+
+    // Create DTO matching the backend
+    const modelData: CreateModelDTO = {
       brandId: this.modelForm.value.brandId,
-      name: this.modelForm.value.modelName
+      name: this.modelForm.value.modelName // Ensure this maps to 'name'
     };
 
-    this.modelService.addModel(model).subscribe({
-      next: () => {
-        this.router.navigate(['/models']);
+    console.log('Sending:', modelData); // Debug 3
+
+    this.modelService.addModel(modelData).subscribe({
+      next: (res) => {
+        console.log('Success:', res);
+        alert('Model Saved Successfully!');
+        this.router.navigate(['/vehicle/add']); // Go back to Add Vehicle
       },
-      error: () => {
-        this.submitted = false;
+      error: (err) => {
+        console.error('Error:', err);
         this.loading = false;
+        alert('Failed to save. Check console for details.');
       }
     });
   }

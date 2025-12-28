@@ -61,7 +61,7 @@
               type="submit"
               class="btn btn-submit"
               (click)="onSubmit()"
-              [disabled]="modelForm.invalid || loading"
+              [disabled]="loading"
             >
               {{ loading ? "Saving..." : "Save" }}
             </button>
