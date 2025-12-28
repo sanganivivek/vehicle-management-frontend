@@ -65,6 +65,11 @@ export class VehicleService {
       .pipe(catchError(this.handleError));
   }
 
+  addModel(model: any): Observable<any> {
+    return this.http.post(this.modelUrl, model)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: any) {
     console.error('API Error:', error);
     return throwError(() => error);

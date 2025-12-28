@@ -48,6 +48,8 @@ export class VehicleAddComponent implements OnInit {
     this.vehicleForm.get('brandId')?.valueChanges.subscribe(brandId => {
       if (brandId) {
         this.loadModels(brandId);
+        // Reset model selection when brand changes
+        this.vehicleForm.patchValue({ modelId: '' });
       } else {
         this.models = [];
         this.vehicleForm.patchValue({ modelId: '' });
@@ -68,7 +70,6 @@ export class VehicleAddComponent implements OnInit {
   }
   
   loadModels(brandId: string): void {
-    this.vehicleForm.patchValue({ modelId: '' });
     this.errorMessage = '';
     
     this.vehicleService.getModelsByBrand(brandId).subscribe({
