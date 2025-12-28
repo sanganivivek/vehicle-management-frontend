@@ -36,7 +36,7 @@ export interface Model {
 
 export interface CreateModelDTO {
   brandId: string;
-  name: string; // Matches Backend DTO 'Name'
+  name: string;
 }
 
 // --- Vehicle DTOs (Data Transfer Objects) ---

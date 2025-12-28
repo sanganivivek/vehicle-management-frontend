@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../vehicle.service';
-import { BrandService } from '../../services/brand.service';
-import { ModelService } from '../../services/model.service';
 import { VehicleMaster, Brand, Model } from '../../models/vehicle.model';
 
 @Component({
@@ -22,8 +20,6 @@ export class VehicleAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private vehicleService: VehicleService,
-    private brandService: BrandService,
-    private modelService: ModelService,
     private router: Router
   ) {}
 
@@ -50,15 +46,19 @@ export class VehicleAddComponent implements OnInit {
 
   private setupBrandChangeListener(): void {
     this.vehicleForm.get('brandId')?.valueChanges.subscribe(brandId => {
-      this.onBrandChange(brandId);
+      if (brandId) {
+        this.loadModels(brandId);
+      } else {
+        this.models = [];
+        this.vehicleForm.patchValue({ modelId: '' });
+      }
     });
   }
   
   loadBrands(): void {
-    this.brandService.getBrands().subscribe({
+    this.vehicleService.getBrands().subscribe({
       next: (brands: Brand[]) => {
         this.brands = brands;
-        console.log('Brands loaded:', brands);
       },
       error: (error) => {
         console.error('Failed to load brands:', error);
@@ -67,27 +67,21 @@ export class VehicleAddComponent implements OnInit {
     });
   }
   
-  onBrandChange(brandId: string): void {
-    if (brandId) {
-      this.loading = true;
-      this.modelService.getModelsByBrand(brandId).subscribe({
-        next: (models: Model[]) => {
-          this.models = models;
-          this.loading = false;
-          console.log('Models loaded for brand:', models);
-        },
-        error: (error) => {
-          console.error('Failed to load models:', error);
-          this.models = [];
-          this.loading = false;
-          this.errorMessage = 'Failed to load models. Please try again.';
-        }
-      });
-    } else {
-      this.models = [];
-    }
-    // Reset model selection when brand changes
+  loadModels(brandId: string): void {
     this.vehicleForm.patchValue({ modelId: '' });
+    this.errorMessage = '';
+    
+    this.vehicleService.getModelsByBrand(brandId).subscribe({
+      next: (models: Model[]) => {
+        this.models = models;
+        console.log('Models loaded:', models);
+      },
+      error: (error) => {
+        console.error('Failed to load models:', error);
+        this.models = [];
+        this.errorMessage = 'Failed to load models. Please try again.';
+      }
+    });
   }
 
   get f() {

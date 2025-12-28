@@ -6,9 +6,34 @@
       </div>
 
       <div class="form-body">
+        <!-- Error Message Display -->
+        <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+          {{ errorMessage }}
+        </div>
+        
         <form [formGroup]="vehicleForm">
           <!-- Form Grid (2 Column Layout) -->
           <div class="form-grid">
+            <!-- Registration Number -->
+            <div class="form-group">
+              <label class="form-label">Registration Number *</label>
+              <input
+                type="text"
+                class="form-control form-input"
+                formControlName="regNo"
+              />
+              <mat-error
+                *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors"
+              >
+                <span *ngIf="f['regNo'].errors['required']"
+                  >Registration Number is required</span
+                >
+                <span *ngIf="f['regNo'].errors['maxlength']"
+                  >Maximum 20 characters allowed</span
+                >
+              </mat-error>
+            </div>
+
             <!-- Vehicle Name -->
             <div class="form-group">
               <label class="form-label">Vehicle Name *</label>
@@ -24,7 +49,7 @@
                   >Vehicle Name is required</span
                 >
                 <span *ngIf="f['vehicleName'].errors['maxlength']"
-                  >Maximum 50 characters allowed</span
+                  >Maximum 100 characters allowed</span
                 >
               </mat-error>
             </div>
@@ -69,6 +94,41 @@
                   >Model is required</span
                 >
               </mat-error>
+            </div>
+
+            <!-- Model Year -->
+            <div class="form-group">
+              <label class="form-label">Model Year *</label>
+              <input
+                type="number"
+                class="form-control form-input"
+                formControlName="modelYear"
+              />
+              <mat-error
+                *ngIf="(submitted || f['modelYear'].touched) && f['modelYear'].errors"
+              >
+                <span *ngIf="f['modelYear'].errors['required']"
+                  >Model Year is required</span
+                >
+                <span *ngIf="f['modelYear'].errors['min']"
+                  >Year must be 1900 or later</span
+                >
+                <span *ngIf="f['modelYear'].errors['max']"
+                  >Year cannot be in the future</span
+                >
+              </mat-error>
+            </div>
+
+            <!-- Is Active -->
+            <div class="form-group">
+              <label class="form-label">
+                <input
+                  type="checkbox"
+                  formControlName="isActive"
+                  class="form-check-input"
+                />
+                Active Vehicle
+              </label>
             </div>
 
           </div>
