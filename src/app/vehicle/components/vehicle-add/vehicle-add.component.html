@@ -34,26 +34,6 @@
               </mat-error>
             </div>
 
-            <!-- Vehicle Name -->
-            <div class="form-group">
-              <label class="form-label">Vehicle Name *</label>
-              <input
-                type="text"
-                class="form-control form-input"
-                formControlName="vehicleName"
-              />
-              <mat-error
-                *ngIf="(submitted || f['vehicleName'].touched) && f['vehicleName'].errors"
-              >
-                <span *ngIf="f['vehicleName'].errors['required']"
-                  >Vehicle Name is required</span
-                >
-                <span *ngIf="f['vehicleName'].errors['maxlength']"
-                  >Maximum 100 characters allowed</span
-                >
-              </mat-error>
-            </div>
-
             <!-- Brand -->
             <div class="form-group">
               <label class="form-label">Brand *</label>

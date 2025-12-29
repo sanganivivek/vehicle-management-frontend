@@ -32,7 +32,6 @@ export class VehicleAddComponent implements OnInit {
   private initializeForm(): void {
     this.vehicleForm = this.fb.group({
       regNo: ['', [Validators.required, Validators.maxLength(20)]],
-      vehicleName: ['', [Validators.required, Validators.maxLength(100)]],
       brandId: ['', [Validators.required]],
       modelId: ['', [Validators.required]],
       modelYear: [new Date().getFullYear(), [
@@ -104,7 +103,6 @@ export class VehicleAddComponent implements OnInit {
       regNo: this.vehicleForm.value.regNo,
       brandId: this.vehicleForm.value.brandId,
       modelId: this.vehicleForm.value.modelId,
-      vehicleName: this.vehicleForm.value.vehicleName,
       modelYear: this.vehicleForm.value.modelYear,
       isActive: this.vehicleForm.value.isActive
     };
@@ -114,7 +112,11 @@ export class VehicleAddComponent implements OnInit {
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
         console.log('Vehicle created successfully:', response);
-        this.router.navigate(['/vehicle']);
+        // Navigate to vehicle list (dashboard) to show the saved data
+        this.router.navigate(['/vehicle']).then(() => {
+          // Optionally reload the page to ensure fresh data
+          window.location.reload();
+        });
       },
       error: (error) => {
         console.error('Failed to create vehicle:', error);

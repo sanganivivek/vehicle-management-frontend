@@ -21,10 +21,9 @@ export interface Model {
 
 // For creating new vehicles
 export interface CreateVehicleDTO {
-  vehicleName: string;
   regNo: string;
   brandId: string;
-  modelId: number;
+  modelId: string;
   modelYear?: number;
   isActive: boolean;
 }
@@ -53,7 +52,6 @@ export interface VehicleMaster {
   isActive: boolean;
 }
 
-// For vehicle list display
 export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
@@ -62,6 +60,7 @@ export interface VehicleListDTO {
   modelName: string;
   brand: string;
   model: string;
+  modelYear?: number;
   isActive: boolean;
 }
 
