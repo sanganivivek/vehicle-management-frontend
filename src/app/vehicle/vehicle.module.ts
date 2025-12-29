@@ -11,6 +11,7 @@ import { VehicleAddComponent } from './components/vehicle-add/vehicle-add.compon
 import { VehicleEditComponent } from './components/vehicle-edit/vehicle-edit.component';
 import { BrandAddComponent } from './components/brand-add/brand-add.component';
 import { ModelAddComponent } from './components/model-add/model-add.component';
+import { CascadingDropdownComponent } from './components/cascading-dropdown/cascading-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ModelAddComponent } from './components/model-add/model-add.component';
     VehicleAddComponent,
     VehicleEditComponent,
     BrandAddComponent,
-    ModelAddComponent
+    ModelAddComponent,
+    CascadingDropdownComponent
   ],
   imports: [
     CommonModule,

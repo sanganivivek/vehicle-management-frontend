@@ -66,7 +66,7 @@ export class ModelAddComponent implements OnInit {
       console.error('Form Invalid:', this.modelForm.errors); // Debug 2: See if fields are missing
       return;
     }
-
+    
     this.loading = true;
 
     // Create DTO matching the backend

@@ -1,0 +1,58 @@
+<div class="cascading-dropdown-container">
+  <h2>Vehicle Selection</h2>
+  
+  <form [formGroup]="cascadingForm" (ngSubmit)="onSubmit()" class="dropdown-form">
+    
+    <!-- Brand Dropdown -->
+    <div class="form-group">
+      <label for="brandId">Brand:</label>
+      <select 
+        id="brandId" 
+        formControlName="brandId" 
+        class="form-control"
+        [disabled]="loading">
+        <option value="">Select a Brand</option>
+        <option *ngFor="let brand of brands" [value]="brand.brandId">
+          {{ brand.brandName }}
+        </option>
+      </select>
+      <div *ngIf="cascadingForm.get('brandId')?.invalid && cascadingForm.get('brandId')?.touched" 
+           class="error-message">
+        Brand is required
+      </div>
+    </div>
+
+    <!-- Model Dropdown -->
+    <div class="form-group">
+      <label for="modelId">Model:</label>
+      <select 
+        id="modelId" 
+        formControlName="modelId" 
+        class="form-control"
+        [disabled]="loading || !cascadingForm.get('brandId')?.value">
+        <option value="">Select a Model</option>
+        <option *ngFor="let model of models" [value]="model.modelId">
+          {{ model.modelName }}
+        </option>
+      </select>
+      <div *ngIf="cascadingForm.get('modelId')?.invalid && cascadingForm.get('modelId')?.touched" 
+           class="error-message">
+        Model is required
+      </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="loading">
+      Loading...
+    </div>
+
+    <!-- Submit Button -->
+    <button 
+      type="submit" 
+      class="btn btn-primary"
+      [disabled]="cascadingForm.invalid || loading">
+      Submit
+    </button>
+    
+  </form>
+</div>

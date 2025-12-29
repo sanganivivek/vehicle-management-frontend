@@ -1,74 +1,67 @@
-// --- Main Vehicle Entities ---
 export interface Vehicle {
-  vehicleId?: string;
-  regNo: string;
-  vehicleName?: string;
-  brand?: string;
-  brandId?: string;
-  model?: string;
-  modelId?: string;
-  modelYear: number;
+  vehicleId: string;
+  vehicleName: string; // Updated from regNo to match Backend
+  brandId: string;
+  modelId: string;
   isActive: boolean;
 }
 
-// Often used as an alias for Vehicle in lists
-export interface VehicleListDTO extends Vehicle {}
-
-// Often used as the full entity details
-export interface VehicleMaster extends Vehicle {}
-
-// --- Brand Interfaces ---
 export interface Brand {
   brandId: string;
   brandName: string;
 }
 
-export interface CreateBrandDTO {
-  brandName: string;
-}
-
-// --- Model Interfaces ---
 export interface Model {
   modelId: string;
   modelName: string;
   brandId: string;
 }
 
+// For creating new vehicles
+export interface CreateVehicleDTO {
+  vehicleName: string;
+  brandId: string;
+  modelId: string;
+  isActive: boolean;
+}
+
+// For creating new models
 export interface CreateModelDTO {
   brandId: string;
-  name: string;
+  name: string; 
 }
 
-// --- Vehicle DTOs (Data Transfer Objects) ---
-export interface CreateVehicleDTO {
-  regNo: string;
-  vehicleName?: string;
-  brand: string;
-  brandId?: string;
-  model: string;
-  modelId?: string;
-  modelYear: number;
-  isActive: boolean;
+// For creating new brands
+export interface CreateBrandDTO {
+  brandName: string;
 }
 
-export interface UpdateVehicleDTO {
+// For vehicle master data
+export interface VehicleMaster {
   vehicleId: string;
-  regNo: string;
-  vehicleName?: string;
-  brand: string;
-  brandId?: string;
-  model: string;
-  modelId?: string;
-  modelYear: number;
+  vehicleName: string;
+  brandId: string;
+  modelId: string;
+  brandName: string;
+  modelName: string;
   isActive: boolean;
 }
 
-// --- Service Parameters ---
+// For vehicle list display
+export interface VehicleListDTO {
+  vehicleId: string;
+  vehicleName: string;
+  brandName: string;
+  modelName: string;
+  isActive: boolean;
+}
+
+// For vehicle query parameters
 export interface VehicleQueryParams {
-  search?: string;
-  brand?: string;
-  sortBy?: string;
-  sortOrder?: string;
   page?: number;
-  pageSize?: number;
+  size?: number;
+  brandId?: string;
+  modelId?: string;
+  isActive?: boolean;
+  search?: string;
 }
