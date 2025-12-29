@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { VehicleMaster, VehicleListDTO, VehicleQueryParams, Brand, Model } from './models/vehicle.model';
+import { VehicleMaster, VehicleListDTO, VehicleQueryParams, Brand, Model, CreateVehicleDTO } from './models/vehicle.model';
 import { environment } from '../../environments/environment';
 
 export interface VehicleResponse {
@@ -42,7 +42,7 @@ export class VehicleService {
     return this.http.get<VehicleMaster>(`${this.apiUrl}/${id}`);
   }
 
-  addVehicle(vehicle: VehicleMaster): Observable<VehicleMaster> {
+  addVehicle(vehicle: CreateVehicleDTO): Observable<VehicleMaster> {
     return this.http.post<VehicleMaster>(this.apiUrl, vehicle);
   }
 

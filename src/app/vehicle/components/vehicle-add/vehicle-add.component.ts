@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../vehicle.service';
-import { VehicleMaster, Brand, Model } from '../../models/vehicle.model';
+import { CreateVehicleDTO, Brand, Model } from '../../models/vehicle.model';
 
 @Component({
   selector: 'app-vehicle-add',
@@ -100,7 +100,7 @@ export class VehicleAddComponent implements OnInit {
     }
 
     this.loading = true;
-    const vehicle: VehicleMaster = {
+    const vehicle: CreateVehicleDTO = {
       regNo: this.vehicleForm.value.regNo,
       brandId: this.vehicleForm.value.brandId,
       modelId: this.vehicleForm.value.modelId,

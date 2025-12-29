@@ -1,8 +1,10 @@
 export interface Vehicle {
   vehicleId: string;
-  vehicleName: string; // Updated from regNo to match Backend
+  vehicleName: string;
+  regNo: string;
   brandId: string;
   modelId: string;
+  modelYear?: number;
   isActive: boolean;
 }
 
@@ -20,8 +22,10 @@ export interface Model {
 // For creating new vehicles
 export interface CreateVehicleDTO {
   vehicleName: string;
+  regNo: string;
   brandId: string;
   modelId: string;
+  modelYear?: number;
   isActive: boolean;
 }
 
@@ -40,10 +44,12 @@ export interface CreateBrandDTO {
 export interface VehicleMaster {
   vehicleId: string;
   vehicleName: string;
+  regNo: string;
   brandId: string;
   modelId: string;
   brandName: string;
   modelName: string;
+  modelYear?: number;
   isActive: boolean;
 }
 
@@ -51,8 +57,11 @@ export interface VehicleMaster {
 export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
+  regNo: string;
   brandName: string;
   modelName: string;
+  brand: string;
+  model: string;
   isActive: boolean;
 }
 
@@ -60,8 +69,12 @@ export interface VehicleListDTO {
 export interface VehicleQueryParams {
   page?: number;
   size?: number;
+  pageSize?: number;
   brandId?: string;
   modelId?: string;
   isActive?: boolean;
   search?: string;
+  brand?: string;
+  sortBy?: string;
+  sortOrder?: string;
 }

@@ -150,6 +150,8 @@ export class VehicleEditComponent implements OnInit {
       brandId: this.vehicleForm.value.brandId,
       modelId: this.vehicleForm.value.modelId,
       vehicleName: this.vehicleForm.value.vehicleName,
+      brandName: this.brands.find(b => b.brandId === this.vehicleForm.value.brandId)?.brandName || '',
+      modelName: this.models.find(m => m.modelId === this.vehicleForm.value.modelId)?.modelName || '',
       modelYear: new Date().getFullYear(),
       isActive: true
     };
