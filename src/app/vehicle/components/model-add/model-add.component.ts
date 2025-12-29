@@ -35,19 +35,12 @@ export class ModelAddComponent implements OnInit {
 
   
   loadBrands(): void {
-    console.log('Loading brands from:', this.brandService);
     this.brandService.getBrands().subscribe({
       next: (brands: Brand[]) => {
-        console.log('Brands received:', brands);
         this.brands = brands;
       },
       error: (error) => {
         console.error('Failed to load brands:', error);
-        console.error('Error details:', {
-          status: error.status,
-          message: error.message,
-          url: error.url
-        });
       }
     });
   }
@@ -57,36 +50,31 @@ export class ModelAddComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Save Clicked'); // Debug 1
-
     this.submitted = true;
     this.modelForm.markAllAsTouched();
 
     if (this.modelForm.invalid) {
-      console.error('Form Invalid:', this.modelForm.errors); // Debug 2: See if fields are missing
       return;
     }
     
     this.loading = true;
 
-    // Create DTO matching the backend
     const modelData: CreateModelDTO = {
       brandId: this.modelForm.value.brandId,
-      name: this.modelForm.value.modelName // Ensure this maps to 'name'
+      modelName: this.modelForm.value.modelName
     };
-
-    console.log('Sending:', modelData); // Debug 3
 
     this.modelService.addModel(modelData).subscribe({
       next: (res) => {
-        console.log('Success:', res);
         alert('Model Saved Successfully!');
-        this.router.navigate(['/vehicle/add']); // Go back to Add Vehicle
+        this.modelForm.reset();
+        this.submitted = false;
+        this.loading = false;
       },
       error: (err) => {
         console.error('Error:', err);
         this.loading = false;
-        alert('Failed to save. Check console for details.');
+        alert('Failed to save model.');
       }
     });
   }

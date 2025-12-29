@@ -14,7 +14,7 @@ export interface Brand {
 }
 
 export interface Model {
-  modelId: string;
+  modelId: number;
   modelName: string;
   brandId: string;
 }
@@ -24,7 +24,7 @@ export interface CreateVehicleDTO {
   vehicleName: string;
   regNo: string;
   brandId: string;
-  modelId: string;
+  modelId: number;
   modelYear?: number;
   isActive: boolean;
 }
@@ -32,7 +32,7 @@ export interface CreateVehicleDTO {
 // For creating new models
 export interface CreateModelDTO {
   brandId: string;
-  name: string; 
+  modelName: string; 
 }
 
 // For creating new brands
@@ -46,7 +46,7 @@ export interface VehicleMaster {
   vehicleName: string;
   regNo: string;
   brandId: string;
-  modelId: string;
+  modelId: number;
   brandName: string;
   modelName: string;
   modelYear?: number;
