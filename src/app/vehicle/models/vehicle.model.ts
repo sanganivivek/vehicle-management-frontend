@@ -14,7 +14,7 @@ export interface Brand {
 }
 
 export interface Model {
-  modelId: number;
+  modelId: string;
   modelName: string;
   brandId: string;
 }
@@ -32,7 +32,7 @@ export interface CreateVehicleDTO {
 // For creating new models
 export interface CreateModelDTO {
   brandId: string;
-  modelName: string; 
+  name: string; 
 }
 
 // For creating new brands
