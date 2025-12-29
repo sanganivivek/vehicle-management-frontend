@@ -32,12 +32,13 @@ export class ModelAddComponent implements OnInit {
     this.loadBrands();
   }
 
-
   
   loadBrands(): void {
     this.brandService.getBrands().subscribe({
       next: (brands: Brand[]) => {
         this.brands = brands;
+        console.log('Brands loaded:', brands);
+        console.log('First brand structure:', brands[0]);
       },
       error: (error) => {
         console.error('Failed to load brands:', error);
@@ -57,12 +58,21 @@ export class ModelAddComponent implements OnInit {
       return;
     }
     
+    // Validate that brandId is selected
+    const brandId = this.modelForm.value.brandId;
+    if (!brandId || brandId.trim() === '') {
+      alert('Please select a brand.');
+      return;
+    }
+    
     this.loading = true;
 
     const modelData: CreateModelDTO = {
-      brandId: this.modelForm.value.brandId,
-      name: this.modelForm.value.modelName
+      brandId: brandId,
+      name: this.modelForm.value.modelName.trim()
     };
+
+    console.log('Sending model data:', modelData);
 
     this.modelService.addModel(modelData).subscribe({
       next: (res) => {
@@ -74,7 +84,7 @@ export class ModelAddComponent implements OnInit {
       error: (err) => {
         console.error('Error:', err);
         this.loading = false;
-        alert('Failed to save model.');
+        alert(`Failed to save model: ${err}`);
       }
     });
   }

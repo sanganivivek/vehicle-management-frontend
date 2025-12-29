@@ -31,7 +31,7 @@ export interface CreateVehicleDTO {
 
 // For creating new models
 export interface CreateModelDTO {
-  brandId: string;
+  brandId: string; // Will be converted to Guid on backend
   name: string; 
 }
 
