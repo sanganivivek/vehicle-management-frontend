@@ -47,9 +47,6 @@
             <th (click)="sort('model')" class="sortable">
               Model {{ getSortIcon("model") }}
             </th>
-            <th (click)="sort('vehicleName')" class="sortable">
-              Vehicle Name {{ getSortIcon("vehicleName") }}
-            </th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -59,7 +56,6 @@
             <td>{{ vehicle.regNo }}</td>
             <td>{{ vehicle.brand }}</td>
             <td>{{ vehicle.model }}</td>
-            <td>{{ vehicle.vehicleName || 'N/A' }}</td>
             <td>
               <div class="action-icons">
                 <button
@@ -79,7 +75,7 @@
           </tr>
 
           <tr *ngIf="vehicles.length === 0">
-            <td colspan="5" class="no-data">No vehicles found</td>
+            <td colspan="4" class="no-data">No vehicles found</td>
           </tr>
         </tbody>
       </table>
