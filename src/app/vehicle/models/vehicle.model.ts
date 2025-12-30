@@ -56,6 +56,8 @@ export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
   regNo: string;
+  brandId: string;
+  modelId: string;
   brandName: string;
   modelName: string;
   brand: string;

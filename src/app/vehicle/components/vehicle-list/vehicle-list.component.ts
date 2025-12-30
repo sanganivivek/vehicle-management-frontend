@@ -15,7 +15,7 @@ export class VehicleListComponent implements OnInit {
   loading = false;
   searchTerm = '';
   selectedBrand = '';
-  sortColumn = 'vehicleName';
+  sortColumn = 'regNo';
   sortOrder: 'asc' | 'desc' = 'asc';
   currentPage = 1;
   pageSize = 10;
@@ -130,18 +130,35 @@ export class VehicleListComponent implements OnInit {
     this.router.navigate(['/vehicle/add']);
   }
 
-  editVehicle(regNo: string): void {
-    this.router.navigate(['/vehicle/edit', regNo]);
+  editVehicle(vehicleId: string): void {
+    this.router.navigate(['/vehicle/edit', vehicleId]);
   }
 
-  deleteVehicle(regNo: string): void {
+  deleteVehicle(vehicleId: string): void {
     if (confirm('Are you sure you want to delete this vehicle?')) {
-      // Use regNo directly as string ID
-      this.vehicleService.deleteVehicle(regNo).subscribe({
+      this.vehicleService.deleteVehicle(vehicleId).subscribe({
         next: () => this.loadVehicles(),
         error: () => this.loadVehicles()
       });
     }
+  }
+
+  toggleActiveStatus(vehicleId: string, currentStatus: boolean): void {
+    this.vehicleService.getVehicleById(vehicleId).subscribe({
+      next: (vehicle: any) => {
+        vehicle.isActive = !currentStatus;
+        this.vehicleService.updateVehicle(vehicleId, vehicle).subscribe({
+          next: () => this.loadVehicles(),
+          error: (error) => {
+            console.error('Failed to update vehicle status:', error);
+            this.loadVehicles();
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Failed to get vehicle details:', error);
+      }
+    });
   }
 
   getSortIcon(column: string): string {

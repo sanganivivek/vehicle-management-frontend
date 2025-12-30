@@ -47,6 +47,7 @@
             <th (click)="sort('model')" class="sortable">
               Model {{ getSortIcon("model") }}
             </th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -57,17 +58,27 @@
             <td>{{ vehicle.brand }}</td>
             <td>{{ vehicle.model }}</td>
             <td>
+              <button 
+                class="btn btn-sm" 
+                [class.btn-success]="vehicle.isActive" 
+                [class.btn-secondary]="!vehicle.isActive"
+                (click)="toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)"
+              >
+                {{ vehicle.isActive ? 'Active' : 'Inactive' }}
+              </button>
+            </td>
+            <td>
               <div class="action-icons">
                 <button
                   class="icon-btn edit-icon"
-                  (click)="editVehicle(vehicle.regNo)"
+                  (click)="editVehicle(vehicle.vehicleId)"
                   
                 >
                   <i class="bi bi-pencil-square"></i>
                 </button>
                 <button
                   class="icon-btn delete-icon"
-                  (click)="deleteVehicle(vehicle.regNo)"
+                  (click)="deleteVehicle(vehicle.vehicleId)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
@@ -76,7 +87,7 @@
           </tr>
 
           <tr *ngIf="vehicles.length === 0">
-            <td colspan="4" class="no-data">No vehicles found</td>
+            <td colspan="5" class="no-data">No vehicles found</td>
           </tr>
         </tbody>
       </table>
