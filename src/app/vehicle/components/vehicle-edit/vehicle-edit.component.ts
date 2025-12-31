@@ -125,29 +125,30 @@ export class VehicleEditComponent implements OnInit {
   }
 
   // CHANGED: Validator for RegNo instead of VehicleName
-  regNoValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    if (!control.value) {
-      return of(null);
-    }
-    return of(control.value).pipe(
-      debounceTime(500),
-      switchMap(regNo => 
-        this.vehicleService.getVehicles().pipe(
-          map((response: any) => {
-            // Handle response.data or response.result depending on your API structure
-            const list = response.data || response.result || [];
-            
-            // Check if RegNo exists BUT exclude the current vehicle ID (so we can save without changing it)
-            const exists = list.some((v: any) => 
-              v.regNo?.toLowerCase() === regNo.toLowerCase() && v.vehicleId !== this.vehicleId
-            );
-            return exists ? { regNoExists: true } : null;
-          }),
-          catchError(() => of(null))
-        )
-      )
-    );
+  // Fixed regNoValidator
+// src/app/vehicle/components/vehicle-edit/vehicle-edit.component.ts
+
+regNoValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+  if (!control.value) {
+    return of(null);
   }
+  return of(control.value).pipe(
+    debounceTime(500),
+    switchMap(regNo => 
+      this.vehicleService.getVehicles().pipe(
+        map(response => {
+          const exists = response.data.some(v => 
+            v.regNo.toLowerCase() === regNo.toLowerCase() && 
+            // FIX: Convert both IDs to lowercase string before comparing
+            String(v.vehicleId).toLowerCase() !== String(this.vehicleId).toLowerCase()
+          );
+          return exists ? { regNoExists: true } : null;
+        }),
+        catchError(() => of(null))
+      )
+    )
+  );
+}
 
   get f() {
     return this.vehicleForm.controls;
