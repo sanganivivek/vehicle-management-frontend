@@ -1,0 +1,11 @@
+{
+  "routes": [
+    "/",
+    "/add",
+    "/brands/add",
+    "/cascading-dropdown",
+    "/models/add",
+    "/vehicle",
+    "/vehicle/add"
+  ]
+}
