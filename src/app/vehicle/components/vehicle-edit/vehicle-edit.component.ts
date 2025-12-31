@@ -157,7 +157,7 @@ export class VehicleEditComponent implements OnInit {
             );
             return exists ? { regNoExists: true } : null;
           }),
-          catchError(() => of(null))
+          catchError(() => of())
         )
       )
     );
