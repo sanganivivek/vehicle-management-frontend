@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { VehicleService } from '../../vehicle.service';
 import { BrandService } from '../../services/brand.service';
 import { ModelService } from '../../services/model.service';
-import { VehicleMaster, Brand, Model, VehicleListDTO } from '../../models/vehicle.model';
+import { VehicleMaster, Brand, Model } from '../../models/vehicle.model'; // Removed VehicleListDTO if not used
 import { Observable, of } from 'rxjs';
 import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
 
@@ -21,7 +21,8 @@ export class VehicleEditComponent implements OnInit {
   vehicleId!: string;
   brands: Brand[] = [];
   models: Model[] = [];
-  
+  currentYear = new Date().getFullYear(); // For validation
+
   loadingConfig = {
     animationType: 'ball-spin-clockwise',
     backdropBackgroundColour: 'rgba(40, 40, 40, 0.8)',
@@ -43,12 +44,16 @@ export class VehicleEditComponent implements OnInit {
   ngOnInit(): void {
     this.vehicleId = this.route.snapshot.paramMap.get('id') || '';
     
+    // CHANGED: Form controls to match new requirements
     this.vehicleForm = this.fb.group({
-      vehicleName: ['', [Validators.required, Validators.maxLength(50)], [this.vehicleNameValidator.bind(this)]],
+      regNo: ['', [Validators.required, Validators.maxLength(20)], [this.regNoValidator.bind(this)]],
       brandId: ['', [Validators.required]],
-      modelId: ['', [Validators.required]]
+      modelId: ['', [Validators.required]],
+      modelYear: ['', [Validators.required, Validators.min(1950), Validators.max(this.currentYear + 1)]],
+      isActive: [true]
     });
     
+    // Listen to Brand changes to load Models
     this.vehicleForm.get('brandId')?.valueChanges.subscribe(brandId => {
       this.onBrandChange(brandId);
     });
@@ -74,7 +79,8 @@ export class VehicleEditComponent implements OnInit {
         next: (models: Model[]) => {
           this.models = models;
           const currentModel = this.vehicleForm.get('modelId')?.value;
-          if (!this.models.some(m => m.modelId === currentModel)) {
+          // Reset model if the selected model doesn't belong to the new brand
+          if (this.models.length > 0 && !this.models.some(m => m.modelId === currentModel)) {
             this.vehicleForm.patchValue({ modelId: '' });
           }
         },
@@ -91,19 +97,25 @@ export class VehicleEditComponent implements OnInit {
   loadVehicle(): void {
     this.vehicleService.getVehicleById(this.vehicleId).subscribe({
       next: (vehicle: VehicleMaster) => {
+        // CHANGED: Patch new fields
         this.vehicleForm.patchValue({
-          vehicleName: vehicle.vehicleName,
+          regNo: vehicle.regNo,
           brandId: vehicle.brandId,
-          modelId: vehicle.modelId
+          modelId: vehicle.modelId,
+          modelYear: vehicle.modelYear,
+          isActive: vehicle.isActive
         });
         
-        // Load models for the selected brand
+        // Load models for the selected brand so the dropdown works
         if (vehicle.brandId) {
           this.onBrandChange(vehicle.brandId);
         }
         
-        this.vehicleForm.markAsUntouched();
-        this.vehicleForm.markAsPristine();
+        // Slight delay to ensure patchValue doesn't mark form as dirty immediately
+        setTimeout(() => {
+            this.vehicleForm.markAsUntouched();
+            this.vehicleForm.markAsPristine();
+        });
         this.loading = false;
       },
       error: () => {
@@ -112,19 +124,24 @@ export class VehicleEditComponent implements OnInit {
     });
   }
 
-  vehicleNameValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+  // CHANGED: Validator for RegNo instead of VehicleName
+  regNoValidator(control: AbstractControl): Observable<ValidationErrors | null> {
     if (!control.value) {
       return of(null);
     }
     return of(control.value).pipe(
       debounceTime(500),
-      switchMap(vehicleName => 
+      switchMap(regNo => 
         this.vehicleService.getVehicles().pipe(
           map((response: any) => {
-            const exists = response.result.some((v: VehicleListDTO) => 
-              v.vehicleName?.toLowerCase() === vehicleName.toLowerCase() && v.regNo !== this.vehicleId
+            // Handle response.data or response.result depending on your API structure
+            const list = response.data || response.result || [];
+            
+            // Check if RegNo exists BUT exclude the current vehicle ID (so we can save without changing it)
+            const exists = list.some((v: any) => 
+              v.regNo?.toLowerCase() === regNo.toLowerCase() && v.vehicleId !== this.vehicleId
             );
-            return exists ? { vehicleNameExists: true } : null;
+            return exists ? { regNoExists: true } : null;
           }),
           catchError(() => of(null))
         )
@@ -144,16 +161,16 @@ export class VehicleEditComponent implements OnInit {
     }
 
     this.saving = true;
+    
+    // CHANGED: Construct object with new fields
     const vehicle: VehicleMaster = {
       vehicleId: this.vehicleId,
-      regNo: 'AUTO-' + Date.now(),
-      brandId: this.vehicleForm.value.brandId,
-      modelId: this.vehicleForm.value.modelId,
-      vehicleName: this.vehicleForm.value.vehicleName,
-      brandName: this.brands.find(b => b.brandId === this.vehicleForm.value.brandId)?.brandName || '',
-      modelName: this.models.find(m => m.modelId === this.vehicleForm.value.modelId)?.modelName || '',
-      modelYear: new Date().getFullYear(),
-      isActive: true
+      regNo: this.vehicleForm.get('regNo')?.value,
+      modelYear: this.vehicleForm.get('modelYear')?.value,
+      isActive: this.vehicleForm.get('isActive')?.value,
+      brandId: this.vehicleForm.get('brandId')?.value,
+      modelId: this.vehicleForm.get('modelId')?.value,
+      // vehicleName: '' // Removed as it is no longer used
     };
 
     this.vehicleService.updateVehicle(this.vehicleId, vehicle).subscribe({

@@ -42,14 +42,16 @@ export interface CreateBrandDTO {
 // For vehicle master data
 export interface VehicleMaster {
   vehicleId: string;
-  vehicleName: string;
   regNo: string;
-  brandId: string;
-  modelId: number;
-  brandName: string;
-  modelName: string;
   modelYear?: number;
   isActive: boolean;
+  brandId: string;
+  modelId: string;
+  
+  // ADD '?' TO MAKE THESE OPTIONAL
+  vehicleName?: string; 
+  brandName?: string;
+  modelName?: string;
 }
 
 export interface VehicleListDTO {

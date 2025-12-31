@@ -8,51 +8,32 @@
       </div>
 
       <div class="form-body">
-        <!-- Loader -->
         <div *ngIf="loading" class="text-center my-5">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
 
-        <!-- Form -->
-        <form
-          *ngIf="!loading"
-          [formGroup]="vehicleForm"
-          (ngSubmit)="onSubmit()"
-        >
-          <!-- 2-Column Grid -->
+        <form *ngIf="!loading" [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+          
           <div class="form-grid">
-            <!-- Vehicle Name -->
+            
             <div class="form-group">
-              <label class="form-label">Vehicle Name *</label>
+              <label class="form-label">Registration Number *</label>
               <input
                 type="text"
                 class="form-control form-input"
-                formControlName="vehicleName"
+                formControlName="regNo"
+                placeholder="e.g. GJ-01-AB-1234"
               />
-              <mat-error
-                *ngIf="
-                  (submitted || f['vehicleName'].touched) &&
-                  f['vehicleName'].errors
-                "
-              >
-                <span *ngIf="f['vehicleName'].errors['required']"
-                  >Vehicle Name is required</span
-                >
-                <span *ngIf="f['vehicleName'].errors['maxlength']"
-                  >Maximum 50 characters allowed</span
-                >
-                <span *ngIf="f['vehicleName'].errors['vehicleNameExists']"
-                  >Vehicle Name already exists</span
-                >
+              <mat-error *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors">
+                <span *ngIf="f['regNo'].errors['required']">Reg Number is required</span>
+                <span *ngIf="f['regNo'].errors['maxlength']">Max 20 characters</span>
+                <span *ngIf="f['regNo'].errors['regNoExists']">Reg Number already exists</span>
               </mat-error>
-              <div class="text-muted" *ngIf="f['vehicleName'].pending">
-                Checking availability...
-              </div>
+              <div class="text-muted" *ngIf="f['regNo'].pending">Checking availability...</div>
             </div>
 
-            <!-- Brand -->
             <div class="form-group">
               <label class="form-label">Brand *</label>
               <select class="form-control form-input" formControlName="brandId">
@@ -61,18 +42,11 @@
                   {{ brand.brandName }}
                 </option>
               </select>
-              <mat-error
-                *ngIf="
-                  (submitted || f['brandId'].touched) && f['brandId'].errors
-                "
-              >
-                <span *ngIf="f['brandId'].errors['required']"
-                  >Brand is required</span
-                >
+              <mat-error *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors">
+                <span *ngIf="f['brandId'].errors['required']">Brand is required</span>
               </mat-error>
             </div>
 
-            <!-- Model -->
             <div class="form-group">
               <label class="form-label">Model *</label>
               <select
@@ -85,35 +59,48 @@
                   {{ model.modelName }}
                 </option>
               </select>
-              <mat-error
-                *ngIf="
-                  (submitted || f['modelId'].touched) && f['modelId'].errors
-                "
-              >
-                <span *ngIf="f['modelId'].errors['required']"
-                  >Model is required</span
-                >
+              <mat-error *ngIf="(submitted || f['modelId'].touched) && f['modelId'].errors">
+                <span *ngIf="f['modelId'].errors['required']">Model is required</span>
               </mat-error>
             </div>
-          </div>
-          <!-- end grid -->
 
-          <!-- Buttons -->
+            <div class="form-group">
+              <label class="form-label">Model Year *</label>
+              <input
+                type="number"
+                class="form-control form-input"
+                formControlName="modelYear"
+                placeholder="e.g. 2024"
+              />
+              <mat-error *ngIf="(submitted || f['modelYear'].touched) && f['modelYear'].errors">
+                <span *ngIf="f['modelYear'].errors['required']">Model Year is required</span>
+                <span *ngIf="f['modelYear'].errors['min'] || f['modelYear'].errors['max']">
+                  Invalid Year
+                </span>
+              </mat-error>
+            </div>
+
+          </div>
+          <div class="form-check mb-4 mt-2">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="isActive"
+              formControlName="isActive"
+            />
+            <label class="form-check-label" for="isActive">Active</label>
+          </div>
+
           <div class="btn-row">
             <button type="button" class="btn btn-cancel" (click)="onCancel()">
               Cancel
             </button>
-
             <button
               type="submit"
               class="btn btn-submit"
               [disabled]="vehicleForm.invalid || loading"
             >
-              <span
-                *ngIf="loading"
-                class="spinner-border spinner-border-sm me-2"
-                role="status"
-              ></span>
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
               {{ loading ? "Updating..." : "Update" }}
             </button>
           </div>

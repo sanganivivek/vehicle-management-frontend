@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../vehicle.service';
-import { CreateVehicleDTO, Brand, Model } from '../../models/vehicle.model';
-
+import { BrandService } from '../../services/brand.service';
+import { ModelService } from '../../services/model.service';
+import { Brand, Model, CreateVehicleDTO } from '../../models/vehicle.model';
+import { Observable, of } from 'rxjs';
+import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-vehicle-add',
   templateUrl: './vehicle-add.component.html',
@@ -20,6 +23,8 @@ export class VehicleAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private vehicleService: VehicleService,
+    private brandService: BrandService,
+    private modelService: ModelService,
     private router: Router
   ) {}
 
