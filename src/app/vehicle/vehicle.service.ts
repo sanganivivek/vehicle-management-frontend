@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 export interface VehicleResponse {
   totalCount: number;
   page: number;
-  data: VehicleListDTO[];
+  data: VehicleMaster[];
   totalPages: number;
   totalRecords: number;
   pageSize: number;

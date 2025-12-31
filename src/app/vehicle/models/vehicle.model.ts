@@ -52,6 +52,8 @@ export interface VehicleMaster {
   vehicleName?: string; 
   brandName?: string;
   modelName?: string;
+  brand?: string;
+  model?: string;
 }
 
 export interface VehicleListDTO {
@@ -80,4 +82,18 @@ export interface VehicleQueryParams {
   brand?: string;
   sortBy?: string;
   sortOrder?: string;
+}
+
+// The object sent when UPDATING
+export interface UpdateVehicleDTO {
+  vehicleId: string;
+  regNo: string;
+  brandId: string; // Must be ID
+  modelId: string; // Must be ID
+  modelYear: number;
+  isActive: boolean;
+  
+  // Optional: You can include vehicleName if your backend requires it,
+  // even if it ignores it.
+  vehicleName?: string;
 }
