@@ -7,7 +7,8 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "serve": "node server.js"
   },
   "dependencies": {
     "@angular/animations": "^16.2.12",
