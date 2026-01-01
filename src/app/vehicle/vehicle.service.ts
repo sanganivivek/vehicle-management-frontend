@@ -46,8 +46,10 @@ export class VehicleService {
     return this.http.post<VehicleMaster>(this.apiUrl, vehicle);
   }
 
-  updateVehicle(id: string, vehicle: VehicleMaster): Observable<VehicleMaster> {
-    return this.http.put<VehicleMaster>(`${this.apiUrl}/${id}`, vehicle);
+  updateVehicle(id: string, vehicle: any): Observable<any> {
+    console.log('Updating vehicle:', id, vehicle);
+    return this.http.put<any>(`${this.apiUrl}/${id}`, vehicle)
+      .pipe(catchError(this.handleError));
   }
 
   deleteVehicle(id: string): Observable<void> {

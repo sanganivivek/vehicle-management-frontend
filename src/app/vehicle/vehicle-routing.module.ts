@@ -8,10 +8,10 @@ import { BrandAddComponent } from './components/brand-add/brand-add.component';
 
 const routes: Routes = [
   { path: '', component: VehicleListComponent },
-  { path: 'add', component: VehicleAddComponent },
-  { path: 'edit/:id', component: VehicleEditComponent },
-  { path: 'model/add', component: ModelAddComponent },
-  { path: 'brand/add', component: BrandAddComponent }
+  { path: 'vehicle/add', component: VehicleAddComponent },
+  { path: 'vehicle/edit/:id', component: VehicleEditComponent },
+  { path: 'models/add', component: ModelAddComponent },
+  { path: 'brands/add', component: BrandAddComponent }
 ];
 
 @NgModule({

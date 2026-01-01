@@ -144,19 +144,36 @@ export class VehicleListComponent implements OnInit {
   }
 
   toggleActiveStatus(vehicleId: string, currentStatus: boolean): void {
+    console.log('Toggling status for vehicle:', vehicleId, 'Current status:', currentStatus);
+    
     this.vehicleService.getVehicleById(vehicleId).subscribe({
       next: (vehicle: any) => {
-        vehicle.isActive = !currentStatus;
-        this.vehicleService.updateVehicle(vehicleId, vehicle).subscribe({
-          next: () => this.loadVehicles(),
+        const updateData = {
+          vehicleId: vehicle.vehicleId,
+          regNo: vehicle.regNo,
+          modelYear: vehicle.modelYear,
+          isActive: !currentStatus,
+          brandId: vehicle.brandId,
+          modelId: vehicle.modelId
+        };
+        
+        console.log('Updating vehicle with data:', updateData);
+        
+        this.vehicleService.updateVehicle(vehicleId, updateData).subscribe({
+          next: (response) => {
+            console.log('Status updated successfully:', response);
+            this.loadVehicles();
+          },
           error: (error) => {
             console.error('Failed to update vehicle status:', error);
+            alert('Failed to update vehicle status. Please try again.');
             this.loadVehicles();
           }
         });
       },
       error: (error) => {
         console.error('Failed to get vehicle details:', error);
+        alert('Failed to get vehicle details. Please try again.');
       }
     });
   }

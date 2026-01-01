@@ -47,6 +47,9 @@
             <th (click)="sort('model')" class="sortable">
               Model {{ getSortIcon("model") }}
             </th>
+            <th (click)="sort('modelYear')" class="sortable">
+              Model Year {{ getSortIcon("modelYear") }}
+            </th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -57,6 +60,7 @@
             <td>{{ vehicle.regNo }}</td>
             <td>{{ vehicle.brand }}</td>
             <td>{{ vehicle.model }}</td>
+            <td>{{ vehicle.modelYear }}</td>
             <td>
               <button 
                 class="btn btn-sm" 
@@ -87,7 +91,7 @@
           </tr>
 
           <tr *ngIf="vehicles.length === 0">
-            <td colspan="5" class="no-data">No vehicles found</td>
+            <td colspan="6" class="no-data">No vehicles found</td>
           </tr>
         </tbody>
       </table>

@@ -176,7 +176,7 @@ export class VehicleEditComponent implements OnInit {
 
     this.saving = true;
 
-    const vehicle: VehicleMaster = {
+    const updateData = {
       vehicleId: this.vehicleId,
       regNo: this.vehicleForm.get('regNo')?.value,
       modelYear: this.vehicleForm.get('modelYear')?.value,
@@ -185,13 +185,16 @@ export class VehicleEditComponent implements OnInit {
       modelId: this.vehicleForm.get('modelId')?.value,
     };
 
-    this.vehicleService.updateVehicle(this.vehicleId, vehicle).subscribe({
-      next: () => {
+    this.vehicleService.updateVehicle(this.vehicleId, updateData).subscribe({
+      next: (response) => {
+        console.log('Vehicle updated successfully:', response);
         this.router.navigate(['/vehicle']);
       },
-      error: () => {
+      error: (error) => {
+        console.error('Update failed:', error);
         this.submitted = false;
         this.saving = false;
+        alert('Failed to update vehicle. Please try again.');
       },
     });
   }
