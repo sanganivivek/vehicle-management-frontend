@@ -47,6 +47,9 @@
             <th (click)="sort('model')" class="sortable">
               Model {{ getSortIcon("model") }}
             </th>
+            <th (click)="sort('modelYear')" class="sortable">
+              Model Year {{ getSortIcon("modelYear") }}
+            </th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -57,14 +60,17 @@
             <td>{{ vehicle.regNo }}</td>
             <td>{{ vehicle.brand }}</td>
             <td>{{ vehicle.model }}</td>
+            <td>{{ vehicle.modelYear }}</td>
             <td>
-              <button 
-                class="btn btn-sm" 
-                [class.btn-success]="vehicle.isActive" 
+              <button
+                class="btn btn-sm"
+                [class.btn-success]="vehicle.isActive"
                 [class.btn-secondary]="!vehicle.isActive"
-                (click)="toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)"
+                (click)="
+                  toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)
+                "
               >
-                {{ vehicle.isActive ? 'Active' : 'Inactive' }}
+                {{ vehicle.isActive ? "Active" : "Inactive" }}
               </button>
             </td>
             <td>
@@ -72,7 +78,6 @@
                 <button
                   class="icon-btn edit-icon"
                   (click)="editVehicle(vehicle.vehicleId)"
-                  
                 >
                   <i class="bi bi-pencil-square"></i>
                 </button>
@@ -87,7 +92,7 @@
           </tr>
 
           <tr *ngIf="vehicles.length === 0">
-            <td colspan="5" class="no-data">No vehicles found</td>
+            <td colspan="6" class="no-data">No vehicles found</td>
           </tr>
         </tbody>
       </table>
@@ -134,17 +139,17 @@
 </div>
 
 <style>
-.pagination-info {
-  margin: 10px 0;
-  font-size: 14px;
-  color: #666;
-}
-.page-item.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.page-item {
-  cursor: pointer;
-}
+  .pagination-info {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  .page-item.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .page-item {
+    cursor: pointer;
+  }
 </style>
