@@ -1,8 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",  /* <--- ADD THIS LINE */
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -29,4 +30,4 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   }
-}
+} 

@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { provideRouter } from '@angular/router';\nimport { provideHttpClient } from '@angular/common/http'; // Often needed for backend calls\nexport const appConfig = {\n  providers: [provideRouter([]), provideHttpClient()]\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
