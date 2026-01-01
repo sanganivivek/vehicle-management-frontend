@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+<<<<<<< HEAD
   "newProjectRoot": "projects",
   "projects": {
     "vehicle-management-frontend": {
@@ -89,12 +90,32 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
+=======
+ 
+  "projects": {
+    "vehicle-management-frontend": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/vehicle-management-frontend",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+>>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36
               "src/assets"
             ],
             "styles": [
               "src/styles.css"
             ],
             "scripts": []
+<<<<<<< HEAD
           }
         },
         "server": {
@@ -144,12 +165,82 @@
             }
           },
           "defaultConfiguration": "production"
+=======
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "vehicle-management-frontend:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "vehicle-management-frontend:build:production"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+>>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36
         }
       }
+    },
+    "cli": {
+      "analytics": false
     }
   },
   "cli": {
+<<<<<<< HEAD
     "analytics": "ad0b7c6f-3816-4e13-a98d-4c3f69f2eaf5"
   }
 }
 
+=======
+    "analytics": "3cdf816d-24f0-48b2-8b84-f5b93b228239",
+    "schematicCollections": [
+      "angular-eslint"
+    ]
+  }
+}
+>>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36

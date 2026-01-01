@@ -1,10 +1,16 @@
 {
   "name": "vehicle-management-frontend",
+<<<<<<< HEAD
   "version": "0.0.0",
+=======
+  "version": "0.0.1",
+  "private": true,
+>>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+<<<<<<< HEAD
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr": "node dist/vehicle-management-frontend/server/server.mjs"
@@ -42,3 +48,29 @@
   }
 }
 
+=======
+    "test": "ng test",
+    "lint": "ng lint",
+    "serve": "node server.js"
+  },
+  "dependencies": {
+    "@angular/animations": "^16.2.12",
+    "@angular/common": "^16.2.12",
+    "@angular/core": "^16.2.12",
+    "@angular/forms": "^16.2.12",
+    "@angular/platform-browser": "^16.2.12",
+    "@angular/platform-browser-dynamic": "^16.2.12",
+    "@angular/router": "^16.2.12",
+    "rxjs": "^7.8.0",
+    "zone.js": "~0.13.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.2.12",
+    "@angular/cli": "^16.2.12",
+    "angular-eslint": "21.0.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.1.0",
+    "typescript-eslint": "8.46.4"
+  }
+}
+>>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36

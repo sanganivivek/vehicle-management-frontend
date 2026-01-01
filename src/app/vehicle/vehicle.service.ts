@@ -47,7 +47,11 @@ export class VehicleService {
   }
 
   updateVehicle(id: string, vehicle: any): Observable<any> {
+<<<<<<< HEAD
     console.log('Updating vehicle:', id, vehicle);
+=======
+    console.log('Update vehicle:', id, vehicle);
+>>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36
     return this.http.put<any>(`${this.apiUrl}/${id}`, vehicle)
       .pipe(catchError(this.handleError));
   }

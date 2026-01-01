@@ -191,7 +191,11 @@ export class VehicleEditComponent implements OnInit {
         this.router.navigate(['/vehicle']);
       },
       error: (error) => {
+<<<<<<< HEAD
         console.error('Update failed:', error);
+=======
+        console.error('Failed to update vehicle:', error);
+>>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36
         this.submitted = false;
         this.saving = false;
         alert('Failed to update vehicle. Please try again.');
