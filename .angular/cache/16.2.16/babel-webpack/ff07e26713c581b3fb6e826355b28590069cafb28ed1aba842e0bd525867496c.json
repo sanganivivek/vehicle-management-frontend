@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { importProvidersFrom } from '@angular/core';\nimport { provideRouter } from '@angular/router';\nimport { RouterModule } from '@angular/router';\nexport const appConfig = {\n  providers: [importProvidersFrom(RouterModule), provideRouter([], {})]\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
