@@ -22,7 +22,8 @@
                 class="form-control form-input"
                 formControlName="regNo"
               />
-              <mat-error
+              <div
+                class="form-error"
                 *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors"
               >
                 <span *ngIf="f['regNo'].errors['required']"
@@ -31,7 +32,7 @@
                 <span *ngIf="f['regNo'].errors['maxlength']"
                   >Maximum 20 characters allowed</span
                 >
-              </mat-error>
+              </div>
             </div>
 
             <!-- Brand -->
@@ -44,13 +45,14 @@
                 </option>
               </select>
 
-              <mat-error
+              <div
+                class="form-error"
                 *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors"
               >
                 <span *ngIf="f['brandId'].errors['required']"
                   >Brand is required</span
                 >
-              </mat-error>
+              </div>
             </div>
 
             <!-- Model -->
@@ -67,13 +69,14 @@
                 </option>
               </select>
 
-              <mat-error
+              <div
+                class="form-error"
                 *ngIf="(submitted || f['modelId'].touched) && f['modelId'].errors"
               >
                 <span *ngIf="f['modelId'].errors['required']"
                   >Model is required</span
                 >
-              </mat-error>
+              </div>
             </div>
 
             <!-- Model Year -->
@@ -84,7 +87,8 @@
                 class="form-control form-input"
                 formControlName="modelYear"
               />
-              <mat-error
+              <div
+                class="form-error"
                 *ngIf="(submitted || f['modelYear'].touched) && f['modelYear'].errors"
               >
                 <span *ngIf="f['modelYear'].errors['required']"
@@ -96,7 +100,7 @@
                 <span *ngIf="f['modelYear'].errors['max']"
                   >Year cannot be in the future</span
                 >
-              </mat-error>
+              </div>
             </div>
 
             <!-- Is Active -->

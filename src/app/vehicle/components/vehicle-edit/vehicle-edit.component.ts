@@ -175,31 +175,18 @@ export class VehicleEditComponent implements OnInit {
     }
 
     this.saving = true;
-
-    const updateData = {
-      vehicleId: this.vehicleId,
-      regNo: this.vehicleForm.get('regNo')?.value,
-      modelYear: this.vehicleForm.get('modelYear')?.value,
-      isActive: this.vehicleForm.get('isActive')?.value,
-      brandId: this.vehicleForm.get('brandId')?.value,
-      modelId: this.vehicleForm.get('modelId')?.value,
-    };
+    const updateData = this.vehicleForm.value;
+    updateData.vehicleId = this.vehicleId;
 
     this.vehicleService.updateVehicle(this.vehicleId, updateData).subscribe({
       next: (response) => {
-        console.log('Vehicle updated successfully:', response);
+        this.saving = false;
         this.router.navigate(['/vehicle']);
       },
       error: (error) => {
-<<<<<<< HEAD
-        console.error('Update failed:', error);
-=======
-        console.error('Failed to update vehicle:', error);
->>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36
-        this.submitted = false;
         this.saving = false;
-        alert('Failed to update vehicle. Please try again.');
-      },
+        alert('Failed to update vehicle');
+      }
     });
   }
 

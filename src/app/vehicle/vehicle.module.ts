@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxLoadingModule } from 'ngx-loading';
 
 import { VehicleRoutingModule } from './vehicle-routing.module';
@@ -26,7 +25,6 @@ import { ModelAddComponent } from './components/model-add/model-add.component';
     FormsModule,
     HttpClientModule,
     VehicleRoutingModule,
-    MatFormFieldModule,
     NgxLoadingModule.forRoot({})
   ]
 })

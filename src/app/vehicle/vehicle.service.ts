@@ -39,26 +39,46 @@ export class VehicleService {
   }
 
   getVehicleById(id: string): Observable<VehicleMaster> {
-    return this.http.get<VehicleMaster>(`${this.apiUrl}/${id}`);
+    return this.http.get<VehicleMaster>(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.handleError));
   }
 
   addVehicle(vehicle: CreateVehicleDTO): Observable<VehicleMaster> {
-    return this.http.post<VehicleMaster>(this.apiUrl, vehicle);
+    // Send data in camelCase (standard JSON format)
+    // ASP.NET Core will automatically map camelCase JSON to PascalCase C# properties
+    return this.http.post<VehicleMaster>(this.apiUrl, vehicle, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .pipe(catchError(this.handleError));
   }
 
   updateVehicle(id: string, vehicle: any): Observable<any> {
-<<<<<<< HEAD
     console.log('Updating vehicle:', id, vehicle);
-=======
-    console.log('Update vehicle:', id, vehicle);
->>>>>>> 30fec37d021f76eb85d61e2d9326ed37fda84a36
-    return this.http.put<any>(`${this.apiUrl}/${id}`, vehicle)
+    // Ensure vehicleId is included in the update payload
+    const updatePayload = {
+      vehicleId: vehicle.vehicleId || id,
+      regNo: vehicle.regNo,
+      modelYear: vehicle.modelYear,
+      isActive: vehicle.isActive,
+      brandId: vehicle.brandId,
+      modelId: vehicle.modelId,
+      vehicleName: vehicle.vehicleName || '',
+      brand: vehicle.brand || '',
+      model: vehicle.model || '',
+      brandName: vehicle.brandName || '',
+      modelName: vehicle.modelName || ''
+    };
+    return this.http.put<any>(`${this.apiUrl}/${id}`, updatePayload, {
+      headers: { 'Content-Type': 'application/json' }
+    })
       .pipe(catchError(this.handleError));
   }
 
-  deleteVehicle(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+  deleteVehicle(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getBrands(): Observable<Brand[]> {

@@ -19,13 +19,14 @@
                 </option>
               </select>
 
-              <mat-error
+              <div
+                class="form-error"
                 *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors"
               >
                 <span *ngIf="f['brandId'].errors['required']"
                   >Brand is required</span
                 >
-              </mat-error>
+              </div>
             </div>
 
             <!-- Model Name -->
@@ -36,7 +37,8 @@
                 class="form-control form-input"
                 formControlName="modelName"
               />
-              <mat-error
+              <div
+                class="form-error"
                 *ngIf="(submitted || f['modelName'].touched) && f['modelName'].errors"
               >
                 <span *ngIf="f['modelName'].errors['required']"
@@ -45,7 +47,7 @@
                 <span *ngIf="f['modelName'].errors['maxlength']"
                   >Maximum 50 characters allowed</span
                 >
-              </mat-error>
+              </div>
             </div>
 
           </div>

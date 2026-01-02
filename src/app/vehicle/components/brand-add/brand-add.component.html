@@ -17,7 +17,8 @@
                 class="form-control form-input"
                 formControlName="brandName"
               />
-              <mat-error
+              <div
+                class="form-error"
                 *ngIf="(submitted || f['brandName'].touched) && f['brandName'].errors"
               >
                 <span *ngIf="f['brandName'].errors['required']"
@@ -26,7 +27,7 @@
                 <span *ngIf="f['brandName'].errors['maxlength']"
                   >Maximum 50 characters allowed</span
                 >
-              </mat-error>
+              </div>
             </div>
 
           </div>

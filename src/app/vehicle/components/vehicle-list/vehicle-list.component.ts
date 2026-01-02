@@ -58,10 +58,14 @@ export class VehicleListComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Failed to load vehicles:', error);
+        const errorMessage = error?.error?.message || error?.message || 'Failed to load vehicles. Please try again.';
+        console.error('Error details:', errorMessage);
         this.vehicles = [];
         this.totalRecords = 0;
         this.totalPages = 1;
         this.loading = false;
+        // Optionally show an alert or toast message
+        // alert(errorMessage);
       }
     });
   }
@@ -71,7 +75,8 @@ export class VehicleListComponent implements OnInit {
       next: (brands: Brand[]) => {
         this.brands = brands;
       },
-      error: () => {
+      error: (error) => {
+        console.error('Failed to load brands:', error);
         this.brands = [];
       }
     });
@@ -138,43 +143,21 @@ export class VehicleListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this vehicle?')) {
       this.vehicleService.deleteVehicle(vehicleId).subscribe({
         next: () => this.loadVehicles(),
-        error: () => this.loadVehicles()
+        error: () => alert('Failed to delete vehicle')
       });
     }
   }
 
   toggleActiveStatus(vehicleId: string, currentStatus: boolean): void {
-    console.log('Toggling status for vehicle:', vehicleId, 'Current status:', currentStatus);
-    
     this.vehicleService.getVehicleById(vehicleId).subscribe({
       next: (vehicle: any) => {
-        const updateData = {
-          vehicleId: vehicle.vehicleId,
-          regNo: vehicle.regNo,
-          modelYear: vehicle.modelYear,
-          isActive: !currentStatus,
-          brandId: vehicle.brandId,
-          modelId: vehicle.modelId
-        };
-        
-        console.log('Updating vehicle with data:', updateData);
-        
+        const updateData = { ...vehicle, isActive: !currentStatus };
         this.vehicleService.updateVehicle(vehicleId, updateData).subscribe({
-          next: (response) => {
-            console.log('Status updated successfully:', response);
-            this.loadVehicles();
-          },
-          error: (error) => {
-            console.error('Failed to update vehicle status:', error);
-            alert('Failed to update vehicle status. Please try again.');
-            this.loadVehicles();
-          }
+          next: () => this.loadVehicles(),
+          error: () => alert('Failed to update status')
         });
       },
-      error: (error) => {
-        console.error('Failed to get vehicle details:', error);
-        alert('Failed to get vehicle details. Please try again.');
-      }
+      error: () => alert('Failed to get vehicle details')
     });
   }
 

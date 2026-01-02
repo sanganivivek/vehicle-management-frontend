@@ -20,7 +20,9 @@ export class ModelService {
   }
 
   addModel(model: CreateModelDTO): Observable<any> {
-    return this.http.post(this.apiUrl, model)
+    return this.http.post(this.apiUrl, model, {
+      headers: { 'Content-Type': 'application/json' }
+    })
       .pipe(
         catchError(this.handleError)
       );

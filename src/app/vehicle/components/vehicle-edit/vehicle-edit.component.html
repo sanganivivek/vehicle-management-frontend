@@ -26,11 +26,11 @@
                 formControlName="regNo"
                 placeholder="e.g. GJ-01-AB-1234"
               />
-              <mat-error *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors">
+              <div class="form-error" *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors">
                 <span *ngIf="f['regNo'].errors['required']">Reg Number is required</span>
                 <span *ngIf="f['regNo'].errors['maxlength']">Max 20 characters</span>
                 <span *ngIf="f['regNo'].errors['regNoExists']">Reg Number already exists</span>
-              </mat-error>
+              </div>
               <div class="text-muted" *ngIf="f['regNo'].pending">Checking availability...</div>
             </div>
 
@@ -42,9 +42,9 @@
                   {{ brand.brandName }}
                 </option>
               </select>
-              <mat-error *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors">
+              <div class="form-error" *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors">
                 <span *ngIf="f['brandId'].errors['required']">Brand is required</span>
-              </mat-error>
+              </div>
             </div>
 
             <div class="form-group">
@@ -59,9 +59,9 @@
                   {{ model.modelName }}
                 </option>
               </select>
-              <mat-error *ngIf="(submitted || f['modelId'].touched) && f['modelId'].errors">
+              <div class="form-error" *ngIf="(submitted || f['modelId'].touched) && f['modelId'].errors">
                 <span *ngIf="f['modelId'].errors['required']">Model is required</span>
-              </mat-error>
+              </div>
             </div>
 
             <div class="form-group">
@@ -72,12 +72,12 @@
                 formControlName="modelYear"
                 placeholder="e.g. 2024"
               />
-              <mat-error *ngIf="(submitted || f['modelYear'].touched) && f['modelYear'].errors">
+              <div class="form-error" *ngIf="(submitted || f['modelYear'].touched) && f['modelYear'].errors">
                 <span *ngIf="f['modelYear'].errors['required']">Model Year is required</span>
                 <span *ngIf="f['modelYear'].errors['min'] || f['modelYear'].errors['max']">
                   Invalid Year
                 </span>
-              </mat-error>
+              </div>
             </div>
 
           </div>

@@ -96,38 +96,22 @@ export class VehicleAddComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     this.errorMessage = '';
-    this.vehicleForm.markAllAsTouched();
 
     if (this.vehicleForm.invalid) {
-      console.log('Form is invalid:', this.vehicleForm.errors);
       return;
     }
 
     this.loading = true;
-    const vehicle: CreateVehicleDTO = {
-      regNo: this.vehicleForm.value.regNo,
-      brandId: this.vehicleForm.value.brandId,
-      modelId: this.vehicleForm.value.modelId,
-      modelYear: this.vehicleForm.value.modelYear,
-      isActive: this.vehicleForm.value.isActive
-    };
-
-    console.log('Submitting vehicle:', vehicle);
+    const vehicle: CreateVehicleDTO = this.vehicleForm.value;
 
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
-        console.log('Vehicle created successfully:', response);
-        // Navigate to vehicle list (dashboard) to show the saved data
-        this.router.navigate(['/vehicle']).then(() => {
-          // Optionally reload the page to ensure fresh data
-          window.location.reload();
-        });
+        this.loading = false;
+        this.router.navigate(['/vehicle']);
       },
       error: (error) => {
-        console.error('Failed to create vehicle:', error);
-        this.errorMessage = error || 'Failed to create vehicle. Please try again.';
-        this.submitted = false;
         this.loading = false;
+        this.errorMessage = 'Failed to add vehicle';
       }
     });
   }

@@ -66,9 +66,7 @@
                 class="btn btn-sm"
                 [class.btn-success]="vehicle.isActive"
                 [class.btn-secondary]="!vehicle.isActive"
-                (click)="
-                  toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)
-                "
+                (click)="toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)"
               >
                 {{ vehicle.isActive ? "Active" : "Inactive" }}
               </button>

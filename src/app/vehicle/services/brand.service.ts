@@ -21,7 +21,9 @@
     }
 
     addBrand(brand: CreateBrandDTO): Observable<any> {
-      return this.http.post(this.apiUrl, brand)
+      return this.http.post(this.apiUrl, brand, {
+        headers: { 'Content-Type': 'application/json' }
+      })
         .pipe(
           catchError(this.handleError)
         );

@@ -93,8 +93,8 @@
   }
 }
 
-/* Mat-error styling */
-mat-error {
+/* Form error styling */
+.form-error {
   display: block;
   color: #f44336;
   font-size: 12px;
@@ -102,6 +102,6 @@ mat-error {
   line-height: 1.4;
 }
 
-mat-error span {
+.form-error span {
   display: block;
 }
