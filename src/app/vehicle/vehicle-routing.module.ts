@@ -7,7 +7,7 @@ import { ModelAddComponent } from './components/model-add/model-add.component';
 import { BrandAddComponent } from './components/brand-add/brand-add.component';
 
 const routes: Routes = [
-  { path: '', component: VehicleListComponent },
+  { path: 'vehicle', component: VehicleListComponent },
   { path: 'vehicle/add', component: VehicleAddComponent },
   { path: 'vehicle/edit/:id', component: VehicleEditComponent },
   { path: 'models/add', component: ModelAddComponent },

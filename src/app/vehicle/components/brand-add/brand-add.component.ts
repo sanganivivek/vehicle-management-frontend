@@ -45,7 +45,7 @@ export class BrandAddComponent implements OnInit {
 
     this.brandService.addBrand(brand).subscribe({
       next: () => {
-        // FIX: Changed from '/brands' to '/vehicle' (your actual dashboard route)
+       alert('Brand Added Successfully!');
         this.router.navigate(['/vehicle']);
       },
       error: (err) => {
