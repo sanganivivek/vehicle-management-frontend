@@ -1,11 +1,23 @@
 <div class="vehicle-page-bg">
   <div class="vehicle-container mt-4">
+    
     <div class="header-section">
       <h2 class="title">Vehicle Management</h2>
-      <button class="btn btn-primary add-btn" (click)="addVehicle()">
-        <i class="bi bi-plus-circle"></i> Add Vehicle
-      </button>
+      <div class="d-flex flex-column gap-2">
+        <div class="d-flex gap-2">
+        <button class="btn btn-primary add-btn" (click)="addBrand()">
+          <i class="bi bi-plus-circle"></i> Add Brand
+        </button>
+        <button class="btn btn-primary add-btn" (click)="addModel()">
+          <i class="bi bi-plus-circle"></i> Add Model
+        </button>
+        </div>
+        <button class="btn btn-primary add-btn w-50" (click)="addVehicle()">
+          <i class="bi bi-plus-circle"></i> Add Vehicle
+        </button>
+      </div>
     </div>
+    
 
     <!-- Filters -->
     <div class="filter-row">
@@ -66,7 +78,9 @@
                 class="btn btn-sm"
                 [class.btn-success]="vehicle.isActive"
                 [class.btn-secondary]="!vehicle.isActive"
-                (click)="toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)"
+                (click)="
+                  toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)
+                "
               >
                 {{ vehicle.isActive ? "Active" : "Inactive" }}
               </button>
