@@ -1,0 +1,39 @@
+/* Specific Background Colors for Cards */
+.card-blue {
+  background: linear-gradient(45deg, #4099ff, #73b4ff);
+}
+
+.card-green {
+  background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+}
+
+.card-red {
+  background: linear-gradient(45deg, #FF5370, #ff869a);
+}
+
+.card-cyan {
+  background: linear-gradient(45deg, #00BCD4, #4DD0E1);
+}
+
+/* Card Styling */
+.card {
+  border-radius: 10px;
+  overflow: hidden; /* Keeps the gradient inside */
+}
+
+.icon-box {
+  opacity: 0.8;
+}
+
+.dashboard-bg {
+  background-color: #f4f7fa; /* Light grey background for the whole page */
+  min-height: 100vh;
+}
+
+/* Table styling fixes */
+.table thead th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+}

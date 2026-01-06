@@ -7,13 +7,14 @@ import { VehicleAddComponent } from './components/vehicle-add/vehicle-add.compon
 import { VehicleEditComponent } from './components/vehicle-edit/vehicle-edit.component';
 import { ModelAddComponent } from './components/model-add/model-add.component';
 import { BrandAddComponent } from './components/brand-add/brand-add.component';
+import { MaintenanceListComponent } from './components/maintenance-list/maintenance-list.component';
+import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
+import { MainLayoutComponent } from '../layout/main-layout/main-layout.component';
 
-// You will need to create these components later for the new features
-// import { MaintenanceListComponent } from './components/maintenance-list/maintenance-list.component';
-// import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
 
 const routes: Routes = [
   // Fleet Routes
+  { path: 'Dashboard', component: MainLayoutComponent },
   { path: 'vehicle', component: VehicleListComponent },
   { path: 'vehicle/add', component: VehicleAddComponent },
   { path: 'vehicle/edit/:id', component: VehicleEditComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   // Master Data Routes (Now accessible from Sidebar)
   { path: 'brands/add', component: BrandAddComponent },
   { path: 'models/add', component: ModelAddComponent },
+  
 
   // PLACEHOLDERS for future "Management" features
   // { path: 'maintenance', component: MaintenanceListComponent },

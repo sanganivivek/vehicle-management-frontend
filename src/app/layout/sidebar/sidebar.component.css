@@ -1,86 +1,142 @@
-/* Container - Now Full Width & Horizontal */
+/* =========================================
+   1. MAIN CONTAINER (HORIZONTAL BAR)
+   ========================================= */
 .sidebar {
   width: 100%;
-  height: 70px; /* Fixed height for header */
-  background: write;
-  color: #000000;
-  padding: 0 20px;
+  height: 70px;
+  background-color: #ffffff;
+  color: #333;
+  padding: 0 30px; /* More breathing room on edges */
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex; /* Horizontal Layout */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer, modern shadow */
+  display: flex;
   align-items: center;
-  justify-content: space-between; /* Spreads Logo and Menu apart */
+  justify-content: space-between; /* Pushes Logo left, Menu right */
+  font-family: 'Inter', sans-serif; /* Optional: Ensure a clean font */
 }
 
-
+/* =========================================
+   2. LOGO / BRANDING
+   ========================================= */
 .sidebar-header {
-  padding: 0;
-  border-bottom: none;
-  background: transparent;
   display: flex;
   align-items: center;
 }
 
 .sidebar-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   margin: 0;
-  color: #000000;
-  white-space: nowrap;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
 }
 
-
-.close-btn {
-  display: none; 
-}
-
-
+/* =========================================
+   3. MENU ITEMS (Top Level)
+   ========================================= */
 .menu {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex; 
-  align-items: center;
-}
-
-
-.menu-item {
-  margin: 0 5px; 
-}
-
-.menu-item a {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
-  color: #000000;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  white-space: nowrap;
+  gap: 15px; /* UNIFORM SPACING between all items */
 }
 
-/* Hover Effect - Moves UP slightly instead of Right */
-.menu-item a:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #000000;
-  transform: translateY(-2px); 
+.menu-item {
+  position: relative; /* Needed for dropdown positioning */
+}
+
+/* Links Styling */
+.menu-item a,
+.dropdown-trigger {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px; /* Larger click area */
+  color: #555;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hover Effect */
+.menu-item a:hover,
+.dropdown-trigger:hover {
+  background-color: #f3f4f6; /* Light gray hover */
+  color: #000;
+}
+
+/* Active State (Visual indicator for current page) */
+.menu-item a.active {
+  background-color: #eef2ff; /* Light Blue background */
+  color: #2563eb; /* Blue text */
 }
 
 .menu-icon {
   font-size: 18px;
   margin-right: 8px;
-  width: auto; 
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.menu-text {
-  font-size: 14px;
+/* =========================================
+   4. DROPDOWN MENU (Administration)
+   ========================================= */
+.dropdown-menu {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 140%; /* Spacing from the parent item */
+  right: 0; /* Aligns to the right edge of the parent */
+  background-color: #ffffff;
+  min-width: 200px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  padding: 8px;
+  list-style: none;
+  z-index: 1001;
+  
+  /* Animation for smooth appearance */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/* Show Dropdown on Hover */
+.menu-item.dropdown-container:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  top: 100%; /* Snaps into position */
+}
 
-.menu-section {
+/* Dropdown Items */
+.dropdown-menu li {
+  width: 100%;
+}
+
+.dropdown-menu li a {
+  padding: 10px 15px;
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+  color: #444;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f8f9fa;
+  color: #2563eb;
+}
+
+/* Hide mobile elements in desktop view */
+.close-btn {
   display: none;
 }

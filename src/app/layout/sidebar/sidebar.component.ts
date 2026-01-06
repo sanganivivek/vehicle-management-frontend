@@ -9,6 +9,5 @@ import { RouterModule } from "@angular/router";
   styleUrl: "./sidebar.component.css",
 })
 export class SidebarComponent {
-  // Logic for closing/collapsing is usually removed for horizontal headers
-  // unless implementing a mobile drawer.
+  
 }
