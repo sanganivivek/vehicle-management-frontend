@@ -10,11 +10,12 @@ import { BrandAddComponent } from './components/brand-add/brand-add.component';
 import { MaintenanceListComponent } from './components/maintenance-list/maintenance-list.component';
 import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
 import { MainLayoutComponent } from '../layout/main-layout/main-layout.component';
+import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 
 
 const routes: Routes = [
   // Fleet Routes
-  { path: 'Dashboard', component: MainLayoutComponent },
+  { path: 'Dashboard', component: DashboardComponent },
   { path: 'vehicle', component: VehicleListComponent },
   { path: 'vehicle/add', component: VehicleAddComponent },
   { path: 'vehicle/edit/:id', component: VehicleEditComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
   // { path: 'reports', component: ComplianceReportComponent },
   
   // Default redirect
-  { path: '', redirectTo: 'vehicle', pathMatch: 'full' }
+  { path: 'dashboard', component: DashboardComponent },
 ];
 
 @NgModule({
