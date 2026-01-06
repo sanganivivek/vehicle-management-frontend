@@ -1,39 +1,33 @@
-/* Specific Background Colors for Cards */
-.card-blue {
-  background: linear-gradient(45deg, #4099ff, #73b4ff);
-}
-
-.card-green {
-  background: linear-gradient(45deg, #2ed8b6, #59e0c5);
-}
-
-.card-red {
-  background: linear-gradient(45deg, #FF5370, #ff869a);
-}
-
-.card-cyan {
-  background: linear-gradient(45deg, #00BCD4, #4DD0E1);
-}
-
-/* Card Styling */
-.card {
+.stat-card {
   border-radius: 10px;
-  overflow: hidden; /* Keeps the gradient inside */
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  overflow: hidden;
 }
 
-.icon-box {
-  opacity: 0.8;
+.stat-card:hover {
+  transform: translateY(-5px); /* Slight lift effect */
 }
 
-.dashboard-bg {
-  background-color: #f4f7fa; /* Light grey background for the whole page */
-  min-height: 100vh;
+.stat-card h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-/* Table styling fixes */
-.table thead th {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #6c757d;
+.stat-card p {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Icon decoration inside the card */
+.card-icon {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 3rem;
+  opacity: 0.2; /* Watermark effect */
 }
