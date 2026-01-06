@@ -1,14 +1,17 @@
 .stat-card {
   border-radius: 10px;
   padding: 20px;
+  margin-bottom: 20px;
   position: relative;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s;
   overflow: hidden;
+  background-color: rgb(255, 255, 255);
 }
 
 .stat-card:hover {
-  transform: translateY(-5px); /* Slight lift effect */
+  transform: translateY(-5px);
+   /* Slight lift effect */
 }
 
 .stat-card h3 {
