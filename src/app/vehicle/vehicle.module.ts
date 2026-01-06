@@ -10,6 +10,9 @@ import { VehicleAddComponent } from './components/vehicle-add/vehicle-add.compon
 import { VehicleEditComponent } from './components/vehicle-edit/vehicle-edit.component';
 import { BrandAddComponent } from './components/brand-add/brand-add.component';
 import { ModelAddComponent } from './components/model-add/model-add.component';
+import { MaintenanceListComponent } from './components/maintenance-list/maintenance-list.component';
+import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
+import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { ModelAddComponent } from './components/model-add/model-add.component';
     FormsModule,
     HttpClientModule,
     VehicleRoutingModule,
-    NgxLoadingModule.forRoot({})
+    NgxLoadingModule.forRoot({}),
+    MaintenanceListComponent,
+    ComplianceReportComponent,
+    DashboardComponent
   ]
 })
 export class VehicleModule { }

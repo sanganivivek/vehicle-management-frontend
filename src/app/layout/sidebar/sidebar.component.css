@@ -140,3 +140,8 @@
 .close-btn {
   display: none;
 }
+
+:host {
+  z-index: 1000; /* Force sidebar to be on top */
+  position: relative;
+}

@@ -15,7 +15,7 @@ import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 
 const routes: Routes = [
   // Fleet Routes
-  { path: 'Dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'vehicle', component: VehicleListComponent },
   { path: 'vehicle/add', component: VehicleAddComponent },
   { path: 'vehicle/edit/:id', component: VehicleEditComponent },
@@ -23,14 +23,12 @@ const routes: Routes = [
   // Master Data Routes (Now accessible from Sidebar)
   { path: 'brands/add', component: BrandAddComponent },
   { path: 'models/add', component: ModelAddComponent },
-  
 
+  // Reports Route
+  { path: 'reports', component: ComplianceReportComponent },
+  
   // PLACEHOLDERS for future "Management" features
   // { path: 'maintenance', component: MaintenanceListComponent },
-  // { path: 'reports', component: ComplianceReportComponent },
-  
-  // Default redirect
-  { path: 'dashboard', component: DashboardComponent },
 ];
 
 @NgModule({
