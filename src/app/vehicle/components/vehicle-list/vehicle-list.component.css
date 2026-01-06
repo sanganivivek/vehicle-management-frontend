@@ -262,3 +262,30 @@
   text-align: center;
 }
 
+/* Custom Add Button Style */
+.custom-add-btn {
+  background-color: #000000; /* Bootstrap Primary Blue */
+  color: white;
+  border: none;
+  padding: 10px 24px; /* Taller and wider padding */
+  font-weight: 600;
+  border-radius: 8px; /* Smooth rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); /* Soft blue shadow */
+  transition: all 0.3s ease; /* Smooth animation */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Space between the icon and text */
+}
+
+/* Hover Effect (Lifts up) */
+.custom-add-btn:hover {
+  background-color: #313131; /* Slightly darker blue */
+  transform: translateY(-2px); /* Moves button up slightly */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35); /* Shadow grows */
+}
+
+/* Click Effect (Presses down) */
+.custom-add-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
