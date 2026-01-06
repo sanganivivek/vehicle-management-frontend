@@ -10,5 +10,5 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
   styles: []
 })
 export class AppComponent {
-  title = 'VehicleManagementFrontend';
+  title = 'VehicleManagement';
 }
