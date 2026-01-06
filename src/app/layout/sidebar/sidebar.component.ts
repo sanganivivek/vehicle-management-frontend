@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
 @Component({
-  selector: 'app-sidebar',
+  selector: "app-sidebar",
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  templateUrl: "./sidebar.component.html",
+  styleUrl: "./sidebar.component.css",
 })
 export class SidebarComponent {
-
+  // Logic for closing/collapsing is usually removed for horizontal headers
+  // unless implementing a mobile drawer.
 }
