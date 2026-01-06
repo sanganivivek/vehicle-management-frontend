@@ -1,34 +1,50 @@
 <nav class="sidebar">
   <div class="sidebar-header">
-    <h3 class="sidebar-title">Vehicle Management</h3>
+    <h3 class="sidebar-title">Fleet Manager</h3>
   </div>
   
   <ul class="menu">
     <li class="menu-item">
-      <a routerLink="" routerLinkActive="active">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="menu-icon">🏠</span>
         <span class="menu-text">Dashboard</span>
       </a>
     </li>
-    
-    <li class="menu-item">
-      <a routerLink="/reports" routerLinkActive="active">
-        <span class="menu-icon">📊</span>
-        <span class="menu-text">Reports</span>
-      </a>
-    </li>
-    
+
     <li class="menu-item">
       <a routerLink="/vehicle" routerLinkActive="active">
-        <span class="menu-icon">🚗</span>
-        <span class="menu-text">Vehicle List</span>
+        <span class="menu-icon">🚌</span>
+        <span class="menu-text">My Fleet</span>
       </a>
     </li>
+
+    <li class="menu-item">
+      <a routerLink="/maintenance" routerLinkActive="active">
+        <span class="menu-icon">🔧</span>
+        <span class="menu-text">Maintenance</span>
+      </a>
+    </li>
+
+    <li class="menu-item">
+      <a routerLink="/reports" routerLinkActive="active">
+        <span class="menu-icon">📑</span>
+        <span class="menu-text">Compliance & Reports</span>
+      </a>
+    </li>
+
+    <li class="menu-header">Administration</li>
     
     <li class="menu-item">
-      <a routerLink="/settings" routerLinkActive="active">
-        <span class="menu-icon">⚙️</span>
-        <span class="menu-text">Preferences</span>
+      <a routerLink="/brands/add" routerLinkActive="active">
+        <span class="menu-icon">🏷️</span>
+        <span class="menu-text">Manage Brands</span>
+      </a>
+    </li>
+
+    <li class="menu-item">
+      <a routerLink="/models/add" routerLinkActive="active">
+        <span class="menu-icon">🚗</span>
+        <span class="menu-text">Manage Models</span>
       </a>
     </li>
   </ul>
