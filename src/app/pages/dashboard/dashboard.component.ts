@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { DashboardService } from './dashboard.service';
+import { DashboardService } from './dashboard.service'; 
 import { DashboardStats, RecentActivity } from './dashboard.model';
+import { VehicleService } from 'src/app/vehicle/vehicle.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,31 +13,32 @@ import { DashboardStats, RecentActivity } from './dashboard.model';
 })
 export class DashboardComponent implements OnInit {
 
-  stats: DashboardStats | null = null;
-  activities: RecentActivity[] = [];
   totalVehicles: number = 0;
+  activeVehicles: number = 0;
+  recentVehicles: any[] = []; 
+  loading: boolean = true;
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private vehicleService: VehicleService) {}
 
   ngOnInit() {
-  this.vehicleService.getDashboardData().subscribe({
-    next: (data) => {
-      // This assigns the "18" from the backend to your frontend variable
-      this.totalVehicles = data.totalVehicles; 
-    },
-    error: (err) => console.error(err)
-  });
-}
+    this.loadDashboardData();
+  }
 
   loadDashboardData() {
-    // 1. Get Stats
-    this.dashboardService.getStats().subscribe(data => {
-      this.stats = data;
-    });
-
-    // 2. Get Activities
-    this.dashboardService.getRecentActivity().subscribe(data => {
-      this.activities = data;
+    this.loading = true;
+    
+    this.vehicleService.getDashboardData().subscribe({
+      next: (data: any) => {
+        this.totalVehicles = data.totalVehicles;
+        this.activeVehicles = data.activeVehicles;
+        this.recentVehicles = data.recentVehicles;
+        
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load dashboard data', err);
+        this.loading = false;
+      }
     });
   }
 }
