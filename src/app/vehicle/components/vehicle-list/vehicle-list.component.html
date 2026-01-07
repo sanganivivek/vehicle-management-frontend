@@ -68,32 +68,6 @@
 
             <td>
               <div class="d-flex align-items-center gap-3">
-                
-                <div class="btn-group" role="group">
-                  <button *ngIf="vehicle.currentStatus === 0" 
-                          class="btn btn-sm btn-outline-primary" 
-                          (click)="changeStatus(vehicle, 1)">
-                    Rent
-                  </button>
-
-                  <button *ngIf="vehicle.currentStatus === 1" 
-                          class="btn btn-sm btn-outline-success" 
-                          (click)="changeStatus(vehicle, 0)">
-                    Return
-                  </button>
-
-                  <button *ngIf="vehicle.currentStatus === 0" 
-                          class="btn btn-sm btn-outline-danger" 
-                          (click)="changeStatus(vehicle, 2)">
-                    Maintenance
-                  </button>
-
-                  <button *ngIf="vehicle.currentStatus === 2" 
-                          class="btn btn-sm btn-outline-secondary" 
-                          (click)="changeStatus(vehicle, 0)">
-                    Finish
-                  </button>
-                </div>
 
                 <div class="action-icons d-flex gap-2 border-start ps-3">
                   <button class="btn btn-sm btn-outline-primary" (click)="editVehicle(vehicle.vehicleId)">

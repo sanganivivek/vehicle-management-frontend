@@ -68,6 +68,7 @@ export interface VehicleListDTO {
   model: string;
   modelYear?: number;
   isActive: boolean;
+  currentStatus: number; 
 }
 
 // For vehicle query parameters

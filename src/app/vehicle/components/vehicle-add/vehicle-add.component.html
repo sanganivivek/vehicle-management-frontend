@@ -10,7 +10,7 @@
         <div *ngIf="errorMessage" class="alert alert-danger mb-3">
           {{ errorMessage }}
         </div>
-        
+
         <form [formGroup]="vehicleForm">
           <!-- Form Grid (2 Column Layout) -->
           <div class="form-grid">
@@ -47,7 +47,9 @@
 
               <div
                 class="form-error"
-                *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors"
+                *ngIf="
+                  (submitted || f['brandId'].touched) && f['brandId'].errors
+                "
               >
                 <span *ngIf="f['brandId'].errors['required']"
                   >Brand is required</span
@@ -71,12 +73,38 @@
 
               <div
                 class="form-error"
-                *ngIf="(submitted || f['modelId'].touched) && f['modelId'].errors"
+                *ngIf="
+                  (submitted || f['modelId'].touched) && f['modelId'].errors
+                "
               >
                 <span *ngIf="f['modelId'].errors['required']"
                   >Model is required</span
                 >
               </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Status *</label>
+              <select
+                class="form-control form-input"
+                formControlName="currentStatus"
+              >
+                <option [ngValue]="0">Available</option>
+                <option [ngValue]="1">Rented</option>
+                <option [ngValue]="2">In Maintenance</option>
+              </select>
+
+              <!-- <div
+                class="form-error"
+                *ngIf="
+                  (submitted || f['currentStatus'].touched) &&
+                  f['currentStatus'].errors
+                "
+              >
+                <span *ngIf="f['currentStatus'].errors['required']"
+                  >Status is required</span
+                >
+              </div> -->
             </div>
 
             <!-- Model Year -->
@@ -89,7 +117,9 @@
               />
               <div
                 class="form-error"
-                *ngIf="(submitted || f['modelYear'].touched) && f['modelYear'].errors"
+                *ngIf="
+                  (submitted || f['modelYear'].touched) && f['modelYear'].errors
+                "
               >
                 <span *ngIf="f['modelYear'].errors['required']"
                   >Model Year is required</span
@@ -102,19 +132,6 @@
                 >
               </div>
             </div>
-
-            <!-- Is Active -->
-            <div class="form-group">
-              <label class="form-label">
-                <input
-                  type="checkbox"
-                  formControlName="isActive"
-                  class="form-check-input"
-                />
-                Active Vehicle
-              </label>
-            </div>
-
           </div>
           <!-- end grid -->
 

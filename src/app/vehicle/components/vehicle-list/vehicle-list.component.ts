@@ -21,7 +21,7 @@ const STATUS_MAINTENANCE = 2;
 export class VehicleListComponent implements OnInit {
   vehicles: VehicleListDTO[] = [];
   brands: Brand[] = [];
-  loading = false;
+  loading = false;  
   searchTerm = '';
   selectedBrand = '';
   sortColumn = 'regNo';
@@ -31,6 +31,7 @@ export class VehicleListComponent implements OnInit {
   totalPages = 1;
   totalRecords = 0;
   pagesArray: number[] = [];
+  selectedStatus: string = '';
 
   constructor(
     private vehicleService: VehicleService,
@@ -41,14 +42,15 @@ export class VehicleListComponent implements OnInit {
   ngOnInit(): void {
     this.loadVehicles();
     this.loadBrands();
-  }
+  } 
 
   loadVehicles(): void {
     this.loading = true;
 
-    const queryParams: VehicleQueryParams = {
+    const queryParams: any = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
+      status: this.selectedStatus !== '' ? parseInt(this.selectedStatus) : undefined,
       sortBy: this.sortColumn,
       sortOrder: this.sortOrder,
       page: this.currentPage,
@@ -92,6 +94,11 @@ export class VehicleListComponent implements OnInit {
   }
 
   onBrandFilter(): void {
+    this.currentPage = 1;
+    this.loadVehicles();
+  }
+
+  onStatusFilter(): void {
     this.currentPage = 1;
     this.loadVehicles();
   }
