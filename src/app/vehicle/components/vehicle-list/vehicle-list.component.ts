@@ -229,4 +229,4 @@ export class VehicleListComponent implements OnInit {
       error: () => alert('Failed to fetch vehicle details for status update'),
     });
   }
-} 
+}
