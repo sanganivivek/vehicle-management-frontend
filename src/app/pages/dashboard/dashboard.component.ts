@@ -14,12 +14,19 @@ export class DashboardComponent implements OnInit {
 
   stats: DashboardStats | null = null;
   activities: RecentActivity[] = [];
+  totalVehicles: number = 0;
 
   constructor(private dashboardService: DashboardService) {}
 
-  ngOnInit(): void {
-    this.loadDashboardData();
-  }
+  ngOnInit() {
+  this.vehicleService.getDashboardData().subscribe({
+    next: (data) => {
+      // This assigns the "18" from the backend to your frontend variable
+      this.totalVehicles = data.totalVehicles; 
+    },
+    error: (err) => console.error(err)
+  });
+}
 
   loadDashboardData() {
     // 1. Get Stats
