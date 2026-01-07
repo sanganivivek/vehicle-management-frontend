@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { DashboardStats, RecentActivity } from './dashboard.model';
+import { VehicleListDTO } from 'src/app/vehicle/models/vehicle.model';
+import { OnInit } from '@angular/core';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardService {
+export class DashboardService implements OnInit {
+  vehicles: VehicleListDTO[] = [];
+  totalrecords = 0;
+
 
   constructor() { }
 
   // SIMULATING API CALL TO ASP.NET BACKEND
   getStats(): Observable<DashboardStats> {
     const mockStats: DashboardStats = {
-      totalVehicles: 120,
+      
+      totalVehicles: Number(this.totalrecords),
       availableVehicles: 45,
       onRoad: 68,
       inMaintenance: 7

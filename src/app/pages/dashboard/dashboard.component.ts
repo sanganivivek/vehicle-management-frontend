@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Important for *ngIf and *ngFor
+import { CommonModule } from '@angular/common'; 
 import { DashboardService } from './dashboard.service';
 import { DashboardStats, RecentActivity } from './dashboard.model';
 

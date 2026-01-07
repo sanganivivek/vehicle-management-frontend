@@ -64,8 +64,6 @@ export class VehicleListComponent implements OnInit {
         this.totalRecords = 0;
         this.totalPages = 1;
         this.loading = false;
-        // Optionally show an alert or toast message
-        // alert(errorMessage);
       }
     });
   }
@@ -102,8 +100,6 @@ export class VehicleListComponent implements OnInit {
     this.loadVehicles();
   }
 
-  /* ----------------------- PAGINATION METHODS ----------------------- */
-
   generatePagesArray(): void {
     this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
@@ -129,18 +125,8 @@ export class VehicleListComponent implements OnInit {
     }
   }
 
-  /* ------------------------------------------------------------------ */
-
   addVehicle(): void {
     this.router.navigate(['/vehicle/add']);
-  }
-
-  addBrand(): void {
-    this.router.navigate(['/brands/add']);
-  }
-  
-  addModel(): void {
-    this.router.navigate(['/models/add']);
   }
 
   editVehicle(vehicleId: string): void {
