@@ -1,8 +1,6 @@
 <div class="vehicle-page-bg">
   <div class="vehicle-container mt-4">
-    <div
-      class="header-section d-flex justify-content-between align-items-center mb-4"
-    >
+    <div class="header-section d-flex justify-content-between align-items-center mb-4">
       <h2 class="title mb-0">Vehicle List</h2>
 
       <button class="btn btn-primary custom-add-btn" (click)="addVehicle()">
@@ -35,7 +33,7 @@
     </div>
 
     <div *ngIf="!loading" class="table-wrapper shadow-sm rounded bg-black">
-      <table class="table custom-table table-hover mb-0 ">
+      <table class="table custom-table table-hover mb-0">
         <thead class="table-light">
           <tr>
             <th (click)="sort('regNo')" class="sortable cursor-pointer">
@@ -61,32 +59,51 @@
             <td>{{ vehicle.brand }}</td>
             <td>{{ vehicle.model }}</td>
             <td>{{ vehicle.modelYear }}</td>
+
             <td>
-              <span
-                class="badge rounded-pill"
-                [ngClass]="vehicle.isActive ? 'bg-success' : 'bg-secondary'"
-                style="cursor: pointer"
-                (click)="
-                  toggleActiveStatus(vehicle.vehicleId, vehicle.isActive)
-                "
-              >
-                {{ vehicle.isActive ? "Active" : "Inactive" }}
+              <span [class]="getStatusClass(vehicle.currentStatus)">
+                {{ getStatusText(vehicle.currentStatus) }}
               </span>
             </td>
+
             <td>
-              <div class="action-icons d-flex gap-2">
-                <button
-                  class="btn btn-sm btn-outline-primary"
-                  (click)="editVehicle(vehicle.vehicleId)"
-                >
-                  <i class="bi bi-pencil-square"></i>
-                </button>
-                <button
-                  class="btn btn-sm btn-outline-danger"
-                  (click)="deleteVehicle(vehicle.vehicleId)"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
+              <div class="d-flex align-items-center gap-3">
+                
+                <div class="btn-group" role="group">
+                  <button *ngIf="vehicle.currentStatus === 0" 
+                          class="btn btn-sm btn-outline-primary" 
+                          (click)="changeStatus(vehicle, 1)">
+                    Rent
+                  </button>
+
+                  <button *ngIf="vehicle.currentStatus === 1" 
+                          class="btn btn-sm btn-outline-success" 
+                          (click)="changeStatus(vehicle, 0)">
+                    Return
+                  </button>
+
+                  <button *ngIf="vehicle.currentStatus === 0" 
+                          class="btn btn-sm btn-outline-danger" 
+                          (click)="changeStatus(vehicle, 2)">
+                    Maintenance
+                  </button>
+
+                  <button *ngIf="vehicle.currentStatus === 2" 
+                          class="btn btn-sm btn-outline-secondary" 
+                          (click)="changeStatus(vehicle, 0)">
+                    Finish
+                  </button>
+                </div>
+
+                <div class="action-icons d-flex gap-2 border-start ps-3">
+                  <button class="btn btn-sm btn-outline-primary" (click)="editVehicle(vehicle.vehicleId)">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+
               </div>
             </td>
           </tr>
@@ -108,28 +125,15 @@
 
       <nav class="pagination-wrapper">
         <ul class="custom-pagination">
-          <li
-            class="page-item"
-            [class.disabled]="currentPage === 1"
-            (click)="prevPage()"
-          >
+          <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
             <span class="page-link">‹ Prev</span>
           </li>
 
-          <li
-            class="page-item number"
-            *ngFor="let p of pagesArray"
-            [class.active]="currentPage === p"
-            (click)="goToPage(p)"
-          >
+          <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p" (click)="goToPage(p)">
             <span class="page-link">{{ p }}</span>
           </li>
 
-          <li
-            class="page-item"
-            [class.disabled]="currentPage === totalPages"
-            (click)="nextPage()"
-          >
+          <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
             <span class="page-link">Next ›</span>
           </li>
         </ul>

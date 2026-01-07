@@ -97,3 +97,8 @@ export interface UpdateVehicleDTO {
   // even if it ignores it.
   vehicleName?: string;
 }
+
+export interface VehicleMaster {
+  // ... existing fields ...
+  currentStatus: number; // 0: Available, 1: Rented, 2: Maintenance
+}

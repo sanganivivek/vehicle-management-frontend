@@ -2,12 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../vehicle.service';
 import { BrandService } from '../../services/brand.service';
-import { VehicleListDTO, Brand, VehicleQueryParams } from '../../models/vehicle.model';
+import {
+  VehicleListDTO,
+  Brand,
+  VehicleQueryParams,
+} from '../../models/vehicle.model';
+
+// ✅ FIX 1: Define Constants at the top level so all functions can see them
+const STATUS_AVAILABLE = 0;
+const STATUS_RENTED = 1;
+const STATUS_MAINTENANCE = 2;
 
 @Component({
   selector: 'app-vehicle-list',
   templateUrl: './vehicle-list.component.html',
-  styleUrls: ['./vehicle-list.component.css']
+  styleUrls: ['./vehicle-list.component.css'],
 })
 export class VehicleListComponent implements OnInit {
   vehicles: VehicleListDTO[] = [];
@@ -36,20 +45,19 @@ export class VehicleListComponent implements OnInit {
 
   loadVehicles(): void {
     this.loading = true;
-    
+
     const queryParams: VehicleQueryParams = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
       sortBy: this.sortColumn,
       sortOrder: this.sortOrder,
       page: this.currentPage,
-      pageSize: this.pageSize
+      pageSize: this.pageSize,
     };
-    
+
     this.vehicleService.getVehicles(queryParams).subscribe({
       next: (response: any) => {
         console.log('Vehicles loaded successfully:', response);
-        // Handle the response structure properly
         this.vehicles = response.data || [];
         this.totalRecords = response.totalRecords || 0;
         this.totalPages = response.totalPages || 1;
@@ -58,13 +66,11 @@ export class VehicleListComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Failed to load vehicles:', error);
-        const errorMessage = error?.error?.message || error?.message || 'Failed to load vehicles. Please try again.';
-        console.error('Error details:', errorMessage);
         this.vehicles = [];
         this.totalRecords = 0;
         this.totalPages = 1;
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -76,7 +82,7 @@ export class VehicleListComponent implements OnInit {
       error: (error) => {
         console.error('Failed to load brands:', error);
         this.brands = [];
-      }
+      },
     });
   }
 
@@ -137,7 +143,7 @@ export class VehicleListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this vehicle?')) {
       this.vehicleService.deleteVehicle(vehicleId).subscribe({
         next: () => this.loadVehicles(),
-        error: () => alert('Failed to delete vehicle')
+        error: () => alert('Failed to delete vehicle'),
       });
     }
   }
@@ -148,10 +154,10 @@ export class VehicleListComponent implements OnInit {
         const updateData = { ...vehicle, isActive: !currentStatus };
         this.vehicleService.updateVehicle(vehicleId, updateData).subscribe({
           next: () => this.loadVehicles(),
-          error: () => alert('Failed to update status')
+          error: () => alert('Failed to update status'),
         });
       },
-      error: () => alert('Failed to get vehicle details')
+      error: () => alert('Failed to get vehicle details'),
     });
   }
 
@@ -165,4 +171,55 @@ export class VehicleListComponent implements OnInit {
     const end = Math.min(this.currentPage * this.pageSize, this.totalRecords);
     return `Showing ${start}-${end} of ${this.totalRecords} vehicles`;
   }
-}
+
+  // ✅ FIX 2: Correctly implemented getStatusText with constants
+  getStatusText(status: number): string {
+    switch (status) {
+      case STATUS_AVAILABLE:
+        return 'Available';
+      case STATUS_RENTED:
+        return 'Rented';
+      case STATUS_MAINTENANCE:
+        return 'In Maintenance';
+      default:
+        return 'Unknown';
+    }
+  } // ✅ FIX 3: Added missing closing brace here
+
+  // Helper to get CSS class for badges
+  getStatusClass(status: number): string {
+    switch (status) {
+      case STATUS_AVAILABLE:
+        return 'badge bg-success'; // Green
+      case STATUS_RENTED:
+        return 'badge bg-warning text-dark'; // Yellow
+      case STATUS_MAINTENANCE:
+        return 'badge bg-danger'; // Red
+      default:
+        return 'badge bg-secondary';
+    }
+  }
+
+  // Function to update status
+  changeStatus(vehicle: any, newStatus: number): void {
+    // We fetch the full vehicle first to ensure we don't lose data during update
+    this.vehicleService.getVehicleById(vehicle.vehicleId).subscribe({
+      next: (fullVehicle: any) => {
+        const updateData = {
+          ...fullVehicle,
+          currentStatus: newStatus,
+        };
+
+        this.vehicleService
+          .updateVehicle(vehicle.vehicleId, updateData)
+          .subscribe({
+            next: () => {
+              this.loadVehicles(); // Refresh list
+            },
+            error: (err) => alert('Failed to update status'),
+          });
+      },
+      error: () => alert('Failed to fetch vehicle details for status update'),
+    });
+  }
+} 
