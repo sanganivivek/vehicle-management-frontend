@@ -66,7 +66,7 @@ export interface VehicleListDTO {
   modelName: string;
   brand: string;
   model: string;
-  modelYear?: number;
+  modelYear?: number; 
   isActive: boolean;
   currentStatus: number; 
 }
@@ -89,14 +89,12 @@ export interface VehicleQueryParams {
 export interface UpdateVehicleDTO {
   vehicleId: string;
   regNo: string;
-  brandId: string; // Must be ID
-  modelId: string; // Must be ID
+  brandId: string; 
+  modelId: string; 
   modelYear: number;
   isActive: boolean;
-  
-  // Optional: You can include vehicleName if your backend requires it,
-  // even if it ignores it.
   vehicleName?: string;
+  currentStatus: number;
 }
 
 export interface VehicleMaster {

@@ -67,6 +67,7 @@ export class VehicleEditComponent implements OnInit {
         ],
       ],
       isActive: [true],
+      currentStatus: [0]
     });
 
     this.vehicleForm.get('brandId')?.valueChanges.subscribe((brandId) => {
@@ -120,6 +121,7 @@ export class VehicleEditComponent implements OnInit {
           modelId: vehicle.modelId,
           modelYear: vehicle.modelYear,
           isActive: vehicle.isActive,
+          currentStatus: vehicle.currentStatus
         });
 
         if (vehicle.brandId) {
