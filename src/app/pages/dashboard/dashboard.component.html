@@ -13,16 +13,16 @@
     <div class="col-md-3">
       <div class="stat-card bg-success text-white">
         <h3>{{ stats?.availableVehicles }}</h3>
-        <p>Active Vehicles</p>
-        <i class="bi bi-speedometer2 card-icon"></i>
+        <p>Available</p> 
+        <i class="bi bi-check-circle card-icon"></i>
       </div>
     </div>
 
     <div class="col-md-3">
       <div class="stat-card bg-info text-white">
         <h3>{{ stats?.onRoad }}</h3>
-        <p>Available for Rent</p>
-        <i class="bi bi-check-circle card-icon"></i>
+        <p>On Road</p>
+        <i class="bi bi-speedometer2 card-icon"></i>
       </div>
     </div>
 
@@ -40,28 +40,9 @@
       <h5 class="mb-0">Recent Activities</h5>
     </div>
     <div class="card-body p-0">
-      <table class="table table-hover mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Message</th>
-            <th>Time</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- <tr *ngFor="!loading">
-            <td>{{ item.message }}</td>
-            <td>{{ item.time }}</td>
-            <td>
-              <span [ngClass]="{
-                'badge bg-success': item.type === 'success',
-                'badge bg-warning text-dark': item.type === 'warning',
-                'badge bg-info text-dark': item.type === 'info'
-              }">{{ item.type | uppercase }}</span>
-            </td>
-          </tr> -->
-        </tbody>
-      </table>
+      <div class="p-3 text-muted" *ngIf="!loading">
+        No recent activities loaded.
+      </div>
     </div>
   </div>
 </div>

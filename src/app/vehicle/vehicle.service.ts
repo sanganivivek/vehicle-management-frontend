@@ -4,7 +4,6 @@ import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import {
   VehicleMaster,
-  VehicleListDTO,
   VehicleQueryParams,
   Brand,
   Model,
@@ -21,10 +20,12 @@ export interface VehicleResponse {
   pageSize: number;
 }
 
+// Updated interface to match Backend DashboardController response
 export interface DashboardData {
   totalVehicles: number;
-  activeVehicles: number;
-  recentVehicles: any[];
+  availableVehicles: number;
+  onRoad: number;
+  inMaintenance: number;
 }
 
 @Injectable({
@@ -34,6 +35,8 @@ export class VehicleService {
   private apiUrl = `${environment.apiUrl}/vehicles`;
   private brandUrl = `${environment.apiUrl}/brands`;
   private modelUrl = `${environment.apiUrl}/models`;
+  // Base URL for dashboard might differ if not under /vehicles
+  private dashboardUrl = `${environment.apiUrl}/dashboard`; 
 
   constructor(private http: HttpClient) {}
 
@@ -57,9 +60,10 @@ export class VehicleService {
       .pipe(catchError(this.handleError));
   }
 
+  // FIXED: Call the dedicated stats endpoint
   getDashboardData(): Observable<DashboardData> {
     return this.http
-      .get<DashboardData>(`${this.apiUrl}/dashboard`)
+      .get<DashboardData>(`${this.dashboardUrl}/stats`)
       .pipe(catchError(this.handleError));
   }
 
@@ -70,8 +74,6 @@ export class VehicleService {
   }
 
   addVehicle(vehicle: CreateVehicleDTO): Observable<VehicleMaster> {
-    // Send data in camelCase (standard JSON format)
-    // ASP.NET Core will automatically map camelCase JSON to PascalCase C# properties
     return this.http
       .post<VehicleMaster>(this.apiUrl, vehicle, {
         headers: { "Content-Type": "application/json" },
@@ -81,7 +83,6 @@ export class VehicleService {
 
   updateVehicle(id: string, vehicle: any): Observable<any> {
     console.log("Updating vehicle:", id, vehicle);
-    // Ensure vehicleId is included in the update payload
     const updatePayload = {
       vehicleId: vehicle.vehicleId || id,
       regNo: vehicle.regNo,
@@ -94,7 +95,7 @@ export class VehicleService {
       model: vehicle.model || "",
       brandName: vehicle.brandName || "",
       modelName: vehicle.modelName || "",
-      currentStatus: vehicle.currentStatus,
+      currentStatus: vehicle.currentStatus, // Ensure status is sent
     };
     return this.http
       .put<any>(`${this.apiUrl}/${id}`, updatePayload, {

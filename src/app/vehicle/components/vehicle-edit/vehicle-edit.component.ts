@@ -1,175 +1,123 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  AbstractControl,
-  ValidationErrors,
-} from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { VehicleService } from "../../vehicle.service";
-import { BrandService } from "../../services/brand.service";
-import { ModelService } from "../../services/model.service";
-import { VehicleMaster, Brand, Model } from "../../models/vehicle.model"; // Removed VehicleListDTO if not used
-import { Observable, of } from "rxjs";
-import { map, catchError, debounceTime, switchMap } from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { VehicleService } from '../../vehicle.service';
+import { Brand, Model } from '../../models/vehicle.model';
+import { ngxLoadingAnimationTypes } from 'ngx-loading'; // Ensure this is imported
 
 @Component({
-  selector: "app-vehicle-edit",
-  templateUrl: "./vehicle-edit.component.html",
-  styleUrls: ["./vehicle-edit.component.css"],
+  selector: 'app-vehicle-edit',
+  templateUrl: './vehicle-edit.component.html',
+  styleUrls: ['./vehicle-edit.component.css']
 })
 export class VehicleEditComponent implements OnInit {
+  vehicleId: string = '';
   vehicleForm!: FormGroup;
-  submitted = false;
-  loading = true;
+  loading = false;
   saving = false;
-  vehicleId!: string;
+  submitted = false;
   brands: Brand[] = [];
   models: Model[] = [];
-  currentYear = new Date().getFullYear();
 
+  // Define loadingConfig to fix the HTML error
   loadingConfig = {
-    animationType: "ball-spin-clockwise",
-    backdropBackgroundColour: "rgba(40, 40, 40, 0.8)",
-    backdropBorderRadius: "0",
-    primaryColour: "#ffffff",
-    secondaryColour: "red",
-    tertiaryColour: "#ffffff",
+    animationType: ngxLoadingAnimationTypes.circleSwish,
+    backdropBorderRadius: '3px',
+    primaryColour: '#ffffff',
+    secondaryColour: '#ccc',
+    tertiaryColour: '#fff'
   };
 
   constructor(
-    private fb: FormBuilder,
-    private vehicleService: VehicleService,
-    private brandService: BrandService,
-    private modelService: ModelService,
+    private route: ActivatedRoute,
     private router: Router,
-    private route: ActivatedRoute
+    private vehicleService: VehicleService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
+    this.vehicleId = this.route.snapshot.paramMap.get('id') || '';
 
+    // 1. Initialize Form (Include currentStatus here!)
     this.vehicleForm = this.fb.group({
-      regNo: [
-        "",
-        [Validators.required, Validators.maxLength(20)],
-        [this.regNoValidator.bind(this)],
-      ],
-      brandId: ["", [Validators.required]],
-      modelId: ["", [Validators.required]],
-      modelYear: [
-        "",
-        [
-          Validators.required,
-          Validators.min(1950),
-          Validators.max(this.currentYear + 1),
-        ],
-      ],
+      regNo: ['', [Validators.required, Validators.maxLength(20)]],
+      brandId: ['', Validators.required],
+      modelId: ['', Validators.required],
+      modelYear: ['', [Validators.required, Validators.min(1950), Validators.max(new Date().getFullYear() + 1)]],
       isActive: [true],
-      currentStatus: [0, Validators.required],
+      currentStatus: [0, Validators.required] // <--- Added this to fix the error
     });
 
-    this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
-      this.onBrandChange(brandId);
-    });
-
+    // 2. Load Data
     this.loadBrands();
-    this.loadVehicle();
-  }
-
-  loadBrands(): void {
-    this.brandService.getBrands().subscribe({
-      next: (brands: Brand[]) => {
-        this.brands = brands;
-      },
-      error: (error) => {
-        console.error("Failed to load brands:", error);
-      },
-    });
-  }
-
-  onBrandChange(brandId: string): void {
-    if (brandId) {
-      this.modelService.getModelsByBrand(brandId).subscribe({
-        next: (models: Model[]) => {
-          this.models = models;
-          const currentModel = this.vehicleForm.get("modelId")?.value;
-          if (
-            this.models.length > 0 &&
-            !this.models.some((m) => m.modelId === currentModel)
-          ) {
-            this.vehicleForm.patchValue({ modelId: "" });
-          }
-        },
-        error: (error) => {
-          console.error("Failed to load models:", error);
-          this.models = [];
-        },
-      });
-    } else {
-      this.models = [];
+    if (this.vehicleId) {
+      this.loadVehicle(this.vehicleId);
     }
   }
 
-  loadVehicle(): void {
-    this.vehicleService.getVehicleById(this.vehicleId).subscribe({
-      next: (vehicle: VehicleMaster) => {
+  // Getter for easy access to form fields in HTML
+  get f() {
+    return this.vehicleForm.controls;
+  }
+
+  loadBrands() {
+    this.vehicleService.getBrands().subscribe({
+      next: (data) => {
+        this.brands = data;
+      },
+      error: (err) => console.error('Failed to load brands', err)
+    });
+  }
+
+  loadVehicle(id: string) {
+    this.loading = true;
+    this.vehicleService.getVehicleById(id).subscribe({
+      next: (vehicle: any) => {
+        // Load models for the selected brand
+        if (vehicle.brandId) {
+          this.loadModels(vehicle.brandId);
+        }
+
+        // Patch form values
         this.vehicleForm.patchValue({
           regNo: vehicle.regNo,
           brandId: vehicle.brandId,
           modelId: vehicle.modelId,
           modelYear: vehicle.modelYear,
           isActive: vehicle.isActive,
-          currentStatus: vehicle.currentStatus,
+          currentStatus: vehicle.currentStatus // Patch status
         });
-
-        if (vehicle.brandId) {
-          this.onBrandChange(vehicle.brandId);
-        }
-
-        setTimeout(() => {
-          this.vehicleForm.markAsUntouched();
-          this.vehicleForm.markAsPristine();
-        });
+        
         this.loading = false;
       },
-      error: () => {
-        this.router.navigate(["/vehicle"]);
-      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+        alert('Failed to load vehicle details');
+        this.router.navigate(['/vehicles']);
+      }
+    });
+
+    // Listen to brand changes to update models
+    this.vehicleForm.get('brandId')?.valueChanges.subscribe(brandId => {
+      if (brandId) {
+        this.loadModels(brandId);
+        // Clear model selection if brand changes
+        // this.vehicleForm.patchValue({ modelId: '' }); 
+      } else {
+        this.models = [];
+      }
     });
   }
 
-  regNoValidator(
-    control: AbstractControl
-  ): Observable<ValidationErrors | null> {
-    if (!control.value) {
-      return of(null);
-    }
-    return of(control.value).pipe(
-      debounceTime(500),
-      switchMap((regNo) =>
-        this.vehicleService.getVehicles().pipe(
-          map((response) => {
-            const exists = response.data.some(
-              (v) =>
-                v.regNo.toLowerCase() === regNo.toLowerCase() &&
-                String(v.vehicleId).toLowerCase() !==
-                  String(this.vehicleId).toLowerCase()
-            );
-            return exists ? { regNoExists: true } : null;
-          }),
-          catchError(() => of(null))
-        )
-      )
-    );
+  loadModels(brandId: string) {
+    this.vehicleService.getModelsByBrand(brandId).subscribe({
+      next: (data) => (this.models = data),
+      error: (err) => console.error('Failed to load models', err)
+    });
   }
 
-  get f() {
-    return this.vehicleForm.controls;
-  }
-
-  onSubmit(): void {
+  onSubmit() {
     this.submitted = true;
 
     if (this.vehicleForm.invalid) {
@@ -177,22 +125,29 @@ export class VehicleEditComponent implements OnInit {
     }
 
     this.saving = true;
-    const updateData = this.vehicleForm.value;
-    updateData.vehicleId = this.vehicleId;
+    const formValue = this.vehicleForm.value;
 
-    this.vehicleService.updateVehicle(this.vehicleId, updateData).subscribe({
-      next: (response) => {
+    // Merge vehicleId with form data
+    const vehicleData = { 
+      ...formValue, 
+      vehicleId: this.vehicleId 
+    };
+
+    this.vehicleService.updateVehicle(this.vehicleId, vehicleData).subscribe({
+      next: () => {
         this.saving = false;
-        this.router.navigate(["/vehicle"]);
+        alert('Vehicle updated successfully');
+        this.router.navigate(['/vehicles']);
       },
-      error: (error) => {
+      error: (err) => {
+        console.error(err);
         this.saving = false;
-        alert("Failed to update vehicle");
-      },
+        alert('Failed to update vehicle');
+      }
     });
   }
 
-  onCancel(): void {
-    this.router.navigate(["/vehicle"]);
+  onCancel() {
+    this.router.navigate(['/vehicles']);
   }
 }
