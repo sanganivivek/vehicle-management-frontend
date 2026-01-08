@@ -1,12 +1,10 @@
 <div class="container-fluid p-4">
-  
   <h2 class="mb-4">Dashboard Overview</h2>
 
   <div class="row mb-4" *ngIf="!loading">
-    
     <div class="col-md-3">
       <div class="stat-card bg-primary text-white">
-        <h3>{{ totalVehicles }}</h3>
+        <h3>{{ stats?.totalVehicles }}</h3>
         <p>Total Vehicles</p>
         <i class="bi bi-car-front-fill card-icon"></i>
       </div>
@@ -14,15 +12,15 @@
 
     <div class="col-md-3">
       <div class="stat-card bg-success text-white">
-        <h3>{{ activeVehicles }}</h3>
-        <p>Active / On Road</p>
+        <h3>{{ stats?.availableVehicles }}</h3>
+        <p>Active Vehicles</p>
         <i class="bi bi-speedometer2 card-icon"></i>
       </div>
     </div>
 
     <div class="col-md-3">
       <div class="stat-card bg-info text-white">
-        <h3>{{ totalVehicles }}</h3>
+        <h3>{{ stats?.onRoad }}</h3>
         <p>Available for Rent</p>
         <i class="bi bi-check-circle card-icon"></i>
       </div>
@@ -30,12 +28,11 @@
 
     <div class="col-md-3">
       <div class="stat-card bg-danger text-white">
-        <h3>{{ totalVehicles }}</h3>
+        <h3>{{ stats?.inMaintenance }}</h3>
         <p>In Maintenance</p>
         <i class="bi bi-tools card-icon"></i>
       </div>
     </div>
-
   </div>
 
   <div class="card shadow-sm">
@@ -67,5 +64,4 @@
       </table>
     </div>
   </div>
-
-</div>  
+</div>

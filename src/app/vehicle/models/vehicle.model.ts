@@ -5,7 +5,8 @@ export interface Vehicle {
   brandId: string;
   modelId: string;
   modelYear?: number;
-  isActive: boolean;
+  id: number;
+  currentStatus: number;
 }
 
 export interface Brand {

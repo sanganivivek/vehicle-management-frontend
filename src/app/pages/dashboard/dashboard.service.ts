@@ -1,31 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DashboardStats, RecentActivity } from './dashboard.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class DashboardService {
 
-  constructor() { }
+  private apiUrl = 'https://localhost:5001/api/dashboard';
 
-  // SIMULATING API CALL TO ASP.NET BACKEND
+  constructor(private http: HttpClient) {}
+
   getStats(): Observable<DashboardStats> {
-    const mockStats: DashboardStats = {
-      totalVehicles: 120,
-      availableVehicles: 45,
-      onRoad: 68,
-      inMaintenance: 7
-    };
-    return of(mockStats);
+    return this.http.get<DashboardStats>(`${this.apiUrl}/stats`);
   }
 
   getRecentActivity(): Observable<RecentActivity[]> {
-    const mockActivities: RecentActivity[] = [
-      { id: 1, message: 'New Toyota Fortuner added', time: '10 mins ago', type: 'success' },
-      { id: 2, message: 'Vehicle MH-12-AB-1234 sent for maintenance', time: '2 hours ago', type: 'warning' },
-      { id: 3, message: 'Booking #502 completed', time: '5 hours ago', type: 'info' }
-    ];
-    return of(mockActivities);
+    return this.http.get<RecentActivity[]>(`${this.apiUrl}/activity`);
   }
 }

@@ -1,42 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
-import { DashboardService } from './dashboard.service'; 
-import { DashboardStats, RecentActivity } from './dashboard.model';
-import { VehicleService } from 'src/app/vehicle/vehicle.service';
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { DashboardService } from "./dashboard.service";
+import { DashboardStats, RecentActivity } from "./dashboard.model";
+import { VehicleService } from "src/app/vehicle/vehicle.service";
+import { Vehicle } from "src/app/vehicle/models/vehicle.model";
+
 
 @Component({
-  selector: 'app-dashboard',
+  selector: "app-dashboard",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit {
 
-  totalVehicles: number = 0;
-  activeVehicles: number = 0;
-  recentVehicles: any[] = []; 
-  loading: boolean = true;
+  stats!: DashboardStats;
+  loading = true;
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(private dashboardService: DashboardService) {}
 
-  ngOnInit() {
-    this.loadDashboardData();
+  ngOnInit(): void {
+    this.loadDashboard();
   }
 
-  loadDashboardData() {
+  loadDashboard() {
     this.loading = true;
-    
-    this.vehicleService.getDashboardData().subscribe({
-      next: (data: any) => {
-        this.totalVehicles = data.totalVehicles;
-        this.activeVehicles = data.activeVehicles;
-        this.recentVehicles = data.recentVehicles;
-        
+
+    this.dashboardService.getStats().subscribe({
+      next: (data) => {
+        this.stats = data;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Failed to load dashboard data', err);
+        console.error(err);
         this.loading = false;
       }
     });
