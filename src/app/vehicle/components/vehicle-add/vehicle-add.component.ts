@@ -1,16 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { Router } from '@angular/router';
-import { VehicleService } from '../../vehicle.service';
-import { BrandService } from '../../services/brand.service';
-import { ModelService } from '../../services/model.service';
-import { Brand, Model, CreateVehicleDTO } from '../../models/vehicle.model';
-import { Observable, of } from 'rxjs';
-import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { VehicleService } from "../../vehicle.service";
+import { BrandService } from "../../services/brand.service";
+import { ModelService } from "../../services/model.service";
+import { Brand, Model, CreateVehicleDTO } from "../../models/vehicle.model";
+import { Observable, of } from "rxjs";
+import { map, catchError, debounceTime, switchMap } from "rxjs/operators";
 @Component({
-  selector: 'app-vehicle-add',
-  templateUrl: './vehicle-add.component.html',
-  styleUrls: ['./vehicle-add.component.css']
+  selector: "app-vehicle-add",
+  templateUrl: "./vehicle-add.component.html",
+  styleUrls: ["./vehicle-add.component.css"],
 })
 export class VehicleAddComponent implements OnInit {
   vehicleForm!: FormGroup;
@@ -18,7 +24,7 @@ export class VehicleAddComponent implements OnInit {
   loading = false;
   brands: Brand[] = [];
   models: Model[] = [];
-  errorMessage = '';
+  errorMessage = "";
 
   constructor(
     private fb: FormBuilder,
@@ -36,56 +42,53 @@ export class VehicleAddComponent implements OnInit {
 
   private initializeForm(): void {
     this.vehicleForm = this.fb.group({
-      regNo: ['', [Validators.required, Validators.maxLength(20)]],
-      brandId: ['', [Validators.required]],
-      modelId: ['', [Validators.required]],
-      modelYear: [new Date().getFullYear(), [
-        Validators.required, 
-        Validators.min(1900), 
-        Validators.max(new Date().getFullYear() + 1)
-      ]],
-      isActive: [true]
+      regNo: ["", Validators.required],
+      brandId: ["", Validators.required],
+      modelId: ["", Validators.required],
+      modelYear: ["", Validators.required],
+      isActive: [true],
+      currentStatus: [0, Validators.required],
     });
   }
 
   private setupBrandChangeListener(): void {
-    this.vehicleForm.get('brandId')?.valueChanges.subscribe(brandId => {
+    this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
       if (brandId) {
         this.loadModels(brandId);
         // Reset model selection when brand changes
-        this.vehicleForm.patchValue({ modelId: '' });
+        this.vehicleForm.patchValue({ modelId: "" });
       } else {
         this.models = [];
-        this.vehicleForm.patchValue({ modelId: '' });
+        this.vehicleForm.patchValue({ modelId: "" });
       }
     });
   }
-  
+
   loadBrands(): void {
     this.vehicleService.getBrands().subscribe({
       next: (brands: Brand[]) => {
         this.brands = brands;
       },
       error: (error) => {
-        console.error('Failed to load brands:', error);
-        this.errorMessage = 'Failed to load brands. Please try again.';
-      }
+        console.error("Failed to load brands:", error);
+        this.errorMessage = "Failed to load brands. Please try again.";
+      },
     });
   }
-  
+
   loadModels(brandId: string): void {
-    this.errorMessage = '';
-    
+    this.errorMessage = "";
+
     this.vehicleService.getModelsByBrand(brandId).subscribe({
       next: (models: Model[]) => {
         this.models = models;
-        console.log('Models loaded:', models);
+        console.log("Models loaded:", models);
       },
       error: (error) => {
-        console.error('Failed to load models:', error);
+        console.error("Failed to load models:", error);
         this.models = [];
-        this.errorMessage = 'Failed to load models. Please try again.';
-      }
+        this.errorMessage = "Failed to load models. Please try again.";
+      },
     });
   }
 
@@ -95,7 +98,7 @@ export class VehicleAddComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    this.errorMessage = '';
+    this.errorMessage = "";
 
     if (this.vehicleForm.invalid) {
       return;
@@ -107,18 +110,17 @@ export class VehicleAddComponent implements OnInit {
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
         this.loading = false;
-        this.router.navigate(['/vehicle']);
-        alert('Vehicle Saved Successfully!');
-        
+        this.router.navigate(["/vehicle"]);
+        alert("Vehicle Saved Successfully!");
       },
       error: (error) => {
         this.loading = false;
-        this.errorMessage = 'Failed to add vehicle';
-      }
+        this.errorMessage = "Failed to add vehicle";
+      },
     });
   }
 
   onCancel(): void {
-    this.router.navigate(['/vehicle']);
+    this.router.navigate(["/vehicle"]);
   }
 }

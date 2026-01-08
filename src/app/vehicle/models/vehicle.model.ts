@@ -26,6 +26,7 @@ export interface CreateVehicleDTO {
   modelId: string;
   modelYear?: number;
   isActive: boolean;
+  currentStatus: number;
 }
 
 // For creating new models

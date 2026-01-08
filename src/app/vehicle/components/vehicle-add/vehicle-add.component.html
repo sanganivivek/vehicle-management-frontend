@@ -86,25 +86,13 @@
             <div class="form-group">
               <label class="form-label">Status *</label>
               <select
-                class="form-control form-input"
+                class="form-control form-input form-select"
                 formControlName="currentStatus"
               >
-                <option [ngValue]="0">Available</option>
-                <option [ngValue]="1">Rented</option>
-                <option [ngValue]="2">In Maintenance</option>
+                <option [value]="0">Available</option>
+                <option [value]="1">Rented</option>
+                <option [value]="2">In Maintenance</option>
               </select>
-
-              <!-- <div
-                class="form-error"
-                *ngIf="
-                  (submitted || f['currentStatus'].touched) &&
-                  f['currentStatus'].errors
-                "
-              >
-                <span *ngIf="f['currentStatus'].errors['required']"
-                  >Status is required</span
-                >
-              </div> -->
             </div>
 
             <!-- Model Year -->
