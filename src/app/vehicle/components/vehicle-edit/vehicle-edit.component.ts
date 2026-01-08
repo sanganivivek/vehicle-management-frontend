@@ -67,7 +67,7 @@ export class VehicleEditComponent implements OnInit {
         ],
       ],
       isActive: [true],
-      currentStatus: [0]
+      currentStatus: [0, Validators.required]
     });
 
     this.vehicleForm.get('brandId')?.valueChanges.subscribe((brandId) => {
