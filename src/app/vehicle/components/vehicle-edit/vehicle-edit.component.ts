@@ -1,23 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
   Validators,
   AbstractControl,
   ValidationErrors,
-} from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { VehicleService } from '../../vehicle.service';
-import { BrandService } from '../../services/brand.service';
-import { ModelService } from '../../services/model.service';
-import { VehicleMaster, Brand, Model } from '../../models/vehicle.model'; // Removed VehicleListDTO if not used
-import { Observable, of } from 'rxjs';
-import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
+} from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
+import { VehicleService } from "../../vehicle.service";
+import { BrandService } from "../../services/brand.service";
+import { ModelService } from "../../services/model.service";
+import { VehicleMaster, Brand, Model } from "../../models/vehicle.model"; // Removed VehicleListDTO if not used
+import { Observable, of } from "rxjs";
+import { map, catchError, debounceTime, switchMap } from "rxjs/operators";
 
 @Component({
-  selector: 'app-vehicle-edit',
-  templateUrl: './vehicle-edit.component.html',
-  styleUrls: ['./vehicle-edit.component.css'],
+  selector: "app-vehicle-edit",
+  templateUrl: "./vehicle-edit.component.html",
+  styleUrls: ["./vehicle-edit.component.css"],
 })
 export class VehicleEditComponent implements OnInit {
   vehicleForm!: FormGroup;
@@ -30,12 +30,12 @@ export class VehicleEditComponent implements OnInit {
   currentYear = new Date().getFullYear();
 
   loadingConfig = {
-    animationType: 'ball-spin-clockwise',
-    backdropBackgroundColour: 'rgba(40, 40, 40, 0.8)',
-    backdropBorderRadius: '0',
-    primaryColour: '#ffffff',
-    secondaryColour: 'red',
-    tertiaryColour: '#ffffff',
+    animationType: "ball-spin-clockwise",
+    backdropBackgroundColour: "rgba(40, 40, 40, 0.8)",
+    backdropBorderRadius: "0",
+    primaryColour: "#ffffff",
+    secondaryColour: "red",
+    tertiaryColour: "#ffffff",
   };
 
   constructor(
@@ -48,18 +48,18 @@ export class VehicleEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.vehicleId = this.route.snapshot.paramMap.get('id') || '';
+    this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
 
     this.vehicleForm = this.fb.group({
       regNo: [
-        '',
+        "",
         [Validators.required, Validators.maxLength(20)],
         [this.regNoValidator.bind(this)],
       ],
-      brandId: ['', [Validators.required]],
-      modelId: ['', [Validators.required]],
+      brandId: ["", [Validators.required]],
+      modelId: ["", [Validators.required]],
       modelYear: [
-        '',
+        "",
         [
           Validators.required,
           Validators.min(1950),
@@ -67,10 +67,10 @@ export class VehicleEditComponent implements OnInit {
         ],
       ],
       isActive: [true],
-      currentStatus: [0, Validators.required]
+      currentStatus: [0, Validators.required],
     });
 
-    this.vehicleForm.get('brandId')?.valueChanges.subscribe((brandId) => {
+    this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
       this.onBrandChange(brandId);
     });
 
@@ -84,7 +84,7 @@ export class VehicleEditComponent implements OnInit {
         this.brands = brands;
       },
       error: (error) => {
-        console.error('Failed to load brands:', error);
+        console.error("Failed to load brands:", error);
       },
     });
   }
@@ -94,16 +94,16 @@ export class VehicleEditComponent implements OnInit {
       this.modelService.getModelsByBrand(brandId).subscribe({
         next: (models: Model[]) => {
           this.models = models;
-          const currentModel = this.vehicleForm.get('modelId')?.value;
+          const currentModel = this.vehicleForm.get("modelId")?.value;
           if (
             this.models.length > 0 &&
             !this.models.some((m) => m.modelId === currentModel)
           ) {
-            this.vehicleForm.patchValue({ modelId: '' });
+            this.vehicleForm.patchValue({ modelId: "" });
           }
         },
         error: (error) => {
-          console.error('Failed to load models:', error);
+          console.error("Failed to load models:", error);
           this.models = [];
         },
       });
@@ -121,7 +121,7 @@ export class VehicleEditComponent implements OnInit {
           modelId: vehicle.modelId,
           modelYear: vehicle.modelYear,
           isActive: vehicle.isActive,
-          currentStatus: vehicle.currentStatus
+          currentStatus: vehicle.currentStatus,
         });
 
         if (vehicle.brandId) {
@@ -135,7 +135,7 @@ export class VehicleEditComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.router.navigate(['/vehicle']);
+        this.router.navigate(["/vehicle"]);
       },
     });
   }
@@ -183,16 +183,16 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleService.updateVehicle(this.vehicleId, updateData).subscribe({
       next: (response) => {
         this.saving = false;
-        this.router.navigate(['/vehicle']);
+        this.router.navigate(["/vehicle"]);
       },
       error: (error) => {
         this.saving = false;
-        alert('Failed to update vehicle');
-      }
+        alert("Failed to update vehicle");
+      },
     });
   }
 
   onCancel(): void {
-    this.router.navigate(['/vehicle']);
+    this.router.navigate(["/vehicle"]);
   }
 }

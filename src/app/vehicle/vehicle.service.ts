@@ -94,6 +94,7 @@ export class VehicleService {
       model: vehicle.model || "",
       brandName: vehicle.brandName || "",
       modelName: vehicle.modelName || "",
+      currentStatus: vehicle.currentStatus,
     };
     return this.http
       .put<any>(`${this.apiUrl}/${id}`, updatePayload, {
