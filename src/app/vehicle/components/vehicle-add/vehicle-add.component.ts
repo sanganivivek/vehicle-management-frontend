@@ -110,8 +110,8 @@ export class VehicleAddComponent implements OnInit {
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
         this.loading = false;
-        this.router.navigate(["/vehicle"]);
         alert("Vehicle Saved Successfully!");
+        this.router.navigate(["/vehicle"]);
       },
       error: (error) => {
         this.loading = false;

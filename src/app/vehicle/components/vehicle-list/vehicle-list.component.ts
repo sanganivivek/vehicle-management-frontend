@@ -10,7 +10,7 @@ import {
 
 // ✅ FIX 1: Define Constants at the top level so all functions can see them
 const STATUS_AVAILABLE = 0;
-const STATUS_RENTED = 1;
+const STATUS_ON_ROAD = 1;
 const STATUS_MAINTENANCE = 2;
 
 @Component({
@@ -184,8 +184,8 @@ export class VehicleListComponent implements OnInit {
     switch (status) {
       case STATUS_AVAILABLE:
         return 'Available';
-      case STATUS_RENTED:
-        return 'Rented';
+      case STATUS_ON_ROAD:
+        return 'On Road';
       case STATUS_MAINTENANCE:
         return 'In Maintenance';
       default:
@@ -198,8 +198,8 @@ export class VehicleListComponent implements OnInit {
     switch (status) {
       case STATUS_AVAILABLE:
         return 'badge bg-success'; // Green
-      case STATUS_RENTED:
-        return 'badge bg-warning text-dark'; // Yellow
+      case STATUS_ON_ROAD:
+        return 'badge bg-info text-white'; // Blue/Info
       case STATUS_MAINTENANCE:
         return 'badge bg-danger'; // Red
       default:

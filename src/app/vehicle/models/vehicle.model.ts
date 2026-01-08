@@ -49,6 +49,7 @@ export interface VehicleMaster {
   isActive: boolean;
   brandId: string;
   modelId: string;
+  currentStatus: number; // 0: Available, 1: OnRoad, 2: Maintenance
   
   // ADD '?' TO MAKE THESE OPTIONAL
   vehicleName?: string; 
@@ -85,6 +86,7 @@ export interface VehicleQueryParams {
   brand?: string;
   sortBy?: string;
   sortOrder?: string;
+  status?: number;
 }
 
 // The object sent when UPDATING
@@ -97,9 +99,4 @@ export interface UpdateVehicleDTO {
   isActive: boolean;
   vehicleName?: string;
   currentStatus: number;
-}
-
-export interface VehicleMaster {
-  // ... existing fields ...
-  currentStatus: number; // 0: Available, 1: Rented, 2: Maintenance
 }

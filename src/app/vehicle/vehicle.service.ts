@@ -45,15 +45,17 @@ export class VehicleService {
   ): Observable<VehicleResponse> {
     let params = new HttpParams();
 
-    if (queryParams.search) params = params.set("Search", queryParams.search);
-    if (queryParams.brand) params = params.set("Brand", queryParams.brand);
-    if (queryParams.sortBy) params = params.set("SortBy", queryParams.sortBy);
+    if (queryParams.search) params = params.set("search", queryParams.search);
+    if (queryParams.brand) params = params.set("brand", queryParams.brand);
+    if (queryParams.sortBy) params = params.set("sortBy", queryParams.sortBy);
     if (queryParams.sortOrder)
-      params = params.set("SortOrder", queryParams.sortOrder);
+      params = params.set("sortOrder", queryParams.sortOrder);
     if (queryParams.page)
-      params = params.set("Page", queryParams.page.toString());
+      params = params.set("page", queryParams.page.toString());
     if (queryParams.pageSize)
-      params = params.set("PageSize", queryParams.pageSize.toString());
+      params = params.set("pageSize", queryParams.pageSize.toString());
+    if (queryParams.status !== undefined)
+      params = params.set("status", queryParams.status.toString());
 
     return this.http
       .get<VehicleResponse>(this.apiUrl, { params })

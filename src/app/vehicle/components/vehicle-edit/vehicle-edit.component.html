@@ -98,7 +98,7 @@
                 formControlName="currentStatus"
               >
                 <option [value]="0">Available</option>
-                <option [value]="1">Rented</option>
+                <option [value]="1">On Road</option>
                 <option [value]="2">In Maintenance</option>
               </select>
             </div>
@@ -140,10 +140,6 @@
               class="btn btn-submit"
               [disabled]="vehicleForm.invalid || loading"
             >
-              <span
-                *ngIf="loading"
-                class="spinner-border spinner-border-sm me-2"
-              ></span>
               {{ loading ? "Updating..." : "Update" }}
             </button>
           </div>

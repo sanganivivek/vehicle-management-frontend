@@ -75,14 +75,14 @@ export class ModelAddComponent implements OnInit {
     console.log('Sending model data:', modelData);
 
     this.modelService.addModel(modelData).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         alert('Model Saved Successfully!');
         this.router.navigate(['/vehicle']);
         this.modelForm.reset();
         this.submitted = false;
         this.loading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error:', err);
         this.loading = false;
         alert(`Failed to save model: ${err}`);

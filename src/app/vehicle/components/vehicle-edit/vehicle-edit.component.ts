@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { VehicleService } from '../../vehicle.service';
-import { Brand, Model } from '../../models/vehicle.model';
-import { ngxLoadingAnimationTypes } from 'ngx-loading'; // Ensure this is imported
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { VehicleService } from "../../vehicle.service";
+import { Brand, Model } from "../../models/vehicle.model";
+import { ngxLoadingAnimationTypes } from "ngx-loading"; // Ensure this is imported
 
 @Component({
-  selector: 'app-vehicle-edit',
-  templateUrl: './vehicle-edit.component.html',
-  styleUrls: ['./vehicle-edit.component.css']
+  selector: "app-vehicle-edit",
+  templateUrl: "./vehicle-edit.component.html",
+  styleUrls: ["./vehicle-edit.component.css"],
 })
 export class VehicleEditComponent implements OnInit {
-  vehicleId: string = '';
+  vehicleId: string = "";
   vehicleForm!: FormGroup;
   loading = false;
   saving = false;
@@ -22,10 +22,10 @@ export class VehicleEditComponent implements OnInit {
   // Define loadingConfig to fix the HTML error
   loadingConfig = {
     animationType: ngxLoadingAnimationTypes.circleSwish,
-    backdropBorderRadius: '3px',
-    primaryColour: '#ffffff',
-    secondaryColour: '#ccc',
-    tertiaryColour: '#fff'
+    backdropBorderRadius: "3px",
+    primaryColour: "#ffffff",
+    secondaryColour: "#ccc",
+    tertiaryColour: "#fff",
   };
 
   constructor(
@@ -36,16 +36,23 @@ export class VehicleEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.vehicleId = this.route.snapshot.paramMap.get('id') || '';
+    this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
 
     // 1. Initialize Form (Include currentStatus here!)
     this.vehicleForm = this.fb.group({
-      regNo: ['', [Validators.required, Validators.maxLength(20)]],
-      brandId: ['', Validators.required],
-      modelId: ['', Validators.required],
-      modelYear: ['', [Validators.required, Validators.min(1950), Validators.max(new Date().getFullYear() + 1)]],
+      regNo: ["", [Validators.required, Validators.maxLength(20)]],
+      brandId: ["", Validators.required],
+      modelId: ["", Validators.required],
+      modelYear: [
+        "",
+        [
+          Validators.required,
+          Validators.min(1950),
+          Validators.max(new Date().getFullYear() + 1),
+        ],
+      ],
       isActive: [true],
-      currentStatus: [0, Validators.required] // <--- Added this to fix the error
+      currentStatus: [0, Validators.required], // <--- Added this to fix the error
     });
 
     // 2. Load Data
@@ -65,7 +72,7 @@ export class VehicleEditComponent implements OnInit {
       next: (data) => {
         this.brands = data;
       },
-      error: (err) => console.error('Failed to load brands', err)
+      error: (err) => console.error("Failed to load brands", err),
     });
   }
 
@@ -85,25 +92,25 @@ export class VehicleEditComponent implements OnInit {
           modelId: vehicle.modelId,
           modelYear: vehicle.modelYear,
           isActive: vehicle.isActive,
-          currentStatus: vehicle.currentStatus // Patch status
+          currentStatus: vehicle.currentStatus, // Patch status
         });
-        
+
         this.loading = false;
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
-        alert('Failed to load vehicle details');
-        this.router.navigate(['/vehicles']);
-      }
+        alert("Failed to load vehicle details");
+        this.router.navigate(["/vehicles"]);
+      },
     });
 
     // Listen to brand changes to update models
-    this.vehicleForm.get('brandId')?.valueChanges.subscribe(brandId => {
+    this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
       if (brandId) {
         this.loadModels(brandId);
         // Clear model selection if brand changes
-        // this.vehicleForm.patchValue({ modelId: '' }); 
+        // this.vehicleForm.patchValue({ modelId: '' });
       } else {
         this.models = [];
       }
@@ -113,7 +120,7 @@ export class VehicleEditComponent implements OnInit {
   loadModels(brandId: string) {
     this.vehicleService.getModelsByBrand(brandId).subscribe({
       next: (data) => (this.models = data),
-      error: (err) => console.error('Failed to load models', err)
+      error: (err) => console.error("Failed to load models", err),
     });
   }
 
@@ -128,26 +135,26 @@ export class VehicleEditComponent implements OnInit {
     const formValue = this.vehicleForm.value;
 
     // Merge vehicleId with form data
-    const vehicleData = { 
-      ...formValue, 
-      vehicleId: this.vehicleId 
+    const vehicleData = {
+      ...formValue,
+      vehicleId: this.vehicleId,
     };
 
     this.vehicleService.updateVehicle(this.vehicleId, vehicleData).subscribe({
-      next: () => {
+      next: (response) => {
         this.saving = false;
-        alert('Vehicle updated successfully');
-        this.router.navigate(['/vehicles']);
+        alert("Vehicle updated successfully");
+        this.router.navigate(["/vehicle"]);
       },
       error: (err) => {
         console.error(err);
         this.saving = false;
-        alert('Failed to update vehicle');
-      }
+        alert("Failed to update vehicle");
+      },
     });
   }
 
   onCancel() {
-    this.router.navigate(['/vehicles']);
+    this.router.navigate(["/vehicle"]);
   }
 }
