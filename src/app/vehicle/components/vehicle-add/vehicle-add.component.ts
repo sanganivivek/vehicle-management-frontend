@@ -25,7 +25,6 @@ export class VehicleAddComponent implements OnInit {
   brands: Brand[] = [];
   models: Model[] = [];
   errorMessage = "";
-
   constructor(
     private fb: FormBuilder,
     private vehicleService: VehicleService,
@@ -33,13 +32,11 @@ export class VehicleAddComponent implements OnInit {
     private modelService: ModelService,
     private router: Router
   ) {}
-
   ngOnInit(): void {
     this.initializeForm();
     this.loadBrands();
     this.setupBrandChangeListener();
   }
-
   private initializeForm(): void {
     this.vehicleForm = this.fb.group({
       regNo: ["", Validators.required],
@@ -50,12 +47,10 @@ export class VehicleAddComponent implements OnInit {
       currentStatus: [0, Validators.required],
     });
   }
-
   private setupBrandChangeListener(): void {
     this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
       if (brandId) {
         this.loadModels(brandId);
-        // Reset model selection when brand changes
         this.vehicleForm.patchValue({ modelId: "" });
       } else {
         this.models = [];
@@ -63,7 +58,6 @@ export class VehicleAddComponent implements OnInit {
       }
     });
   }
-
   loadBrands(): void {
     this.vehicleService.getBrands().subscribe({
       next: (brands: Brand[]) => {
@@ -75,10 +69,8 @@ export class VehicleAddComponent implements OnInit {
       },
     });
   }
-
   loadModels(brandId: string): void {
     this.errorMessage = "";
-
     this.vehicleService.getModelsByBrand(brandId).subscribe({
       next: (models: Model[]) => {
         this.models = models;
@@ -91,22 +83,17 @@ export class VehicleAddComponent implements OnInit {
       },
     });
   }
-
   get f() {
     return this.vehicleForm.controls;
   }
-
   onSubmit(): void {
     this.submitted = true;
     this.errorMessage = "";
-
     if (this.vehicleForm.invalid) {
       return;
     }
-
     this.loading = true;
     const vehicle: CreateVehicleDTO = this.vehicleForm.value;
-
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
         this.loading = false;
@@ -119,7 +106,6 @@ export class VehicleAddComponent implements OnInit {
       },
     });
   }
-
   onCancel(): void {
     this.router.navigate(["/vehicle"]);
   }

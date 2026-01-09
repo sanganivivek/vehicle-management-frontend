@@ -9,7 +9,6 @@ import { MaintenanceListComponent } from './components/maintenance-list/maintena
 import { ComplianceReportComponent } from './components/compliance-report/compliance-report.component';
 import { MainLayoutComponent } from '../layout/main-layout/main-layout.component';
 import { DashboardComponent } from '../pages/dashboard/dashboard.component';
-
 const routes: Routes = [
   { path : '', component: DashboardComponent },
   { path: 'dashboard', component: DashboardComponent },
@@ -19,9 +18,7 @@ const routes: Routes = [
   { path: 'brands/add', component: BrandAddComponent },
   { path: 'models/add', component: ModelAddComponent },
   { path: 'reports', component: ComplianceReportComponent },
- 
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 @Component({
   selector: 'app-maintenance-list',
   standalone: true,
@@ -8,5 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './maintenance-list.component.css'
 })
 export class MaintenanceListComponent {
-
 }

@@ -11,7 +11,7 @@
 
 .stat-card:hover {
   transform: translateY(-5px);
-   /* Slight lift effect */
+   
 }
 
 .stat-card h3 {
@@ -26,11 +26,11 @@
   margin: 0;
 }
 
-/* Icon decoration inside the card */
+
 .card-icon {
   position: absolute;
   top: 15px;
   right: 20px;
   font-size: 3rem;
-  opacity: 0.2; /* Watermark effect */
+  opacity: 0.2; 
 }

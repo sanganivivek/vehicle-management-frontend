@@ -8,19 +8,15 @@ export interface Vehicle {
   id: number;
   currentStatus: number;
 }
-
 export interface Brand {
   brandId: string;
   brandName: string;
 }
-
 export interface Model {
   modelId: string;
   modelName: string;
   brandId: string;
 }
-
-// For creating new vehicles
 export interface CreateVehicleDTO {
   regNo: string;
   brandId: string;
@@ -29,19 +25,13 @@ export interface CreateVehicleDTO {
   isActive: boolean;
   currentStatus: number;
 }
-
-// For creating new models
 export interface CreateModelDTO {
-  brandId: string; // Will be converted to Guid on backend
+  brandId: string;
   name: string; 
 }
-
-// For creating new brands
 export interface CreateBrandDTO {
   brandName: string;
 }
-
-// For vehicle master data
 export interface VehicleMaster {
   vehicleId: string;
   regNo: string;
@@ -49,16 +39,13 @@ export interface VehicleMaster {
   isActive: boolean;
   brandId: string;
   modelId: string;
-  currentStatus: number; // 0: Available, 1: OnRoad, 2: Maintenance
-  
-  // ADD '?' TO MAKE THESE OPTIONAL
+  currentStatus: number;
   vehicleName?: string; 
   brandName?: string;
   modelName?: string;
   brand?: string;
   model?: string;
 }
-
 export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
@@ -73,8 +60,6 @@ export interface VehicleListDTO {
   isActive: boolean;
   currentStatus: number; 
 }
-
-// For vehicle query parameters
 export interface VehicleQueryParams {
   page?: number;
   size?: number;
@@ -88,8 +73,6 @@ export interface VehicleQueryParams {
   sortOrder?: string;
   status?: number;
 }
-
-// The object sent when UPDATING
 export interface UpdateVehicleDTO {
   vehicleId: string;
   regNo: string;

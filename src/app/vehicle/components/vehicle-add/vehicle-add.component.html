@@ -6,15 +6,15 @@
       </div>
 
       <div class="form-body">
-        <!-- Error Message Display -->
+        
         <div *ngIf="errorMessage" class="alert alert-danger mb-3">
           {{ errorMessage }}
         </div>
 
         <form [formGroup]="vehicleForm">
-          <!-- Form Grid (2 Column Layout) -->
+          
           <div class="form-grid">
-            <!-- Registration Number -->
+            
             <div class="form-group">
               <label class="form-label">Registration Number *</label>
               <input
@@ -35,7 +35,7 @@
               </div>
             </div>
 
-            <!-- Brand -->
+            
             <div class="form-group">
               <label class="form-label">Brand *</label>
               <select class="form-control form-input" formControlName="brandId">
@@ -57,7 +57,7 @@
               </div>
             </div>
 
-            <!-- Model -->
+            
             <div class="form-group">
               <label class="form-label">Model *</label>
               <select
@@ -95,7 +95,7 @@
               </select>
             </div>
 
-            <!-- Model Year -->
+            
             <div class="form-group">
               <label class="form-label">Model Year *</label>
               <input
@@ -121,9 +121,9 @@
               </div>
             </div>
           </div>
-          <!-- end grid -->
+          
 
-          <!-- Buttons -->
+          
           <div class="btn-row">
             <button type="button" class="btn btn-cancel" (click)="onCancel()">
               Cancel

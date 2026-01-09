@@ -27,14 +27,14 @@
   font-weight: 600;
 }
 
-/* 2-column grid for consistent alignment */
+
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
 
-/* Make all form groups uniform */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@
   border-color: #f44336;
 }
 
-/* Button Row Styling */
+
 .btn-row {
   margin-top: 25px;
   display: flex;
@@ -86,14 +86,14 @@
   background-color: #cfcfcf;
 }
 
-/* Responsive: stack fields on mobile */
+
 @media (max-width: 768px) {
   .form-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Form error styling */
+
 .form-error {
   display: block;
   color: #f44336;
