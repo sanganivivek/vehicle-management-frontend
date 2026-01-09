@@ -1,5 +1,6 @@
 <div class="container-fluid p-4">
   <h2 class="mb-4">Dashboard Overview</h2>
+  <div *ngIf="loading" class="center">Loading data...</div>
 
   <div class="row mb-4" *ngIf="!loading">
     <div class="col-md-3">

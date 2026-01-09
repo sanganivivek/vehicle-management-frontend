@@ -1,0 +1,53 @@
+.container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 14px;
+  margin: 30px;
+  
+}
+
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  
+}
+
+.simple-table th, 
+.simple-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.simple-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #fff; /* White text for contrast */
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* 0: Available -> Green */
+.status-green {
+  background-color: #28a745; /* Green */
+}
+
+/* 1: On Road -> Yellow (Darker yellow/orange for readability) */
+.status-yellow {
+  background-color: #ffc107; /* Yellow/Orange */
+  color: #000; /* Black text for yellow background */
+}
+
+/* 2: Maintenance -> Red */
+.status-red {
+  background-color: #dc3545; /* Red */
+}

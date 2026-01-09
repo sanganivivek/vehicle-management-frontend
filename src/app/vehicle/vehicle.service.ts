@@ -111,6 +111,7 @@ export class VehicleService {
       .post(this.modelUrl, model)
       .pipe(catchError(this.handleError));
   }
+
   private handleError(error: any) {
     console.error("API Error:", error);
     return throwError(() => error);
