@@ -8,5 +8,5 @@ export interface RecentActivity {
   id: number;
   message: string;
   time: string;
-  type: 'info' | 'warning' | 'success';
+  type: "info" | "warning" | "success";
 }

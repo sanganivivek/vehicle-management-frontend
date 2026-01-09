@@ -31,7 +31,7 @@ export class VehicleService {
   private apiUrl = `${environment.apiUrl}/vehicles`;
   private brandUrl = `${environment.apiUrl}/brands`;
   private modelUrl = `${environment.apiUrl}/models`;
-  private dashboardUrl = `${environment.apiUrl}/dashboard`; 
+  private dashboardUrl = `${environment.apiUrl}/dashboard`;
   constructor(private http: HttpClient) {}
   getVehicles(
     queryParams: VehicleQueryParams = {}

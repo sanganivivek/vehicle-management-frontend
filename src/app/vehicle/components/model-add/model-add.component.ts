@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { BrandService } from '../../services/brand.service';
-import { ModelService } from '../../services/model.service';
-import { Brand, CreateModelDTO } from '../../models/vehicle.model';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { BrandService } from "../../services/brand.service";
+import { ModelService } from "../../services/model.service";
+import { Brand, CreateModelDTO } from "../../models/vehicle.model";
 @Component({
-  selector: 'app-model-add',
-  templateUrl: './model-add.component.html',
-  styleUrls: ['./model-add.component.css']
+  selector: "app-model-add",
+  templateUrl: "./model-add.component.html",
+  styleUrls: ["./model-add.component.css"],
 })
 export class ModelAddComponent implements OnInit {
   modelForm!: FormGroup;
@@ -22,8 +22,8 @@ export class ModelAddComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.modelForm = this.fb.group({
-      brandId: ['', [Validators.required]],
-      modelName: ['', [Validators.required, Validators.maxLength(50)]]
+      brandId: ["", [Validators.required]],
+      modelName: ["", [Validators.required, Validators.maxLength(50)]],
     });
     this.loadBrands();
   }
@@ -31,12 +31,12 @@ export class ModelAddComponent implements OnInit {
     this.brandService.getBrands().subscribe({
       next: (brands: Brand[]) => {
         this.brands = brands;
-        console.log('Brands loaded:', brands);
-        console.log('First brand structure:', brands[0]);
+        console.log("Brands loaded:", brands);
+        console.log("First brand structure:", brands[0]);
       },
       error: (error) => {
-        console.error('Failed to load brands:', error);
-      }
+        console.error("Failed to load brands:", error);
+      },
     });
   }
   get f() {
@@ -49,32 +49,32 @@ export class ModelAddComponent implements OnInit {
       return;
     }
     const brandId = this.modelForm.value.brandId;
-    if (!brandId || brandId.trim() === '') {
-      alert('Please select a brand.');
+    if (!brandId || brandId.trim() === "") {
+      alert("Please select a brand.");
       return;
     }
     this.loading = true;
     const modelData: CreateModelDTO = {
       brandId: brandId,
-      name: this.modelForm.value.modelName.trim()
+      name: this.modelForm.value.modelName.trim(),
     };
-    console.log('Sending model data:', modelData);
+    console.log("Sending model data:", modelData);
     this.modelService.addModel(modelData).subscribe({
       next: (res: any) => {
-        alert('Model Saved Successfully!');
-        this.router.navigate(['/vehicle']);
+        alert("Model Saved Successfully!");
+        this.router.navigate(["/vehicle"]);
         this.modelForm.reset();
         this.submitted = false;
         this.loading = false;
       },
       error: (err: any) => {
-        console.error('Error:', err);
+        console.error("Error:", err);
         this.loading = false;
         alert(`Failed to save model: ${err}`);
-      }
+      },
     });
   }
   onCancel(): void {
-    this.router.navigate(['/vehicle']);
+    this.router.navigate(["/vehicle"]);
   }
 }

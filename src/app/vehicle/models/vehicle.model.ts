@@ -27,7 +27,7 @@ export interface CreateVehicleDTO {
 }
 export interface CreateModelDTO {
   brandId: string;
-  name: string; 
+  name: string;
 }
 export interface CreateBrandDTO {
   brandName: string;
@@ -40,7 +40,7 @@ export interface VehicleMaster {
   brandId: string;
   modelId: string;
   currentStatus: number;
-  vehicleName?: string; 
+  vehicleName?: string;
   brandName?: string;
   modelName?: string;
   brand?: string;
@@ -56,9 +56,9 @@ export interface VehicleListDTO {
   modelName: string;
   brand: string;
   model: string;
-  modelYear?: number; 
+  modelYear?: number;
   isActive: boolean;
-  currentStatus: number; 
+  currentStatus: number;
 }
 export interface VehicleQueryParams {
   page?: number;
@@ -76,8 +76,8 @@ export interface VehicleQueryParams {
 export interface UpdateVehicleDTO {
   vehicleId: string;
   regNo: string;
-  brandId: string; 
-  modelId: string; 
+  brandId: string;
+  modelId: string;
   modelYear: number;
   isActive: boolean;
   vehicleName?: string;

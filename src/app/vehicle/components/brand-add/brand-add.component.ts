@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { BrandService } from '../../services/brand.service';
-import { CreateBrandDTO } from '../../models/vehicle.model';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { BrandService } from "../../services/brand.service";
+import { CreateBrandDTO } from "../../models/vehicle.model";
 @Component({
-  selector: 'app-brand-add',
-  templateUrl: './brand-add.component.html',
-  styleUrls: ['./brand-add.component.css']
+  selector: "app-brand-add",
+  templateUrl: "./brand-add.component.html",
+  styleUrls: ["./brand-add.component.css"],
 })
 export class BrandAddComponent implements OnInit {
   brandForm!: FormGroup;
@@ -19,7 +19,7 @@ export class BrandAddComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.brandForm = this.fb.group({
-      brandName: ['', [Validators.required, Validators.maxLength(50)]]
+      brandName: ["", [Validators.required, Validators.maxLength(50)]],
     });
   }
   get f() {
@@ -32,21 +32,21 @@ export class BrandAddComponent implements OnInit {
     }
     this.loading = true;
     const brand: CreateBrandDTO = {
-      brandName: this.brandForm.value.brandName
+      brandName: this.brandForm.value.brandName,
     };
     this.brandService.addBrand(brand).subscribe({
       next: () => {
-       alert('Brand Added Successfully!');
-        this.router.navigate(['/vehicle']);
+        alert("Brand Added Successfully!");
+        this.router.navigate(["/vehicle"]);
       },
       error: (err) => {
-        console.error('Error adding brand:', err);
+        console.error("Error adding brand:", err);
         this.submitted = false;
         this.loading = false;
-      }
+      },
     });
   }
   onCancel(): void {
-    this.router.navigate(['/vehicle']);
+    this.router.navigate(["/vehicle"]);
   }
 }

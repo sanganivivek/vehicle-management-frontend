@@ -1,34 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { VehicleService } from '../../vehicle.service';
-import { BrandService } from '../../services/brand.service';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { VehicleService } from "../../vehicle.service";
+import { BrandService } from "../../services/brand.service";
 import {
   VehicleListDTO,
   Brand,
   VehicleQueryParams,
-} from '../../models/vehicle.model';
+} from "../../models/vehicle.model";
 const STATUS_AVAILABLE = 0;
 const STATUS_ON_ROAD = 1;
 const STATUS_MAINTENANCE = 2;
 @Component({
-  selector: 'app-vehicle-list',
-  templateUrl: './vehicle-list.component.html',
-  styleUrls: ['./vehicle-list.component.css'],
+  selector: "app-vehicle-list",
+  templateUrl: "./vehicle-list.component.html",
+  styleUrls: ["./vehicle-list.component.css"],
 })
 export class VehicleListComponent implements OnInit {
   vehicles: VehicleListDTO[] = [];
   brands: Brand[] = [];
-  loading = false;  
-  searchTerm = '';
-  selectedBrand = '';
-  sortColumn = 'regNo';
-  sortOrder: 'asc' | 'desc' = 'asc';
+  loading = false;
+  searchTerm = "";
+  selectedBrand = "";
+  sortColumn = "regNo";
+  sortOrder: "asc" | "desc" = "asc";
   currentPage = 1;
   pageSize = 10;
   totalPages = 1;
   totalRecords = 0;
   pagesArray: number[] = [];
-  selectedStatus: string = '';
+  selectedStatus: string = "";
   constructor(
     private vehicleService: VehicleService,
     private brandService: BrandService,
@@ -37,13 +37,14 @@ export class VehicleListComponent implements OnInit {
   ngOnInit(): void {
     this.loadVehicles();
     this.loadBrands();
-  } 
+  }
   loadVehicles(): void {
     this.loading = true;
     const queryParams: any = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
-      status: this.selectedStatus !== '' ? parseInt(this.selectedStatus) : undefined,
+      status:
+        this.selectedStatus !== "" ? parseInt(this.selectedStatus) : undefined,
       sortBy: this.sortColumn,
       sortOrder: this.sortOrder,
       page: this.currentPage,
@@ -51,7 +52,7 @@ export class VehicleListComponent implements OnInit {
     };
     this.vehicleService.getVehicles(queryParams).subscribe({
       next: (response: any) => {
-        console.log('Vehicles loaded successfully:', response);
+        console.log("Vehicles loaded successfully:", response);
         this.vehicles = response.data || [];
         this.totalRecords = response.totalRecords || 0;
         this.totalPages = response.totalPages || 1;
@@ -59,7 +60,7 @@ export class VehicleListComponent implements OnInit {
         this.loading = false;
       },
       error: (error: any) => {
-        console.error('Failed to load vehicles:', error);
+        console.error("Failed to load vehicles:", error);
         this.vehicles = [];
         this.totalRecords = 0;
         this.totalPages = 1;
@@ -73,7 +74,7 @@ export class VehicleListComponent implements OnInit {
         this.brands = brands;
       },
       error: (error) => {
-        console.error('Failed to load brands:', error);
+        console.error("Failed to load brands:", error);
         this.brands = [];
       },
     });
@@ -92,10 +93,10 @@ export class VehicleListComponent implements OnInit {
   }
   sort(column: string): void {
     if (this.sortColumn === column) {
-      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+      this.sortOrder = this.sortOrder === "asc" ? "desc" : "asc";
     } else {
       this.sortColumn = column;
-      this.sortOrder = 'asc';
+      this.sortOrder = "asc";
     }
     this.loadVehicles();
   }
@@ -121,16 +122,16 @@ export class VehicleListComponent implements OnInit {
     }
   }
   addVehicle(): void {
-    this.router.navigate(['/vehicle/add']);
+    this.router.navigate(["/vehicle/add"]);
   }
   editVehicle(vehicleId: string): void {
-    this.router.navigate(['/vehicle/edit', vehicleId]);
+    this.router.navigate(["/vehicle/edit", vehicleId]);
   }
   deleteVehicle(vehicleId: string): void {
-    if (confirm('Are you sure you want to delete this vehicle?')) {
+    if (confirm("Are you sure you want to delete this vehicle?")) {
       this.vehicleService.deleteVehicle(vehicleId).subscribe({
         next: () => this.loadVehicles(),
-        error: () => alert('Failed to delete vehicle'),
+        error: () => alert("Failed to delete vehicle"),
       });
     }
   }
@@ -140,15 +141,15 @@ export class VehicleListComponent implements OnInit {
         const updateData = { ...vehicle, isActive: !currentStatus };
         this.vehicleService.updateVehicle(vehicleId, updateData).subscribe({
           next: () => this.loadVehicles(),
-          error: () => alert('Failed to update status'),
+          error: () => alert("Failed to update status"),
         });
       },
-      error: () => alert('Failed to get vehicle details'),
+      error: () => alert("Failed to get vehicle details"),
     });
   }
   getSortIcon(column: string): string {
-    if (this.sortColumn !== column) return '';
-    return this.sortOrder === 'asc' ? '▲' : '▼';
+    if (this.sortColumn !== column) return "";
+    return this.sortOrder === "asc" ? "▲" : "▼";
   }
   getDisplayRange(): string {
     const start = (this.currentPage - 1) * this.pageSize + 1;
@@ -158,25 +159,25 @@ export class VehicleListComponent implements OnInit {
   getStatusText(status: number): string {
     switch (status) {
       case STATUS_AVAILABLE:
-        return 'Available';
+        return "Available";
       case STATUS_ON_ROAD:
-        return 'On Road';
+        return "On Road";
       case STATUS_MAINTENANCE:
-        return 'In Maintenance';
+        return "In Maintenance";
       default:
-        return 'Unknown';
+        return "Unknown";
     }
   }
   getStatusClass(status: number): string {
     switch (status) {
       case STATUS_AVAILABLE:
-        return 'badge bg-success';
+        return "badge bg-success";
       case STATUS_ON_ROAD:
-        return 'badge bg-info text-white';
+        return "badge bg-info text-white";
       case STATUS_MAINTENANCE:
-        return 'badge bg-danger';
+        return "badge bg-danger";
       default:
-        return 'badge bg-secondary';
+        return "badge bg-secondary";
     }
   }
   changeStatus(vehicle: any, newStatus: number): void {
@@ -192,10 +193,10 @@ export class VehicleListComponent implements OnInit {
             next: () => {
               this.loadVehicles();
             },
-            error: (err) => alert('Failed to update status'),
+            error: (err) => alert("Failed to update status"),
           });
       },
-      error: () => alert('Failed to fetch vehicle details for status update'),
+      error: () => alert("Failed to fetch vehicle details for status update"),
     });
   }
 }

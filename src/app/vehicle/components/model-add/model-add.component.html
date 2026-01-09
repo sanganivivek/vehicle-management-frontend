@@ -7,9 +7,7 @@
 
       <div class="form-body">
         <form [formGroup]="modelForm">
-          
           <div class="form-grid">
-            
             <div class="form-group">
               <label class="form-label">Brand *</label>
               <select class="form-control form-input" formControlName="brandId">
@@ -21,7 +19,9 @@
 
               <div
                 class="form-error"
-                *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors"
+                *ngIf="
+                  (submitted || f['brandId'].touched) && f['brandId'].errors
+                "
               >
                 <span *ngIf="f['brandId'].errors['required']"
                   >Brand is required</span
@@ -29,7 +29,6 @@
               </div>
             </div>
 
-            
             <div class="form-group">
               <label class="form-label">Model Name *</label>
               <input
@@ -39,7 +38,9 @@
               />
               <div
                 class="form-error"
-                *ngIf="(submitted || f['modelName'].touched) && f['modelName'].errors"
+                *ngIf="
+                  (submitted || f['modelName'].touched) && f['modelName'].errors
+                "
               >
                 <span *ngIf="f['modelName'].errors['required']"
                   >Model Name is required</span
@@ -49,11 +50,8 @@
                 >
               </div>
             </div>
-
           </div>
-          
 
-          
           <div class="btn-row">
             <button type="button" class="btn btn-cancel" (click)="onCancel()">
               Cancel
