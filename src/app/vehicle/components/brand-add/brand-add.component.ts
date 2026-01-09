@@ -37,7 +37,7 @@ export class BrandAddComponent implements OnInit {
     this.brandService.addBrand(brand).subscribe({
       next: () => {
         alert("Brand Added Successfully!");
-        this.router.navigate(["/vehicle"]);
+        this.router.navigate(["/dashboard"]);
       },
       error: (err) => {
         console.error("Error adding brand:", err);
@@ -47,6 +47,6 @@ export class BrandAddComponent implements OnInit {
     });
   }
   onCancel(): void {
-    this.router.navigate(["/vehicle"]);
+    this.router.navigate(["/dashboard"]);
   }
 }

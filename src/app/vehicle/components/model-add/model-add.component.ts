@@ -62,7 +62,7 @@ export class ModelAddComponent implements OnInit {
     this.modelService.addModel(modelData).subscribe({
       next: (res: any) => {
         alert("Model Saved Successfully!");
-        this.router.navigate(["/vehicle"]);
+        this.router.navigate(["/dashboard"]);
         this.modelForm.reset();
         this.submitted = false;
         this.loading = false;
@@ -75,6 +75,6 @@ export class ModelAddComponent implements OnInit {
     });
   }
   onCancel(): void {
-    this.router.navigate(["/vehicle"]);
+    this.router.navigate(["/dashboard"]);
   }
 }
