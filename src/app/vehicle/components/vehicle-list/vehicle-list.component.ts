@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { VehicleService } from "../../vehicle.service";
 import { BrandService } from "../../services/brand.service";
+import { ToastrService } from "ngx-toastr";
 import {
   VehicleListDTO,
   Brand,
@@ -32,7 +33,8 @@ export class VehicleListComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private brandService: BrandService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
   ) {}
   ngOnInit(): void {
     this.loadVehicles();
@@ -130,8 +132,11 @@ export class VehicleListComponent implements OnInit {
   deleteVehicle(vehicleId: string): void {
     if (confirm("Are you sure you want to delete this vehicle?")) {
       this.vehicleService.deleteVehicle(vehicleId).subscribe({
-        next: () => this.loadVehicles(),
-        error: () => alert("Failed to delete vehicle"),
+        next: () => {
+          this.toastr.warning("Vehicle deleted", "Deleted"); // 3. Warning Toast
+          this.loadVehicles();
+        },
+        error: () => this.toastr.error("Failed to delete vehicle", "Error"), // 4. Error Toast
       });
     }
   }
@@ -183,20 +188,20 @@ export class VehicleListComponent implements OnInit {
   changeStatus(vehicle: any, newStatus: number): void {
     this.vehicleService.getVehicleById(vehicle.vehicleId).subscribe({
       next: (fullVehicle: any) => {
-        const updateData = {
-          ...fullVehicle,
-          currentStatus: newStatus,
-        };
+        const updateData = { ...fullVehicle, currentStatus: newStatus };
         this.vehicleService
           .updateVehicle(vehicle.vehicleId, updateData)
           .subscribe({
             next: () => {
+              this.toastr.info(
+                "Status updated to " + this.getStatusText(newStatus),
+              ); // 4. Info Toast
               this.loadVehicles();
             },
-            error: (err) => alert("Failed to update status"),
+            error: () => this.toastr.error("Failed to update status"),
           });
       },
-      error: () => alert("Failed to fetch vehicle details for status update"),
+      error: () => this.toastr.error("Failed to fetch details"),
     });
   }
 }

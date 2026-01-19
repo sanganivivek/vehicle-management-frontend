@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { VehicleService } from "../../vehicle.service";
 import { Brand, Model } from "../../models/vehicle.model";
 import { ngxLoadingAnimationTypes } from "ngx-loading";
+import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-vehicle-edit",
   templateUrl: "./vehicle-edit.component.html",
@@ -28,7 +29,8 @@ export class VehicleEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private vehicleService: VehicleService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService,
   ) {}
   ngOnInit(): void {
     this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
@@ -83,7 +85,7 @@ export class VehicleEditComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
-        alert("Failed to load vehicle details");
+        this.toastr.error("Failed to load vehicle details", "Error");
         this.router.navigate(["/vehicles"]);
       },
     });
@@ -115,13 +117,13 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleService.updateVehicle(this.vehicleId, vehicleData).subscribe({
       next: (response) => {
         this.saving = false;
-        alert("Vehicle updated successfully");
+        this.toastr.success("Vehicle updated successfully", "Success");
         this.router.navigate(["/vehicle"]);
       },
       error: (err) => {
         console.error(err);
         this.saving = false;
-        alert("Failed to update vehicle");
+        this.toastr.error("Failed to update vehicle", "Update Failed");
       },
     });
   }
