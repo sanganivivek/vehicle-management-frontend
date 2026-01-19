@@ -2,11 +2,13 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-  position: relative;
+  position: inherit;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+  transition: transform 0.3s;
   overflow: hidden;
   background-color: rgb(255, 255, 255);
+  /* margin-right: 70%;
+ margin-left: 0.1%; */
 }
 
 .stat-card:hover {
@@ -17,7 +19,7 @@
 .stat-card h3 {
   font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
 
 .stat-card p {
