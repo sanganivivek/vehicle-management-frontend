@@ -1,4 +1,5 @@
-@import 'ngx-toastr/toastr.css';
+/* Remove this line */
+/* @import 'ngx-toastr/toastr.css'; */ 
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
