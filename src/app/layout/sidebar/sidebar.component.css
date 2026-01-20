@@ -68,8 +68,8 @@
 
 
 .menu-item a.active {
-  background-color: #eef2ff; 
-  color: #2563eb; 
+  background-color: #f3f3f3; 
+  color: #000000; 
 }
 
 .menu-icon {
@@ -124,8 +124,8 @@
 }
 
 .dropdown-menu li a:hover {
-  background-color: #f8f9fa;
-  color: #2563eb;
+  background-color: #f3f3f3;
+  color: #000000;
 }
 
 

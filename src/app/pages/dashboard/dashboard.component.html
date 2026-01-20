@@ -6,24 +6,38 @@
   <div *ngIf="loading" class="text-center text-muted">Loading data...</div>
 
   <div class="stats-wrapper" *ngIf="!loading">
+
     <div class="stat-box">
+      <div class="stat-icon">
+        <i class="bi bi-truck-front-fill"></i>
+      </div>
       <h3>{{ stats?.totalVehicles }}</h3>
       <p>Total Vehicles</p>
     </div>
 
     <div class="stat-box">
+      <div class="stat-icon">
+        <i class="bi bi-car-front-fill"></i>
+      </div>
       <h3>{{ stats?.availableVehicles }}</h3>
       <p>Available</p>
     </div>
 
     <div class="stat-box">
+      <div class="stat-icon">
+        <i class="bi bi-hourglass-split"></i>
+      </div>
       <h3>{{ stats?.onRoad }}</h3>
       <p>Rented</p>
     </div>
 
     <div class="stat-box">
+      <div class="stat-icon">
+        <i class="bi bi-tools"></i>
+      </div>
       <h3>{{ stats?.inMaintenance }}</h3>
       <p>In Maintenance</p>
     </div>
+
   </div>
 </div>

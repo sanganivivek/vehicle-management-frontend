@@ -1,4 +1,4 @@
-/* Container for all boxes */
+/* Container */
 .stats-wrapper {
   display: flex;
   gap: 28px;
@@ -6,8 +6,9 @@
   margin-right: 10%;
 }
 
-/* Individual stat box */
+/* Card */
 .stat-box {
+  position: relative; /* REQUIRED for absolute icon */
   flex: 1;
   height: 150px;
   background: #ffffff;
@@ -19,9 +20,30 @@
   align-items: center;
   cursor: pointer;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Numbers */
+/* Icon circle (top-right corner) */
+.stat-icon {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #f1f3f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Icon */
+.stat-icon i {
+  font-size: 1.25rem;
+  color: #000000;
+}
+
+/* Number */
 .stat-box h3 {
   font-size: 2.2rem;
   font-weight: 700;
@@ -29,7 +51,7 @@
   color: #111;
 }
 
-/* Labels */
+/* Label */
 .stat-box p {
   margin: 0;
   font-size: 1rem;
@@ -37,12 +59,11 @@
   letter-spacing: 0.4px;
 }
 
+/* Header */
 .dashboard-header {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
-}
-
-.dashboard-title {
-  font-weight: 600;
+  color: #555;
+  font-size: 20px;
 }
