@@ -5,7 +5,7 @@ export interface DashboardStats {
   inMaintenance: number;
 }
 export interface RecentActivity {
-  id: number;
+  id: number | string;
   message: string;
   time: string;
   type: "info" | "warning" | "success";
