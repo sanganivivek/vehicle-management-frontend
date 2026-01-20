@@ -41,7 +41,7 @@
   background-color: #28a745; /* Green */
 }
 
-/* 1: On Road -> Yellow (Darker yellow/orange for readability) */
+/* 1: Rented -> Yellow (Darker yellow/orange for readability) */
 .status-yellow {
   background-color: #ffc107; /* Yellow/Orange */
   color: #000; /* Black text for yellow background */

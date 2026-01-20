@@ -1,51 +1,29 @@
 <div class="container-fluid p-4">
-  <h2 class="mb-4">Dashboard Overview</h2>
-  <div *ngIf="loading" class="center">Loading data...</div>
-
-  <div class="row mb-4" *ngIf="!loading">
-    <div class="col-md-3">
-      <div class="stat-card bg-primary text-white">
-        <h3>{{ stats?.totalVehicles }}</h3>
-        <p>Total Vehicles</p>
-        <i class="bi bi-car-front-fill card-icon"></i>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="stat-card bg-success text-white">
-        <h3>{{ stats?.availableVehicles }}</h3>
-        <p>Available</p>
-        <i class="bi bi-check-circle card-icon"></i>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="stat-card bg-info text-white">
-        <h3>{{ stats?.onRoad }}</h3>
-        <p>On Road</p>
-        <i class="bi bi-speedometer2 card-icon"></i>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="stat-card bg-danger text-white">
-        <h3>{{ stats?.inMaintenance }}</h3>
-        <p>In Maintenance</p>
-        <i class="bi bi-tools card-icon"></i>
-      </div>
-    </div>
+  <div class="dashboard-header">
+    <h2 class="mb-4 fw-semibold">Dashboard Overview</h2>
   </div>
 
-  <div class="row mb-4"> </div>
+  <div *ngIf="loading" class="text-center text-muted">Loading data...</div>
 
-  <!-- <div class="card shadow-sm">
-    <div class="card-header bg-white">
-      <h5 class="mb-0">Recent Activities</h5>
+  <div class="stats-wrapper" *ngIf="!loading">
+    <div class="stat-box">
+      <h3>{{ stats?.totalVehicles }}</h3>
+      <p>Total Vehicles</p>
     </div>
-    <div class="card-body p-0">
-      <div class="p-3 text-muted" *ngIf="!loading">
-        No recent activities loaded.
-      </div>
+
+    <div class="stat-box">
+      <h3>{{ stats?.availableVehicles }}</h3>
+      <p>Available</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>{{ stats?.onRoad }}</h3>
+      <p>Rented</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>{{ stats?.inMaintenance }}</h3>
+      <p>In Maintenance</p>
     </div>
   </div>
-</div> -->
+</div>

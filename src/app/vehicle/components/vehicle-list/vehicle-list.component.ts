@@ -166,7 +166,7 @@ export class VehicleListComponent implements OnInit {
       case STATUS_AVAILABLE:
         return "Available";
       case STATUS_ON_ROAD:
-        return "On Road";
+        return "Rented";
       case STATUS_MAINTENANCE:
         return "In Maintenance";
       default:

@@ -33,7 +33,7 @@ export class ComplianceReportComponent implements OnInit {
   getStatusText(status: number): string {
     switch (status) {
       case 0: return 'Available';
-      case 1: return 'On Road';
+      case 1: return 'Rented';
       case 2: return 'Maintenance';
       default: return 'Unknown';
     }
@@ -43,7 +43,7 @@ export class ComplianceReportComponent implements OnInit {
   getStatusClass(status: number): string {
     switch (status) {
       case 0: return 'status-green';   // Available
-      case 1: return 'status-yellow';  // On Road
+      case 1: return 'status-yellow';  // Rented
       case 2: return 'status-red';     // Maintenance
       default: return '';
     }
