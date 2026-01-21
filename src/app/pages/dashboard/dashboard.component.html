@@ -1,43 +1,80 @@
-<div class="container-fluid p-4">
+<div class="dashboard-container">
   <div class="dashboard-header">
     <h2 class="mb-4 fw-semibold">Dashboard Overview</h2>
   </div>
 
   <div *ngIf="loading" class="text-center text-muted">Loading data...</div>
 
-  <div class="stats-wrapper" *ngIf="!loading">
-
-    <div class="stat-box">
-      <div class="stat-icon">
-        <i class="bi bi-truck-front-fill"></i>
+  <div *ngIf="!loading">
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-truck-front-fill"></i></div>
+        <h3>{{ stats?.totalVehicles || 0 }}</h3>
+        <p>Total Vehicles</p>
       </div>
-      <h3>{{ stats?.totalVehicles }}</h3>
-      <p>Total Vehicles</p>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-car-front-fill"></i></div>
+        <h3>{{ stats?.availableVehicles || 0 }}</h3>
+        <p>Available</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+        <h3>{{ stats?.onRoad || 0 }}</h3>
+        <p>Rented</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-tools"></i></div>
+        <h3>{{ stats?.inMaintenance || 0 }}</h3>
+        <p>In Maintenance</p>
+      </div>
     </div>
 
-    <div class="stat-box">
-      <div class="stat-icon">
-        <i class="bi bi-car-front-fill"></i>
-      </div>
-      <h3>{{ stats?.availableVehicles }}</h3>
-      <p>Available</p>
-    </div>
+    <!-- Content Boxes Row -->
+    <div class="content-row">
+      <div class="content-card">
+        <div class="card-header">
+          <h3>Recent Activity</h3>
+          <button class="btn btn-sm btn-light">View All</button>
+        </div>
 
-    <div class="stat-box">
-      <div class="stat-icon">
-        <i class="bi bi-hourglass-split"></i>
-      </div>
-      <h3>{{ stats?.onRoad }}</h3>
-      <p>Rented</p>
-    </div>
+        <div class="activity-feed">
+          <div *ngFor="let activity of activities" class="feed-item">
+            <div
+              class="feed-icon"
+              [ngClass]="{
+                'bg-success': activity.type === 'success',
+                'bg-warning': activity.type === 'warning',
+                'bg-info': activity.type === 'info',
+              }"
+            >
+              <i
+                class="bi bi-bell-fill text-white"
+                style="font-size: 0.7rem"
+              ></i>
+            </div>
 
-    <div class="stat-box">
-      <div class="stat-icon">
-        <i class="bi bi-tools"></i>
-      </div>
-      <h3>{{ stats?.inMaintenance }}</h3>
-      <p>In Maintenance</p>
-    </div>
+            <div class="feed-content">
+              <p class="feed-text">{{ activity.message }}</p>
+              <span class="feed-date">{{ activity.time }}</span>
+            </div>
+          </div>
 
+          <div *ngIf="activities.length === 0" class="empty-state">
+            <i class="bi bi-inbox"></i>
+            <p>No recent activity</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="card-header">
+          <h3>Quick Actions</h3>
+        </div>
+        <div class="actions-content">
+          <!-- Quick actions content will go here -->
+        </div>
+      </div>
+    </div>
   </div>
 </div>

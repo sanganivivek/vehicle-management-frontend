@@ -1,69 +1,247 @@
-/* Container */
-.stats-wrapper {
-  display: flex;
-  gap: 28px;
-  margin-left: 10%;
-  margin-right: 10%;
+/* ========================
+   1. DASHBOARD LAYOUT
+   ======================== */
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Card */
-.stat-box {
-  position: relative; /* REQUIRED for absolute icon */
-  flex: 1;
-  height: 150px;
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h2 {
+  color: #4a5568;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+/* ========================
+   2. STATS ROW (Top Cards)
+   ======================== */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
   background: #ffffff;
-  border-radius: 26px;
-  border: 2px solid #e0e0e0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
 }
 
-/* Icon circle (top-right corner) */
-.stat-icon {
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card .stat-icon {
   position: absolute;
-  top: 16px;
-  right: 18px;
-  width: 42px;
-  height: 42px;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: #f1f3f6;
+  background-color: #f7fafc;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Icon */
-.stat-icon i {
-  font-size: 1.25rem;
-  color: #000000;
+.stat-card .stat-icon i {
+  font-size: 1.2rem;
+  color: #2d3748;
 }
 
-/* Number */
-.stat-box h3 {
-  font-size: 2.2rem;
+.stat-card h3 {
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 6px;
-  color: #111;
+  color: #1a202c;
+  margin: 0.5rem 0 0.25rem 0;
 }
 
-/* Label */
-.stat-box p {
+.stat-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* ========================
+   3. CONTENT ROW (Bottom Cards)
+   ======================== */
+.content-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.content-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  min-height: 300px;
+}
+
+.content-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.content-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+/* ========================
+   3. ACTIVITY FEED (Timeline)
+   ======================== */
+.activity-feed {
+  position: relative;
+  padding-left: 10px;
+}
+
+.feed-item {
+  position: relative;
+  display: flex;
+  padding-bottom: 25px;
+  padding-left: 35px;
+}
+
+/* Vertical Line */
+.feed-item::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 30px;
+  bottom: -10px;
+  width: 2px;
+  background-color: #f1f3f6;
+}
+
+.feed-item:last-child::before {
+  display: none;
+}
+
+/* Icon Dots */
+.feed-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  box-shadow: 0 0 0 4px #ffffff;
+}
+
+.feed-content {
+  flex: 1;
+}
+
+.feed-text {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.feed-date {
+  font-size: 0.75rem;
+  color: #8898aa;
+  font-weight: 500;
+  display: block;
+}
+
+/* Colors */
+.bg-success {
+  background-color: #2dce89 !important;
+}
+
+.bg-warning {
+  background-color: #fb6340 !important;
+}
+
+.bg-info {
+  background-color: #11cdef !important;
+}
+
+/* ========================
+   4. QUICK ACTION BUTTONS
+   ======================== */
+.action-btn {
+  border-radius: 12px;
+  border-width: 1px;
+  transition: all 0.2s;
+  background: #fff;
+}
+
+.action-btn:hover {
+  transform: translateX(5px);
+  background: #f8f9fa;
+}
+
+/* ========================
+   5. RESPONSIVE DESIGN
+   ======================== */
+@media (max-width: 1200px) {
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .content-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card h3 {
+    font-size: 2rem;
+  }
+}
+
+/* ========================
+   6. EMPTY STATE
+   ======================== */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #a0aec0;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
   margin: 0;
   font-size: 1rem;
-  color: #555;
-  letter-spacing: 0.4px;
-}
-
-/* Header */
-.dashboard-header {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  color: #555;
-  font-size: 20px;
+  color: #718096;
 }

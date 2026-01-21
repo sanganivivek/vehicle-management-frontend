@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.loadDashboard();
+    this.loadActivity();
   }
   loadDashboard() {
     this.loading = true;
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
     });
   }
   loadActivity() {
+    
     this.dashboardService.getRecentActivity().subscribe({
       next: (data) => {
         this.activities = data;
