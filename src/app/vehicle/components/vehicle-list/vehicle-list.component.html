@@ -29,6 +29,18 @@
           {{ brand.brandName }}
         </option>
       </select>
+
+      <select
+        class="form-select status-dropdown"
+        [(ngModel)]="selectedStatus"
+        (change)="onStatusFilter()"
+      >
+        <option value="">All Status</option>
+
+        <option *ngFor="let s of statusOptions" [value]="s.value">
+          {{ s.name }}
+        </option>
+      </select>
     </div>
     <div *ngIf="loading" class="center">Loading data...</div>
     <div *ngIf="loading" class="loader-section text-center py-5">

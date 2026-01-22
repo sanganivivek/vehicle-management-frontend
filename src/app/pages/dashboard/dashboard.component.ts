@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   loading = true;
   constructor(
     private vehicleService: VehicleService,
-    private dashboardService: DashboardService 
+    private dashboardService: DashboardService,
   ) {}
   ngOnInit(): void {
     this.loadDashboard();
@@ -36,12 +36,11 @@ export class DashboardComponent implements OnInit {
     });
   }
   loadActivity() {
-    
     this.dashboardService.getRecentActivity().subscribe({
       next: (data) => {
         this.activities = data;
       },
-      error: (err) => console.error("Error loading activity", err)
+      error: (err) => console.error("Error loading activity", err),
     });
   }
 }

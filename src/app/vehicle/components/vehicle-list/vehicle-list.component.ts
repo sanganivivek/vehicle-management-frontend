@@ -29,7 +29,13 @@ export class VehicleListComponent implements OnInit {
   totalPages = 1;
   totalRecords = 0;
   pagesArray: number[] = [];
-  selectedStatus: string = "";
+  selectedStatus: any = "";
+
+  statusOptions = [
+    { name: "Available", value: 0 },
+    { name: "Rented", value: 1 },
+    { name: "In Maintenance", value: 2 },
+  ];
   constructor(
     private vehicleService: VehicleService,
     private brandService: BrandService,
@@ -81,6 +87,7 @@ export class VehicleListComponent implements OnInit {
       },
     });
   }
+
   onSearch(): void {
     this.currentPage = 1;
     this.loadVehicles();
