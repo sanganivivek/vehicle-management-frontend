@@ -182,3 +182,11 @@
   transform: translateX(5px);
   background: #f8f9fa;
 }
+
+.empty-state {
+  text-align: center;
+  color: #adb5bd;
+  font-size: 1.5rem;
+  margin-top: 5rem;
+  
+}

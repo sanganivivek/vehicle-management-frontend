@@ -32,9 +32,9 @@
     <div class="content-card">
       <div class="card-header">
         <h3>Recent Activity</h3>
-        <button class="btn btn-sm btn-light">View All</button>
+        <!-- <button class="btn btn-sm btn-light">View All</button> -->
       </div>
-
+      
       <div class="activity-feed">
         <div *ngFor="let activity of activities" class="feed-item">
           <div class="feed-icon" [ngClass]="{
@@ -51,7 +51,7 @@
           </div>
         </div>
 
-        <div *ngIf="activities.length === 0" class="empty-state-center">
+        <div *ngIf="activities.length === 0" class="empty-state">
           <i class="bi bi-inbox"></i>
           <p>No recent activity</p>
         </div>

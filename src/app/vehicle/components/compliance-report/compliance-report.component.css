@@ -47,7 +47,25 @@
   color: #000; /* Black text for yellow background */
 }
 
-/* 2: Maintenance -> Red */
+
 .status-red {
-  background-color: #dc3545; /* Red */
+  background-color: #dc3545; 
+}
+
+.empty-row td {
+  height: 10px; 
+}
+
+.empty-message {
+  height: 100%;
+  display: flex;
+  justify-content: center;   
+  align-items: center;      
+  gap: 8px;
+  color: #adb5bd;
+  font-size: 1rem;
+}
+
+.empty-message i {
+  font-size: 1.4rem;
 }

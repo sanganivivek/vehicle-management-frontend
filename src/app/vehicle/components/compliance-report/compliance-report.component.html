@@ -17,21 +17,32 @@
         <td>{{ v.regNo }}</td>
 
         <td>{{ v.brandName }}</td>
-        <td> {{ v.modelName }}</td>
+        <td>{{ v.modelName }}</td>
 
         <td>
-          <span class="status-badge" [ngClass]="getStatusClass(v.currentStatus)">
+          <span
+            class="status-badge"
+            [ngClass]="getStatusClass(v.currentStatus)"
+          >
             {{ getStatusText(v.currentStatus) }}
           </span>
         </td>
 
-        <td [style.color]="isCompliant(v) ? 'green' : 'red'" style="font-weight: bold;">
-          {{ isCompliant(v) ? 'COMPLIANT' : 'NON-COMPLIANT' }}
+        <td
+          [style.color]="isCompliant(v) ? 'green' : 'red'"
+          style="font-weight: bold"
+        >
+          {{ isCompliant(v) ? "COMPLIANT" : "NON-COMPLIANT" }}
         </td>
       </tr>
 
-      <tr *ngIf="vehicles.length === 0">
-        <td colspan="5">No vehicles found.</td>
+      <tr *ngIf="vehicles.length === 0" class="empty-row">
+        <td colspan="5">
+          <div class="empty-message">
+            <i class="bi bi-inbox"></i>
+            <span>No vehicles found.</span>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
