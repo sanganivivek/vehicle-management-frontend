@@ -1,8 +1,6 @@
 <div class="vehicle-page-bg">
   <div class="vehicle-container mt-4">
-    <div
-      class="header-section d-flex justify-content-between align-items-center mb-4"
-    >
+    <div class="header-section d-flex justify-content-between align-items-center mb-4">
       <h2 class="title mb-0">Vehicle List</h2>
 
       <button class="btn btn-primary custom-add-btn" (click)="addVehicle()">
@@ -11,30 +9,17 @@
     </div>
 
     <div class="filter-row d-flex gap-3 mb-4">
-      <input
-        type="text"
-        class="form-control search-box"
-        placeholder="Search by Reg No or Name..."
-        [(ngModel)]="searchTerm"
-        (input)="onSearch()"
-      />
+      <input type="text" class="form-control search-box" placeholder="Search by Reg No or Name..."
+        [(ngModel)]="searchTerm" (input)="onSearch()" />
 
-      <select
-        class="form-select brand-dropdown"
-        [(ngModel)]="selectedBrand"
-        (change)="onBrandFilter()"
-      >
+      <select class="form-select brand-dropdown" [(ngModel)]="selectedBrand" (change)="onBrandFilter()">
         <option value="">All Brands</option>
         <option *ngFor="let brand of brands" [value]="brand.brandName">
           {{ brand.brandName }}
         </option>
       </select>
 
-      <select
-        class="form-select status-dropdown"
-        [(ngModel)]="selectedStatus"
-        (change)="onStatusFilter()"
-      >
+      <select class="form-select status-dropdown" [(ngModel)]="selectedStatus" (change)="onStatusFilter()">
         <option value="">All Status</option>
 
         <option *ngFor="let s of statusOptions" [value]="s.value">
@@ -42,14 +27,8 @@
         </option>
       </select>
     </div>
-     <div *ngIf="loading" class="loader-container">
-    <div class="loader"></div>
-  </div>
-    <div *ngIf="loading" class="loader-section text-center py-5">
-      <div class="spinner-border text-primary"></div>
-    </div>
 
-    <div *ngIf="!loading" class="table-wrapper shadow-sm rounded bg-black">
+    <div class="table-wrapper shadow-sm rounded bg-black">
       <table class="table custom-table table-hover mb-0">
         <thead class="table-light">
           <tr>
@@ -86,16 +65,10 @@
             <td>
               <div class="d-flex align-items-center gap-3">
                 <div class="action-icons d-flex gap-2 border-start ps-3">
-                  <button
-                    class="btn btn-sm btn-outline-primary"
-                    (click)="editVehicle(vehicle.vehicleId)"
-                  >
+                  <button class="btn btn-sm btn-outline-primary" (click)="editVehicle(vehicle.vehicleId)">
                     <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button
-                    class="btn btn-sm btn-outline-danger"
-                    (click)="deleteVehicle(vehicle.vehicleId)"
-                  >
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
@@ -113,35 +86,23 @@
       </table>
     </div>
 
-    <div class="pagination-container" *ngIf="!loading && totalRecords > 0">
+    <div class="pagination-container" *ngIf="totalRecords > 0">
       <div class="pagination-info">
         {{ getDisplayRange() }}
       </div>
 
       <nav class="pagination-wrapper">
         <ul class="custom-pagination">
-          <li
-            class="page-item"
-            [class.disabled]="currentPage === 1"
-            (click)="prevPage()"
-          >
+          <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
             <span class="page-link">‹ Prev</span>
           </li>
 
-          <li
-            class="page-item number"
-            *ngFor="let p of pagesArray"
-            [class.active]="currentPage === p"
-            (click)="goToPage(p)"
-          >
+          <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
+            (click)="goToPage(p)">
             <span class="page-link">{{ p }}</span>
           </li>
 
-          <li
-            class="page-item"
-            [class.disabled]="currentPage === totalPages"
-            (click)="nextPage()"
-          >
+          <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
             <span class="page-link">Next ›</span>
           </li>
         </ul>

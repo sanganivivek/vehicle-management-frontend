@@ -8,6 +8,7 @@ import {
   Brand,
   VehicleQueryParams,
 } from "../../models/vehicle.model";
+import { LoadingService } from "../../../shared/services/loading.service";
 const STATUS_AVAILABLE = 0;
 const STATUS_ON_ROAD = 1;
 const STATUS_MAINTENANCE = 2;
@@ -19,7 +20,6 @@ const STATUS_MAINTENANCE = 2;
 export class VehicleListComponent implements OnInit {
   vehicles: VehicleListDTO[] = [];
   brands: Brand[] = [];
-  loading = false;
   searchTerm = "";
   selectedBrand = "";
   sortColumn = "regNo";
@@ -41,13 +41,14 @@ export class VehicleListComponent implements OnInit {
     private brandService: BrandService,
     private router: Router,
     private toastr: ToastrService,
-  ) {}
+    private loadingService: LoadingService,
+  ) { }
   ngOnInit(): void {
     this.loadVehicles();
     this.loadBrands();
   }
   loadVehicles(): void {
-    this.loading = true;
+    this.loadingService.show();
     const queryParams: any = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
@@ -65,14 +66,14 @@ export class VehicleListComponent implements OnInit {
         this.totalRecords = response.totalRecords || 0;
         this.totalPages = response.totalPages || 1;
         this.generatePagesArray();
-        this.loading = false;
+        this.loadingService.hide();
       },
       error: (error: any) => {
         console.error("Failed to load vehicles:", error);
         this.vehicles = [];
         this.totalRecords = 0;
         this.totalPages = 1;
-        this.loading = false;
+        this.loadingService.hide();
       },
     });
   }

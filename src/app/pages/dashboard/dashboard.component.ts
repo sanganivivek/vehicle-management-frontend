@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { VehicleService, DashboardData } from "src/app/vehicle/vehicle.service";
 import { DashboardService } from "./dashboard.service";
 import { RecentActivity } from "./dashboard.model";
+import { LoadingService } from "src/app/shared/services/loading.service";
 @Component({
   selector: "app-dashboard",
   standalone: true,
@@ -13,25 +14,25 @@ import { RecentActivity } from "./dashboard.model";
 export class DashboardComponent implements OnInit {
   stats: DashboardData | null = null;
   activities: RecentActivity[] = [];
-  loading = true;
   constructor(
     private vehicleService: VehicleService,
     private dashboardService: DashboardService,
-  ) {}
+    private loadingService: LoadingService,
+  ) { }
   ngOnInit(): void {
     this.loadDashboard();
     this.loadActivity();
   }
   loadDashboard() {
-    this.loading = true;
+    this.loadingService.show();
     this.vehicleService.getDashboardData().subscribe({
       next: (data) => {
         this.stats = data;
-        this.loading = false;
+        this.loadingService.hide();
       },
       error: (err) => {
         console.error("Error loading dashboard stats", err);
-        this.loading = false;
+        this.loadingService.hide();
       },
     });
   }

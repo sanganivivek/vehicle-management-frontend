@@ -1,13 +1,11 @@
 <div class="container">
   <h2>Fleet Status & Compliance Report</h2>
 
-  <div *ngIf="isLoading">Loading data...</div>
-
-  <table class="simple-table" *ngIf="!isLoading">
+  <table class="simple-table">
     <thead>
       <tr>
         <th>Reg No</th>
-        
+
         <th>Brand</th>
         <th>Model</th>
         <th>Status</th>
@@ -17,10 +15,10 @@
     <tbody>
       <tr *ngFor="let v of vehicles">
         <td>{{ v.regNo }}</td>
-        
+
         <td>{{ v.brandName }}</td>
         <td> {{ v.modelName }}</td>
-        
+
         <td>
           <span class="status-badge" [ngClass]="getStatusClass(v.currentStatus)">
             {{ getStatusText(v.currentStatus) }}
@@ -31,7 +29,7 @@
           {{ isCompliant(v) ? 'COMPLIANT' : 'NON-COMPLIANT' }}
         </td>
       </tr>
-      
+
       <tr *ngIf="vehicles.length === 0">
         <td colspan="5">No vehicles found.</td>
       </tr>

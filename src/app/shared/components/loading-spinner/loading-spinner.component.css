@@ -1,0 +1,85 @@
+/* ================================
+   KEYFRAME ANIMATIONS
+================================ */
+
+@keyframes spin {
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    40%, 43% {
+        transform: translate3d(0, -30px, 0);
+    }
+
+    70% {
+        transform: translate3d(0, -15px, 0);
+    }
+
+    90% {
+        transform: translate3d(0, -4px, 0);
+    }
+}
+
+/* ================================
+   PAGE OVERLAY
+================================ */
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* ================================
+   LOADER WRAPPER
+================================ */
+
+.loading-spinner-wrapper {
+    text-align: center;
+    animation: bounce 1.5s infinite;
+}
+
+/* ================================
+   WHEEL IMAGE SPINNER
+================================ */
+
+.spinner {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 16px;
+
+    /* 🔽 PASTE YOUR WHEEL IMAGE HERE */
+    background-image: url('public/Images/Screenshot_2026-01-23_105437-removebg-preview.png');
+    /* OR base64 image:
+       background-image: url(data:image/png;base64,...);
+    */
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    animation: spin 2s linear infinite;
+    will-change: transform;
+}
+
+/* ================================
+   LOADING TEXT
+================================ */
+
+.loading-text {
+    font-family: 'Futura', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: 0.4px;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VehicleService } from '../../vehicle.service';
 import { VehicleMaster } from '../../models/vehicle.model';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-compliance-report',
@@ -12,19 +13,22 @@ import { VehicleMaster } from '../../models/vehicle.model';
 })
 export class ComplianceReportComponent implements OnInit {
   vehicles: VehicleMaster[] = [];
-  isLoading = true;
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(
+    private vehicleService: VehicleService,
+    private loadingService: LoadingService
+  ) { }
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.vehicleService.getVehicles({ page: 1, pageSize: 1000 }).subscribe({
       next: (res) => {
         this.vehicles = res.data;
-        this.isLoading = false;
+        this.loadingService.hide();
       },
       error: (err) => {
         console.error('Error loading report', err);
-        this.isLoading = false;
+        this.loadingService.hide();
       }
     });
   }
