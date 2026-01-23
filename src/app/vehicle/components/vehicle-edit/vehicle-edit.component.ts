@@ -31,7 +31,7 @@ export class VehicleEditComponent implements OnInit {
     private vehicleService: VehicleService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
     this.vehicleForm = this.fb.group({
@@ -49,6 +49,16 @@ export class VehicleEditComponent implements OnInit {
       isActive: [true],
       currentStatus: [0, Validators.required],
     });
+
+    // Set up brandId change listener
+    this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
+      if (brandId) {
+        this.loadModels(brandId);
+      } else {
+        this.models = [];
+      }
+    });
+
     this.loadBrands();
     if (this.vehicleId) {
       this.loadVehicle(this.vehicleId);
@@ -68,10 +78,13 @@ export class VehicleEditComponent implements OnInit {
   loadVehicle(id: string) {
     this.loading = true;
     this.vehicleService.getVehicleById(id).subscribe({
-      next: (vehicle: any) => {
+      next: async (vehicle: any) => {
+        // Load models first if brandId exists
         if (vehicle.brandId) {
-          this.loadModels(vehicle.brandId);
+          await this.loadModelsAsync(vehicle.brandId);
         }
+
+        // Then patch the form values
         this.vehicleForm.patchValue({
           regNo: vehicle.regNo,
           brandId: vehicle.brandId,
@@ -89,18 +102,27 @@ export class VehicleEditComponent implements OnInit {
         this.router.navigate(["/vehicles"]);
       },
     });
-    this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
-      if (brandId) {
-        this.loadModels(brandId);
-      } else {
-        this.models = [];
-      }
-    });
   }
   loadModels(brandId: string) {
     this.vehicleService.getModelsByBrand(brandId).subscribe({
       next: (data) => (this.models = data),
       error: (err) => console.error("Failed to load models", err),
+    });
+  }
+
+  // Async version for sequential loading
+  loadModelsAsync(brandId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.vehicleService.getModelsByBrand(brandId).subscribe({
+        next: (data) => {
+          this.models = data;
+          resolve();
+        },
+        error: (err) => {
+          console.error("Failed to load models", err);
+          reject(err);
+        },
+      });
     });
   }
   onSubmit() {

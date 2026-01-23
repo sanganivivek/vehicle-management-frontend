@@ -48,7 +48,7 @@ export class VehicleListComponent implements OnInit {
     this.loadBrands();
   }
   loadVehicles(): void {
-    this.loadingService.show();
+    
     const queryParams: any = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
@@ -66,14 +66,14 @@ export class VehicleListComponent implements OnInit {
         this.totalRecords = response.totalRecords || 0;
         this.totalPages = response.totalPages || 1;
         this.generatePagesArray();
-        this.loadingService.hide();
+        
       },
       error: (error: any) => {
         console.error("Failed to load vehicles:", error);
         this.vehicles = [];
         this.totalRecords = 0;
         this.totalPages = 1;
-        this.loadingService.hide();
+        
       },
     });
   }

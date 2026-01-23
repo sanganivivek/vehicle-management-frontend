@@ -34,7 +34,7 @@ export class VehicleService {
   private dashboardUrl = `${environment.apiUrl}/dashboard`;
   constructor(private http: HttpClient) {}
   getVehicles(
-    queryParams: VehicleQueryParams = {}
+    queryParams: VehicleQueryParams = {},
   ): Observable<VehicleResponse> {
     let params = new HttpParams();
     if (queryParams.search) params = params.set("search", queryParams.search);
