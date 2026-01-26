@@ -12,12 +12,14 @@ import { ModelAddComponent } from "./components/model-add/model-add.component";
 import { MaintenanceListComponent } from "./components/maintenance-list/maintenance-list.component";
 import { ComplianceReportComponent } from "./components/compliance-report/compliance-report.component";
 import { DashboardComponent } from "../pages/dashboard/dashboard.component";
+import { BrandListComponent } from "./components/brand-list/brand-list.component";
 @NgModule({
   declarations: [
     VehicleListComponent,
     VehicleAddComponent,
     VehicleEditComponent,
     BrandAddComponent,
+    BrandListComponent,
     ModelAddComponent,
   ],
   imports: [

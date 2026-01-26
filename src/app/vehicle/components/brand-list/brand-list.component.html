@@ -1,19 +1,19 @@
 <div class="vehicle-page-bg">
   <div class="list-container" style="padding: 20px;">
-    <div class="list-header" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-      <h2>Brand List</h2>
+    <div class="list-header" style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center;">
+      <h2 style="margin: 0;">Brand List</h2>
       <button class="btn btn-primary" routerLink="/vehicle/brands/add" style="padding: 10px 20px; cursor: pointer;">
         + Add Brand
       </button>
     </div>
 
-    <table class="table" style="width: 100%; border-collapse: collapse;">
+    <table class="table" style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
       <thead>
         <tr style="background: #f8f9fa; text-align: left;">
           <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Brand Code</th>
           <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Brand Name</th>
           <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Status</th>
-          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Actions</th>
+          <th style="padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center;">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -21,20 +21,29 @@
           <td style="padding: 12px;">{{ brand.brandCode }}</td>
           <td style="padding: 12px;">{{ brand.brandName }}</td>
           <td style="padding: 12px;">
-            <span [style.color]="brand.isActive ? 'green' : 'red'" style="font-weight: bold;">
+            <span [style.background]="brand.isActive ? '#d4edda' : '#f8d7da'" 
+                  [style.color]="brand.isActive ? '#155724' : '#721c24'"
+                  style="padding: 5px 10px; border-radius: 20px; font-size: 0.85em; font-weight: 600;">
               {{ brand.isActive ? 'Active' : 'Inactive' }}
             </span>
           </td>
-          <td style="padding: 12px;">
-            <button [routerLink]="['/vehicle/brands/edit', brand.brandId]" style="margin-right: 10px; cursor: pointer;">
+          <td style="padding: 12px; text-align: center;">
+            <button [routerLink]="['/vehicle/brands/edit', brand.brandId]" 
+                    style="margin-right: 10px; cursor: pointer; border: none; background: none; color: #007bff; font-weight: 500;">
               Edit
             </button>
-            <button (click)="deleteBrand(brand.brandId)" style="color: red; cursor: pointer;">
+            <button (click)="deleteBrand(brand.brandId)" 
+                    style="cursor: pointer; border: none; background: none; color: #dc3545; font-weight: 500;">
               Delete
             </button>
           </td>
         </tr>
+        <tr *ngIf="brands.length === 0 && !loading">
+          <td colspan="4" style="text-align: center; padding: 20px; color: #6c757d;">No brands found.</td>
+        </tr>
       </tbody>
     </table>
+    
+    <div *ngIf="loading" style="text-align: center; padding: 20px;">Loading...</div>
   </div>
 </div>
