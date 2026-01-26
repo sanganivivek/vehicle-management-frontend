@@ -1,33 +1,35 @@
 <div class="vehicle-page-bg">
-  <div class="list-container">
-    <div class="list-header">
+  <div class="list-container" style="padding: 20px;">
+    <div class="list-header" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
       <h2>Brand List</h2>
-      <button class="btn btn-primary" routerLink="/brands/add">+ Add Brand</button>
+      <button class="btn btn-primary" routerLink="/vehicle/brands/add" style="padding: 10px 20px; cursor: pointer;">
+        + Add Brand
+      </button>
     </div>
 
-    <table class="table">
+    <table class="table" style="width: 100%; border-collapse: collapse;">
       <thead>
-        <tr>
-          <th>Brand Code</th>
-          <th>Brand Name</th>
-          <th>Status</th>
-          <th>Actions</th> </tr>
+        <tr style="background: #f8f9fa; text-align: left;">
+          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Brand Code</th>
+          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Brand Name</th>
+          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Status</th>
+          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Actions</th>
+        </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let brand of brands">
-          <td>{{ brand.brandCode }}</td>
-          <td>{{ brand.brandName }}</td>
-          <td>
-            <span [class.active-badge]="brand.isActive" [class.inactive-badge]="!brand.isActive">
+        <tr *ngFor="let brand of brands" style="border-bottom: 1px solid #dee2e6;">
+          <td style="padding: 12px;">{{ brand.brandCode }}</td>
+          <td style="padding: 12px;">{{ brand.brandName }}</td>
+          <td style="padding: 12px;">
+            <span [style.color]="brand.isActive ? 'green' : 'red'" style="font-weight: bold;">
               {{ brand.isActive ? 'Active' : 'Inactive' }}
             </span>
           </td>
-          <td>
-            <button class="btn-icon edit" [routerLink]="['/brands/edit', brand.brandId]">
+          <td style="padding: 12px;">
+            <button [routerLink]="['/vehicle/brands/edit', brand.brandId]" style="margin-right: 10px; cursor: pointer;">
               Edit
             </button>
-            
-            <button class="btn-icon delete" (click)="deleteBrand(brand.brandId)">
+            <button (click)="deleteBrand(brand.brandId)" style="color: red; cursor: pointer;">
               Delete
             </button>
           </td>

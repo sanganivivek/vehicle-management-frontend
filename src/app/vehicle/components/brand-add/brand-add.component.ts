@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router"; // Added ActivatedRoute
+import { ActivatedRoute, Router } from "@angular/router";
 import { BrandService } from "../../services/brand.service";
 
 @Component({
@@ -19,18 +19,17 @@ export class BrandAddComponent implements OnInit {
     private fb: FormBuilder,
     private brandService: BrandService,
     private router: Router,
-    private route: ActivatedRoute // Added
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    // Check for ID in URL
     this.brandId = this.route.snapshot.paramMap.get("id") || "";
     this.isEditMode = !!this.brandId;
 
     this.brandForm = this.fb.group({
       brandName: ["", [Validators.required, Validators.maxLength(50)]],
-      brandCode: ["", [Validators.required, Validators.maxLength(10)]], // Added
-      isActive: [true] // Added
+      brandCode: ["", [Validators.required, Validators.maxLength(10)]], // New
+      isActive: [true] // New
     });
 
     if (this.isEditMode) {
@@ -56,27 +55,21 @@ export class BrandAddComponent implements OnInit {
     });
   }
 
-  get f() {
-    return this.brandForm.controls;
-  }
+  get f() { return this.brandForm.controls; }
 
   onSubmit(): void {
     this.submitted = true;
-    if (this.brandForm.invalid) {
-      return;
-    }
+    if (this.brandForm.invalid) return;
 
     this.loading = true;
     const brandData = this.brandForm.value;
 
     if (this.isEditMode) {
-      // Update Logic
       this.brandService.updateBrand(this.brandId, brandData).subscribe({
         next: () => this.handleSuccess("Brand Updated Successfully!"),
         error: (err) => this.handleError(err),
       });
     } else {
-      // Create Logic
       this.brandService.addBrand(brandData).subscribe({
         next: () => this.handleSuccess("Brand Added Successfully!"),
         error: (err) => this.handleError(err),
@@ -86,16 +79,15 @@ export class BrandAddComponent implements OnInit {
 
   handleSuccess(message: string) {
     alert(message);
-    this.router.navigate(["/dashboard"]); // Ensure this route exists in your routing module
+    this.router.navigate(["/vehicle/brands"]); // Go back to list
   }
 
   handleError(err: any) {
-    console.error("Error adding brand:", err);
-    this.submitted = false;
+    console.error(err);
     this.loading = false;
   }
 
   onCancel(): void {
-    this.router.navigate(["/dashboard"]);
+    this.router.navigate(["/vehicle/brands"]);
   }
 }

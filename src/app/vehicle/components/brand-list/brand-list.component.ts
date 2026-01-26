@@ -5,7 +5,7 @@ import { Brand } from '../../models/vehicle.model';
 @Component({
   selector: 'app-brand-list',
   templateUrl: './brand-list.component.html',
-  
+  styleUrls: ['./brand-list.component.css']
 })
 export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
@@ -19,27 +19,17 @@ export class BrandListComponent implements OnInit {
 
   loadBrands() {
     this.loading = true;
-    this.brandService.getBrands().subscribe({
-      next: (data) => {
-        this.brands = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.loading = false;
-      }
+    this.brandService.getBrands().subscribe(data => {
+      this.brands = data;
+      this.loading = false;
     });
   }
 
-  // DELETE BUTTON LOGIC
   deleteBrand(id: string) {
     if(confirm('Are you sure you want to delete this brand?')) {
-      this.brandService.deleteBrand(id).subscribe({
-        next: () => {
-          alert('Brand Deleted Successfully');
-          this.loadBrands(); // Refresh list
-        },
-        error: (err) => alert('Error deleting brand')
+      this.brandService.deleteBrand(id).subscribe(() => {
+        alert('Brand Deleted Successfully');
+        this.loadBrands();
       });
     }
   }

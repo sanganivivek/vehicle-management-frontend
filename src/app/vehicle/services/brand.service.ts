@@ -11,27 +11,27 @@ export class BrandService {
 
   constructor(private http: HttpClient) {}
 
-  // Get All
+  // Get All Brands
   getBrands(): Observable<Brand[]> {
     return this.http.get<Brand[]>(this.apiUrl).pipe(catchError(this.handleError));
   }
 
-  // Get Single (For Edit)
+  // Get Single Brand (For Editing)
   getBrandById(id: string): Observable<Brand> {
     return this.http.get<Brand>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
-  // Create
+  // Create New Brand
   addBrand(brand: CreateBrandDTO): Observable<any> {
     return this.http.post(this.apiUrl, brand).pipe(catchError(this.handleError));
   }
 
-  // Update (For Edit)
+  // Update Existing Brand
   updateBrand(id: string, brand: CreateBrandDTO): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, brand).pipe(catchError(this.handleError));
   }
 
-  // Delete (For Delete Button)
+  // Delete Brand
   deleteBrand(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }

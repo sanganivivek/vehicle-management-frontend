@@ -9,10 +9,10 @@ export interface Vehicle {
   currentStatus: number;
 }
 export interface Brand {
-  brandId: string;
+ brandId: string;
   brandName: string;
-  brandCode: string;
-  isActive: boolean;
+  brandCode: string; // New
+  isActive: boolean; // New 
 }
 export interface Model {
   modelId: string;
@@ -33,8 +33,8 @@ export interface CreateModelDTO {
 }
 export interface CreateBrandDTO {
   brandName: string;
-  brandCode: string;
-  isActive: boolean;
+  brandCode: string; // New
+  isActive: boolean; // New
 }
 export interface VehicleMaster {
   vehicleId: string;

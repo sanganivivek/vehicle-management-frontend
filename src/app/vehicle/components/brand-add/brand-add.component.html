@@ -11,59 +11,30 @@
             
             <div class="form-group">
               <label class="form-label">Brand Code *</label>
-              <input
-                type="text"
-                class="form-control form-input"
-                formControlName="brandCode"
-                placeholder="Enter Brand Code"
-              />
-              <div
-                class="form-error"
-                *ngIf="(submitted || f['brandCode'].touched) && f['brandCode'].errors"
-              >
-                <span *ngIf="f['brandCode'].errors['required']">Brand Code is required</span>
-                <span *ngIf="f['brandCode'].errors['maxlength']">Max 10 characters allowed</span>
+              <input type="text" class="form-control form-input" formControlName="brandCode" placeholder="Enter Code" />
+              <div class="form-error" *ngIf="(submitted || f['brandCode'].touched) && f['brandCode'].errors">
+                <span *ngIf="f['brandCode'].errors['required']">Code is required</span>
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">Brand Name *</label>
-              <input
-                type="text"
-                class="form-control form-input"
-                formControlName="brandName"
-                placeholder="Enter Brand Name"
-              />
-              <div
-                class="form-error"
-                *ngIf="(submitted || f['brandName'].touched) && f['brandName'].errors"
-              >
-                <span *ngIf="f['brandName'].errors['required']">Brand Name is required</span>
-                <span *ngIf="f['brandName'].errors['maxlength']">Max 50 characters allowed</span>
+              <input type="text" class="form-control form-input" formControlName="brandName" placeholder="Enter Name" />
+              <div class="form-error" *ngIf="(submitted || f['brandName'].touched) && f['brandName'].errors">
+                <span *ngIf="f['brandName'].errors['required']">Name is required</span>
               </div>
             </div>
 
-            <div class="form-group checkbox-wrapper">
-              <label class="checkbox-container">
-                <input type="checkbox" formControlName="isActive" />
-                <span class="checkmark"></span>
-                Is Active?
-              </label>
+            <div class="form-group checkbox-group" style="display: flex; align-items: center; margin-top: 15px;">
+              <input type="checkbox" formControlName="isActive" id="activeCheck" style="margin-right: 10px; transform: scale(1.2);" />
+              <label for="activeCheck" style="margin-bottom: 0;">Is Active?</label>
             </div>
 
           </div>
 
           <div class="btn-row">
-            <button type="button" class="btn btn-cancel" (click)="onCancel()">
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              class="btn btn-submit"
-              (click)="onSubmit()"
-              [disabled]="brandForm.invalid || loading"
-            >
+            <button type="button" class="btn btn-cancel" (click)="onCancel()">Cancel</button>
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="brandForm.invalid || loading">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>
