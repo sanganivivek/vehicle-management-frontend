@@ -1,0 +1,38 @@
+<div class="vehicle-page-bg">
+  <div class="list-container">
+    <div class="list-header">
+      <h2>Brand List</h2>
+      <button class="btn btn-primary" routerLink="/brands/add">+ Add Brand</button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Brand Code</th>
+          <th>Brand Name</th>
+          <th>Status</th>
+          <th>Actions</th> </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let brand of brands">
+          <td>{{ brand.brandCode }}</td>
+          <td>{{ brand.brandName }}</td>
+          <td>
+            <span [class.active-badge]="brand.isActive" [class.inactive-badge]="!brand.isActive">
+              {{ brand.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-icon edit" [routerLink]="['/brands/edit', brand.brandId]">
+              Edit
+            </button>
+            
+            <button class="btn-icon delete" (click)="deleteBrand(brand.brandId)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

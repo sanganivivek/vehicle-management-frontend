@@ -11,6 +11,8 @@ export interface Vehicle {
 export interface Brand {
   brandId: string;
   brandName: string;
+  brandCode: string;
+  isActive: boolean;
 }
 export interface Model {
   modelId: string;
@@ -31,6 +33,8 @@ export interface CreateModelDTO {
 }
 export interface CreateBrandDTO {
   brandName: string;
+  brandCode: string;
+  isActive: boolean;
 }
 export interface VehicleMaster {
   vehicleId: string;

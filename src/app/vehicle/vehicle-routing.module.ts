@@ -9,13 +9,16 @@ import { MaintenanceListComponent } from "./components/maintenance-list/maintena
 import { ComplianceReportComponent } from "./components/compliance-report/compliance-report.component";
 import { MainLayoutComponent } from "../layout/main-layout/main-layout.component";
 import { DashboardComponent } from "../pages/dashboard/dashboard.component";
+import { BrandListComponent } from "./components/brand-list/brand-list.component";
 const routes: Routes = [
   { path: "", component: DashboardComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "vehicle", component: VehicleListComponent },
   { path: "vehicle/add", component: VehicleAddComponent },
   { path: "vehicle/edit/:id", component: VehicleEditComponent },
+  { path: "brands", component: BrandListComponent },
   { path: "brands/add", component: BrandAddComponent },
+  { path: "brands/edit/:id", component: BrandAddComponent },
   { path: "models/add", component: ModelAddComponent },
   { path: "reports", component: ComplianceReportComponent },
 ];
