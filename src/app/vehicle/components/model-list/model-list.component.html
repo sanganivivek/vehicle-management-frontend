@@ -1,0 +1,56 @@
+<div class="vehicle-page-bg">
+    <div class="vehicle-container">
+        <div class="header-section" *ngIf="showHeader">
+            <h2 class="title">Model List</h2>
+            <button class="custom-add-btn" routerLink="/vehicle/models/add">
+                + Add Model
+            </button>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Brand Code</th>
+                        <th>Brand Name</th>
+                        <th>Model Code</th>
+                        <th>Model Name</th>
+                        <th>Model Type</th>
+                        <th>Description</th>
+                        <th style="text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let model of models">
+                        <td>{{ model.brandCode || '-' }}</td>
+                        <td>{{ model.brandName || 'Unknown' }}</td>
+                        <td>{{ model.modelCode || '-' }}</td>
+                        <td>{{ model.modelName || '-' }}</td>
+                        <td>{{ model.modelType || '-' }}</td>
+                        <td>{{ model.description || '-' }}</td>
+                        <td>
+                            <div class="action-icons">
+                                <button class="icon-btn edit-icon"
+                                    [routerLink]="['/vehicle/models/edit', model.modelId]">
+                                    Edit
+                                </button>
+                                <button class="icon-btn delete-icon" (click)="deleteModel(model.modelId)">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="models.length === 0 && !loading">
+                        <td colspan="7" style="text-align: center; padding: 20px; color: #6c757d;">
+                            No models found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="loading" style="text-align: center; padding: 20px;">
+            Loading...
+        </div>
+    </div>
+</div>

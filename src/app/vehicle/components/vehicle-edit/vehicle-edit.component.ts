@@ -36,6 +36,7 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
     this.vehicleForm = this.fb.group({
       regNo: ["", [Validators.required, Validators.maxLength(20)]],
+      chassisNumber: ["", [Validators.required, Validators.maxLength(50)]],
       brandId: ["", Validators.required],
       modelId: ["", Validators.required],
       modelYear: [
@@ -87,9 +88,10 @@ export class VehicleEditComponent implements OnInit {
         // Then patch the form values
         this.vehicleForm.patchValue({
           regNo: vehicle.regNo,
+          chassisNumber: vehicle.chassisNumber,
           brandId: vehicle.brandId,
           modelId: vehicle.modelId,
-          modelYear: vehicle.modelYear,
+          modelYear: vehicle.modelYear || vehicle.yearOfManufacture, // Handle both just in case
           isActive: vehicle.isActive,
           currentStatus: vehicle.currentStatus,
         });

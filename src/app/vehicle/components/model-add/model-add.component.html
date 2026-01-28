@@ -2,7 +2,7 @@
   <div class="form-wrapper">
     <div class="form-card">
       <div class="form-header">
-        <h3 class="form-title">Add New Model</h3>
+        <h3 class="form-title">{{ isEditMode ? 'Edit' : 'Add New' }} Model</h3>
       </div>
 
       <div class="form-body">
@@ -16,53 +16,58 @@
                   {{ brand.brandName }}
                 </option>
               </select>
+              <div class="form-error" *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors">
+                <span *ngIf="f['brandId'].errors['required']">Brand is required</span>
+              </div>
+            </div>
 
-              <div
-                class="form-error"
-                *ngIf="
-                  (submitted || f['brandId'].touched) && f['brandId'].errors
-                "
-              >
-                <span *ngIf="f['brandId'].errors['required']"
-                  >Brand is required</span
-                >
+            <div class="form-group">
+              <label class="form-label">Brand Code</label>
+              <input type="text" class="form-control form-input" [value]="selectedBrandCode" readonly placeholder="Auto-fetched" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Model Code</label>
+              <input type="text" class="form-control form-input" formControlName="modelCode" placeholder="e.g. CAM-2024" />
+              <div class="form-error" *ngIf="(submitted || f['modelCode'].touched) && f['modelCode'].errors">
+                <span *ngIf="f['modelCode'].errors['maxlength']">Max 50 characters allowed</span>
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">Model Name *</label>
-              <input
-                type="text"
-                class="form-control form-input"
-                formControlName="modelName"
-              />
-              <div
-                class="form-error"
-                *ngIf="
-                  (submitted || f['modelName'].touched) && f['modelName'].errors
-                "
-              >
-                <span *ngIf="f['modelName'].errors['required']"
-                  >Model Name is required</span
-                >
-                <span *ngIf="f['modelName'].errors['maxlength']"
-                  >Maximum 50 characters allowed</span
-                >
+              <input type="text" class="form-control form-input" formControlName="modelName" placeholder="e.g. Camry" />
+              <div class="form-error" *ngIf="(submitted || f['modelName'].touched) && f['modelName'].errors">
+                <span *ngIf="f['modelName'].errors['required']">Model Name is required</span>
+                <span *ngIf="f['modelName'].errors['maxlength']">Max 50 characters allowed</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Model Type (Variant)</label>
+              <input type="text" class="form-control form-input" formControlName="modelType" placeholder="e.g. Hybrid, Sport, Luxury" />
+              <div class="form-error" *ngIf="(submitted || f['modelType'].touched) && f['modelType'].errors">
+                <span *ngIf="f['modelType'].errors['maxlength']">Max 100 characters allowed</span>
+              </div>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">Description</label>
+              <textarea class="form-control form-input" formControlName="description" rows="3" placeholder="Enter model description..."></textarea>
+              <div class="form-error" *ngIf="(submitted || f['description'].touched) && f['description'].errors">
+                <span *ngIf="f['description'].errors['maxlength']">Max 500 characters allowed</span>
               </div>
             </div>
           </div>
 
           <div class="btn-row">
+            <button type="button" class="btn btn-danger" *ngIf="isEditMode" (click)="deleteModel()">
+              Delete
+            </button>
             <button type="button" class="btn btn-cancel" (click)="onCancel()">
               Cancel
             </button>
-
-            <button
-              type="submit"
-              class="btn btn-submit"
-              (click)="onSubmit()"
-              [disabled]="loading"
-            >
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="loading">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>
@@ -70,4 +75,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="list-embed-wrapper" style="margin-top: 30px;">
+  <app-model-list [showHeader]="false"></app-model-list>
 </div>

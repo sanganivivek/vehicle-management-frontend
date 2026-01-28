@@ -32,7 +32,7 @@ export class VehicleService {
   private brandUrl = `${environment.apiUrl}/brands`;
   private modelUrl = `${environment.apiUrl}/models`;
   private dashboardUrl = `${environment.apiUrl}/dashboard`;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   getVehicles(
     queryParams: VehicleQueryParams = {},
   ): Observable<VehicleResponse> {
@@ -63,18 +63,25 @@ export class VehicleService {
       .pipe(catchError(this.handleError));
   }
   addVehicle(vehicle: CreateVehicleDTO): Observable<VehicleMaster> {
+    const payload = {
+      ...vehicle,
+      yearOfManufacture: vehicle.modelYear,
+      chassisNumber: vehicle.chassisNumber
+    };
     return this.http
-      .post<VehicleMaster>(this.apiUrl, vehicle, {
+      .post<VehicleMaster>(this.apiUrl, payload, {
         headers: { "Content-Type": "application/json" },
       })
       .pipe(catchError(this.handleError));
   }
+
   updateVehicle(id: string, vehicle: any): Observable<any> {
     console.log("Updating vehicle:", id, vehicle);
     const updatePayload = {
       vehicleId: vehicle.vehicleId || id,
       regNo: vehicle.regNo,
-      modelYear: vehicle.modelYear,
+      chassisNumber: vehicle.chassisNumber,
+      yearOfManufacture: vehicle.modelYear,
       isActive: vehicle.isActive,
       brandId: vehicle.brandId,
       modelId: vehicle.modelId,

@@ -13,6 +13,8 @@ import { MaintenanceListComponent } from "./components/maintenance-list/maintena
 import { ComplianceReportComponent } from "./components/compliance-report/compliance-report.component";
 import { DashboardComponent } from "../pages/dashboard/dashboard.component";
 import { BrandListComponent } from "./components/brand-list/brand-list.component";
+import { ModelListComponent } from "./components/model-list/model-list.component";
+
 @NgModule({
   declarations: [
     VehicleListComponent,
@@ -21,6 +23,7 @@ import { BrandListComponent } from "./components/brand-list/brand-list.component
     BrandAddComponent,
     BrandListComponent,
     ModelAddComponent,
+    ModelListComponent,
   ],
   imports: [
     CommonModule,
@@ -34,4 +37,4 @@ import { BrandListComponent } from "./components/brand-list/brand-list.component
     DashboardComponent,
   ],
 })
-export class VehicleModule {}
+export class VehicleModule { }

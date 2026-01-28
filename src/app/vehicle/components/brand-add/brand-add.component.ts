@@ -20,21 +20,26 @@ export class BrandAddComponent implements OnInit {
     private brandService: BrandService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.brandId = this.route.snapshot.paramMap.get("id") || "";
-    this.isEditMode = !!this.brandId;
-
     this.brandForm = this.fb.group({
       brandName: ["", [Validators.required, Validators.maxLength(50)]],
-      brandCode: ["", [Validators.required, Validators.maxLength(10)]], // New
-      isActive: [true] // New
+      brandCode: ["", [Validators.required, Validators.maxLength(10)]],
+      isActive: [true]
     });
 
-    if (this.isEditMode) {
-      this.loadBrandData();
-    }
+    this.route.paramMap.subscribe(params => {
+      this.brandId = params.get("id") || "";
+      this.isEditMode = !!this.brandId;
+
+      if (this.isEditMode) {
+        this.loadBrandData();
+      } else {
+        this.brandForm.reset({ isActive: true });
+        this.submitted = false;
+      }
+    });
   }
 
   loadBrandData() {
@@ -79,12 +84,26 @@ export class BrandAddComponent implements OnInit {
 
   handleSuccess(message: string) {
     alert(message);
-    this.router.navigate(["/vehicle/brands"]); // Go back to list
+    this.router.navigate(["/dashboard"]); // Go back to list
   }
 
   handleError(err: any) {
     console.error(err);
     this.loading = false;
+  }
+
+  deleteBrand(): void {
+    if (confirm("Are you sure you want to delete this brand?")) {
+      this.loading = true;
+      this.brandService.deleteBrand(this.brandId).subscribe({
+        next: () => {
+          this.handleSuccess("Brand Deleted Successfully!");
+        },
+        error: (err) => {
+          this.handleError(err);
+        },
+      });
+    }
   }
 
   onCancel(): void {

@@ -31,7 +31,7 @@ export class VehicleAddComponent implements OnInit {
     private brandService: BrandService,
     private modelService: ModelService,
     private router: Router
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.initializeForm();
     this.loadBrands();
@@ -40,6 +40,7 @@ export class VehicleAddComponent implements OnInit {
   private initializeForm(): void {
     this.vehicleForm = this.fb.group({
       regNo: ["", Validators.required],
+      chassisNumber: ["", [Validators.required, Validators.maxLength(50)]],
       brandId: ["", Validators.required],
       modelId: ["", Validators.required],
       modelYear: ["", Validators.required],

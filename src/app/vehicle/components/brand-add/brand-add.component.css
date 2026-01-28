@@ -1,19 +1,21 @@
 .vehicle-page-bg {
   padding: 30px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-wrapper {
   width: 100%;
   max-width: 850px;
+  margin-bottom: 30px;
 }
 
 .form-card {
   background: #fff;
   border-radius: 10px;
   padding: 25px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.12);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
 }
 
 .form-header {
@@ -86,6 +88,22 @@
   background-color: #cfcfcf;
 }
 
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 500;
+  transition: 0.2s ease;
+  margin-right: auto;
+  /* Push to the left if in flex container */
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
 
 @media (max-width: 768px) {
   .form-grid {
@@ -104,4 +122,10 @@
 
 .form-error span {
   display: block;
+}
+
+.list-embed-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  /* Match vehicle-list width */
 }

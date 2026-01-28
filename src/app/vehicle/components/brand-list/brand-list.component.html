@@ -1,49 +1,53 @@
 <div class="vehicle-page-bg">
-  <div class="list-container" style="padding: 20px;">
-    <div class="list-header" style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center;">
-      <h2 style="margin: 0;">Brand List</h2>
-      <button class="btn btn-primary" routerLink="/vehicle/brands/add" style="padding: 10px 20px; cursor: pointer;">
+  <div class="vehicle-container">
+    <div class="header-section" *ngIf="showHeader">
+      <h2 class="title">Brand List</h2>
+      <button class="custom-add-btn" routerLink="/vehicle/brands/add">
         + Add Brand
       </button>
     </div>
 
-    <table class="table" style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-      <thead>
-        <tr style="background: #f8f9fa; text-align: left;">
-          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Brand Code</th>
-          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Brand Name</th>
-          <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Status</th>
-          <th style="padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let brand of brands" style="border-bottom: 1px solid #dee2e6;">
-          <td style="padding: 12px;">{{ brand.brandCode }}</td>
-          <td style="padding: 12px;">{{ brand.brandName }}</td>
-          <td style="padding: 12px;">
-            <span [style.background]="brand.isActive ? '#d4edda' : '#f8d7da'" 
-                  [style.color]="brand.isActive ? '#155724' : '#721c24'"
-                  style="padding: 5px 10px; border-radius: 20px; font-size: 0.85em; font-weight: 600;">
-              {{ brand.isActive ? 'Active' : 'Inactive' }}
-            </span>
-          </td>
-          <td style="padding: 12px; text-align: center;">
-            <button [routerLink]="['/vehicle/brands/edit', brand.brandId]" 
-                    style="margin-right: 10px; cursor: pointer; border: none; background: none; color: #007bff; font-weight: 500;">
-              Edit
-            </button>
-            <button (click)="deleteBrand(brand.brandId)" 
-                    style="cursor: pointer; border: none; background: none; color: #dc3545; font-weight: 500;">
-              Delete
-            </button>
-          </td>
-        </tr>
-        <tr *ngIf="brands.length === 0 && !loading">
-          <td colspan="4" style="text-align: center; padding: 20px; color: #6c757d;">No brands found.</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    <div *ngIf="loading" style="text-align: center; padding: 20px;">Loading...</div>
+    <div class="table-wrapper">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Brand Code</th>
+            <th>Brand Name</th>
+            <th>Status</th>
+            <th style="text-align: center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let brand of brands">
+            <td>{{ brand.brandCode }}</td>
+            <td>{{ brand.brandName }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="brand.isActive ? 'active' : 'inactive'">
+                {{ brand.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td>
+              <div class="action-icons">
+                <button class="icon-btn edit-icon" [routerLink]="['/vehicle/brands/edit', brand.brandId]">
+                  Edit
+                </button>
+                <button class="icon-btn delete-icon" (click)="deleteBrand(brand.brandId)">
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="brands.length === 0 && !loading">
+            <td colspan="4" style="text-align: center; padding: 20px; color: #6c757d;">
+              No brands found.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="loading" style="text-align: center; padding: 20px;">
+      Loading...
+    </div>
   </div>
 </div>

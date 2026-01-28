@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BrandService } from '../../services/brand.service';
 import { Brand } from '../../models/vehicle.model';
 
@@ -11,7 +11,9 @@ export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   loading = false;
 
-  constructor(private brandService: BrandService) {}
+  @Input() showHeader: boolean = true;
+
+  constructor(private brandService: BrandService) { }
 
   ngOnInit(): void {
     this.loadBrands();
@@ -26,7 +28,7 @@ export class BrandListComponent implements OnInit {
   }
 
   deleteBrand(id: string) {
-    if(confirm('Are you sure you want to delete this brand?')) {
+    if (confirm('Are you sure you want to delete this brand?')) {
       this.brandService.deleteBrand(id).subscribe(() => {
         alert('Brand Deleted Successfully');
         this.loadBrands();

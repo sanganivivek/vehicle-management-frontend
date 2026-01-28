@@ -66,23 +66,6 @@
     transition: 0.2s;
 }
 
-.status-badge {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.status-badge.active {
-    background: #28a745;
-    color: white;
-}
-
-.status-badge.inactive {
-    background: #6c757d;
-    color: white;
-}
-
 .action-icons {
     display: flex;
     gap: 12px;

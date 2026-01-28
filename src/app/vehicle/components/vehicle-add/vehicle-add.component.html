@@ -14,21 +14,18 @@
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label">Registration Number *</label>
-              <input
-                type="text"
-                class="form-control form-input"
-                formControlName="regNo"
-              />
-              <div
-                class="form-error"
-                *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors"
-              >
-                <span *ngIf="f['regNo'].errors['required']"
-                  >Registration Number is required</span
-                >
-                <span *ngIf="f['regNo'].errors['maxlength']"
-                  >Maximum 20 characters allowed</span
-                >
+              <input type="text" class="form-control form-input" formControlName="regNo" />
+              <div class="form-error" *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors">
+                <span *ngIf="f['regNo'].errors['required']">Registration Number is required</span>
+                <span *ngIf="f['regNo'].errors['maxlength']">Maximum 20 characters allowed</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Chassis Number *</label>
+              <input type="text" class="form-control form-input" formControlName="chassisNumber" />
+              <div class="form-error" *ngIf="(submitted || f['chassisNumber'].touched) && f['chassisNumber'].errors">
+                <span *ngIf="f['chassisNumber'].errors['required']">Chassis Number is required</span>
               </div>
             </div>
 
@@ -41,49 +38,32 @@
                 </option>
               </select>
 
-              <div
-                class="form-error"
-                *ngIf="
+              <div class="form-error" *ngIf="
                   (submitted || f['brandId'].touched) && f['brandId'].errors
-                "
-              >
-                <span *ngIf="f['brandId'].errors['required']"
-                  >Brand is required</span
-                >
+                ">
+                <span *ngIf="f['brandId'].errors['required']">Brand is required</span>
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">Model *</label>
-              <select
-                class="form-control form-input"
-                formControlName="modelId"
-                [disabled]="!models.length"
-              >
+              <select class="form-control form-input" formControlName="modelId" [disabled]="!models.length">
                 <option value="">Select Model</option>
                 <option *ngFor="let model of models" [value]="model.modelId">
                   {{ model.modelName }}
                 </option>
               </select>
 
-              <div
-                class="form-error"
-                *ngIf="
+              <div class="form-error" *ngIf="
                   (submitted || f['modelId'].touched) && f['modelId'].errors
-                "
-              >
-                <span *ngIf="f['modelId'].errors['required']"
-                  >Model is required</span
-                >
+                ">
+                <span *ngIf="f['modelId'].errors['required']">Model is required</span>
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">Status *</label>
-              <select
-                class="form-control form-input form-select"
-                formControlName="currentStatus"
-              >
+              <select class="form-control form-input form-select" formControlName="currentStatus">
                 <option [value]="0">Available</option>
                 <option [value]="1">Rented</option>
                 <option [value]="2">In Maintenance</option>
@@ -92,26 +72,13 @@
 
             <div class="form-group">
               <label class="form-label">Model Year *</label>
-              <input
-                type="number"
-                class="form-control form-input"
-                formControlName="modelYear"
-              />
-              <div
-                class="form-error"
-                *ngIf="
+              <input type="number" class="form-control form-input" formControlName="modelYear" />
+              <div class="form-error" *ngIf="
                   (submitted || f['modelYear'].touched) && f['modelYear'].errors
-                "
-              >
-                <span *ngIf="f['modelYear'].errors['required']"
-                  >Model Year is required</span
-                >
-                <span *ngIf="f['modelYear'].errors['min']"
-                  >Year must be 1900 or later</span
-                >
-                <span *ngIf="f['modelYear'].errors['max']"
-                  >Year cannot be in the future</span
-                >
+                ">
+                <span *ngIf="f['modelYear'].errors['required']">Model Year is required</span>
+                <span *ngIf="f['modelYear'].errors['min']">Year must be 1900 or later</span>
+                <span *ngIf="f['modelYear'].errors['max']">Year cannot be in the future</span>
               </div>
             </div>
           </div>
@@ -121,12 +88,8 @@
               Cancel
             </button>
 
-            <button
-              type="submit"
-              class="btn btn-submit"
-              (click)="onSubmit()"
-              [disabled]="vehicleForm.invalid || loading"
-            >
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()"
+              [disabled]="vehicleForm.invalid || loading">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>

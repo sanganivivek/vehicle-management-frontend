@@ -1,60 +1,50 @@
 <div class="vehicle-page-bg">
-  <div class="form-wrapper" style="max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div class="form-card" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      
-      <div class="form-header" style="margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-        <h3 class="form-title" style="margin: 0; color: #333;">{{ isEditMode ? 'Edit' : 'Add New' }} Brand</h3>
+  <div class="form-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <h3 class="form-title">{{ isEditMode ? 'Edit' : 'Add New' }} Brand</h3>
       </div>
 
       <div class="form-body">
         <form [formGroup]="brandForm">
-          <div class="form-grid" style="display: flex; flex-direction: column; gap: 20px;">
-            
+          <div class="form-grid">
             <div class="form-group">
-              <label class="form-label" style="display: block; margin-bottom: 8px; font-weight: 500;">Brand Code *</label>
-              <input type="text" 
-                     class="form-control" 
-                     formControlName="brandCode" 
-                     placeholder="Enter Brand Code (e.g., TOY)"
-                     style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" />
-              <div *ngIf="(submitted || f['brandCode'].touched) && f['brandCode'].errors" style="color: red; font-size: 0.875em; margin-top: 5px;">
+              <label class="form-label">Brand Code *</label>
+              <input type="text" class="form-control form-input" formControlName="brandCode" placeholder="e.g. TOY" />
+              <div class="form-error" *ngIf="(submitted || f['brandCode'].touched) && f['brandCode'].errors">
                 <span *ngIf="f['brandCode'].errors['required']">Brand Code is required</span>
                 <span *ngIf="f['brandCode'].errors['maxlength']">Max 10 characters allowed</span>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label" style="display: block; margin-bottom: 8px; font-weight: 500;">Brand Name *</label>
-              <input type="text" 
-                     class="form-control" 
-                     formControlName="brandName" 
-                     placeholder="Enter Brand Name (e.g., Toyota)" 
-                     style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" />
-              <div *ngIf="(submitted || f['brandName'].touched) && f['brandName'].errors" style="color: red; font-size: 0.875em; margin-top: 5px;">
+              <label class="form-label">Brand Name *</label>
+              <input type="text" class="form-control form-input" formControlName="brandName"
+                placeholder="e.g. Toyota" />
+              <div class="form-error" *ngIf="(submitted || f['brandName'].touched) && f['brandName'].errors">
                 <span *ngIf="f['brandName'].errors['required']">Brand Name is required</span>
                 <span *ngIf="f['brandName'].errors['maxlength']">Max 50 characters allowed</span>
               </div>
             </div>
 
-            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
-              <input type="checkbox" 
-                     formControlName="isActive" 
-                     id="isActiveCheck" 
-                     style="width: 18px; height: 18px; cursor: pointer;" />
-              <label for="isActiveCheck" style="margin: 0; cursor: pointer; font-weight: 500;">Is Active?</label>
+            <div class="form-group d-flex align-items-center gap-2">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" formControlName="isActive" id="isActiveCheck" />
+                <label class="form-check-label" for="isActiveCheck">
+                  Is Active?
+                </label>
+              </div>
             </div>
-
           </div>
 
-          <div class="btn-row" style="margin-top: 30px; display: flex; gap: 10px; justify-content: flex-end;">
-            <button type="button" class="btn btn-secondary" (click)="onCancel()" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
+          <div class="btn-row">
+            <button type="button" class="btn btn-danger" *ngIf="isEditMode" (click)="deleteBrand()">
+              Delete
+            </button>
+            <button type="button" class="btn btn-cancel" (click)="onCancel()">
               Cancel
             </button>
-            <button type="submit" 
-                    class="btn btn-primary" 
-                    (click)="onSubmit()" 
-                    [disabled]="brandForm.invalid || loading"
-                    style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="brandForm.invalid || loading">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>
@@ -62,4 +52,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="list-embed-wrapper" style="margin-top: 30px;">
+  <app-brand-list [showHeader]="false"></app-brand-list>
 </div>

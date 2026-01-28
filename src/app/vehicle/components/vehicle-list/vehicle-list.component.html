@@ -54,7 +54,7 @@
             <td class="fw-bold">{{ vehicle.regNo }}</td>
             <td>{{ vehicle.brand }}</td>
             <td>{{ vehicle.model }}</td>
-            <td>{{ vehicle.modelYear }}</td>
+            <td>{{ vehicle.yearOfManufacture || vehicle.modelYear }}</td>
 
             <td>
               <span [class]="getStatusClass(vehicle.currentStatus)">
