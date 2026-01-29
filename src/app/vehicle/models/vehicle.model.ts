@@ -71,6 +71,9 @@ export interface VehicleListDTO {
   modelId: string;
   brandName: string;
   modelName: string;
+  VehicleType?: string; //vehicle auto, manual
+  FuelType?: string; //petrol, diesel, electric
+  Transmission?: string; //automatic, manual
   brand: string;
   model: string;
   modelYear?: number;
