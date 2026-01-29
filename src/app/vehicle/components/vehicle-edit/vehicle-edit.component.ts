@@ -5,6 +5,7 @@ import { VehicleService } from "../../vehicle.service";
 import { Brand, Model } from "../../models/vehicle.model";
 import { ngxLoadingAnimationTypes } from "ngx-loading";
 import { ToastrService } from "ngx-toastr";
+
 @Component({
   selector: "app-vehicle-edit",
   templateUrl: "./vehicle-edit.component.html",
@@ -18,6 +19,23 @@ export class VehicleEditComponent implements OnInit {
   submitted = false;
   brands: Brand[] = [];
   models: Model[] = [];
+
+  // Enum arrays for dropdowns
+  vehicleTypes = ['Hatchback', 'Sedan', 'SUV'];
+  fuelTypes = ['Petrol', 'Diesel', 'CNG', 'E20'];
+  transmissionTypes = ['Manual', 'Automatic'];
+  statusOptions = [
+    { value: 0, label: 'Available' },
+    { value: 1, label: 'Rented' },
+    { value: 2, label: 'Inmaintance' }
+  ];
+  activeOptions = [
+    { value: true, label: 'Yes' },
+    { value: false, label: 'No' }
+  ];
+
+  currentYear = new Date().getFullYear();
+
   loadingConfig = {
     animationType: ngxLoadingAnimationTypes.circleSwish,
     backdropBorderRadius: "3px",
@@ -25,6 +43,7 @@ export class VehicleEditComponent implements OnInit {
     secondaryColour: "#ccc",
     tertiaryColour: "#fff",
   };
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -32,22 +51,26 @@ export class VehicleEditComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
   ) { }
+
   ngOnInit(): void {
     this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
     this.vehicleForm = this.fb.group({
-      regNo: ["", [Validators.required, Validators.maxLength(20)]],
-      chassisNumber: ["", [Validators.required, Validators.maxLength(50)]],
+      regNo: ["", [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      chassisNumber: ["", [Validators.required, Validators.pattern(/^[A-Za-z0-9]{17}$/)]],
       brandId: ["", Validators.required],
       modelId: ["", Validators.required],
-      modelYear: [
-        "",
-        [
-          Validators.required,
-          Validators.min(1950),
-          Validators.max(new Date().getFullYear() + 1),
-        ],
-      ],
-      isActive: [true],
+      vehicleType: ["", Validators.required],
+      fuelType: ["", Validators.required],
+      transmission: ["", Validators.required],
+      seatingCapacity: ["", [Validators.required, Validators.min(1), Validators.max(50)]],
+      vehicleColour: [""],
+      yearOfManufacture: ["", [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
+      engineNumber: ["", Validators.required],
+      insurancePolicyNumber: ["", Validators.required],
+      insurancePolicyExpiryDate: ["", Validators.required],
+      rcExpiryDate: ["", Validators.required],
+      fitnessCertificateExpiryDate: ["", Validators.required],
+      isActive: [true, Validators.required],
       currentStatus: [0, Validators.required],
     });
 
@@ -60,14 +83,32 @@ export class VehicleEditComponent implements OnInit {
       }
     });
 
+    // Set up manufacture year listener for auto-calculation
+    this.vehicleForm.get("yearOfManufacture")?.valueChanges.subscribe((year) => {
+      if (year && year >= 1900) {
+        const expiryYear = parseInt(year) + 15;
+        const expiryDate = `${expiryYear}-12-31`;
+
+        // Auto-fill RC and Fitness expiry dates if they're empty
+        if (!this.vehicleForm.get("rcExpiryDate")?.value) {
+          this.vehicleForm.patchValue({ rcExpiryDate: expiryDate });
+        }
+        if (!this.vehicleForm.get("fitnessCertificateExpiryDate")?.value) {
+          this.vehicleForm.patchValue({ fitnessCertificateExpiryDate: expiryDate });
+        }
+      }
+    });
+
     this.loadBrands();
     if (this.vehicleId) {
       this.loadVehicle(this.vehicleId);
     }
   }
+
   get f() {
     return this.vehicleForm.controls;
   }
+
   loadBrands() {
     this.vehicleService.getBrands().subscribe({
       next: (data) => {
@@ -76,6 +117,7 @@ export class VehicleEditComponent implements OnInit {
       error: (err) => console.error("Failed to load brands", err),
     });
   }
+
   loadVehicle(id: string) {
     this.loading = true;
     this.vehicleService.getVehicleById(id).subscribe({
@@ -85,13 +127,30 @@ export class VehicleEditComponent implements OnInit {
           await this.loadModelsAsync(vehicle.brandId);
         }
 
+        // Format dates for input fields (YYYY-MM-DD)
+        const formatDate = (dateStr: string | null) => {
+          if (!dateStr) return '';
+          const date = new Date(dateStr);
+          return date.toISOString().split('T')[0];
+        };
+
         // Then patch the form values
         this.vehicleForm.patchValue({
           regNo: vehicle.regNo,
           chassisNumber: vehicle.chassisNumber,
           brandId: vehicle.brandId,
           modelId: vehicle.modelId,
-          modelYear: vehicle.modelYear || vehicle.yearOfManufacture, // Handle both just in case
+          vehicleType: vehicle.vehicleType,
+          fuelType: vehicle.fuelType,
+          transmission: vehicle.transmission,
+          seatingCapacity: vehicle.seatingCapacity,
+          vehicleColour: vehicle.vehicleColour,
+          yearOfManufacture: vehicle.yearOfManufacture,
+          engineNumber: vehicle.engineNumber,
+          insurancePolicyNumber: vehicle.insurancePolicyNumber,
+          insurancePolicyExpiryDate: formatDate(vehicle.insurancePolicyExpiryDate),
+          rcExpiryDate: formatDate(vehicle.rcExpiryDate),
+          fitnessCertificateExpiryDate: formatDate(vehicle.fitnessCertificateExpiryDate),
           isActive: vehicle.isActive,
           currentStatus: vehicle.currentStatus,
         });
@@ -105,6 +164,7 @@ export class VehicleEditComponent implements OnInit {
       },
     });
   }
+
   loadModels(brandId: string) {
     this.vehicleService.getModelsByBrand(brandId).subscribe({
       next: (data) => (this.models = data),
@@ -127,6 +187,7 @@ export class VehicleEditComponent implements OnInit {
       });
     });
   }
+
   onSubmit() {
     this.submitted = true;
     if (this.vehicleForm.invalid) {
@@ -151,6 +212,7 @@ export class VehicleEditComponent implements OnInit {
       },
     });
   }
+
   onCancel() {
     this.router.navigate(["/vehicle"]);
   }

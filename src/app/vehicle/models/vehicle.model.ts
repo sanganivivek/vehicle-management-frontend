@@ -1,19 +1,20 @@
 export interface Vehicle {
   vehicleId: string;
-  vehicleName: string;
   regNo: string;
   chassisNumber: string;
-  brandId: string;
-  modelId: string;
-  modelYear?: number;
-  id: number;
-  currentStatus: number;
+  brandName: string;
+  modelName: string;
+  VehicleType?: string; //vehicle auto, manual
+  FuelType?: string; //petrol, diesel, electric
+  Transmission?: string; //automatic, manual
+  seatingCapacity?: number;
+
 }
 export interface Brand {
   brandId: string;
   brandName: string;
   brandCode: string; // New
-  isActive: boolean; // New 
+  isActive: boolean; // New
 }
 export interface Model {
   modelId: string;
@@ -30,7 +31,17 @@ export interface CreateVehicleDTO {
   chassisNumber: string;
   brandId: string;
   modelId: string;
-  modelYear?: number;
+  vehicleType: string;
+  fuelType: string;
+  transmission: string;
+  seatingCapacity: number;
+  vehicleColour?: string;
+  yearOfManufacture: number;
+  engineNumber?: string;
+  insurancePolicyNumber?: string;
+  insurancePolicyExpiryDate?: Date | string;
+  rcExpiryDate?: Date | string;
+  fitnessCertificateExpiryDate?: Date | string;
   isActive: boolean;
   currentStatus: number;
 }
@@ -100,8 +111,17 @@ export interface UpdateVehicleDTO {
   chassisNumber: string;
   brandId: string;
   modelId: string;
-  modelYear: number;
+  vehicleType: string;
+  fuelType: string;
+  transmission: string;
+  seatingCapacity: number;
+  vehicleColour?: string;
+  yearOfManufacture: number;
+  engineNumber?: string;
+  insurancePolicyNumber?: string;
+  insurancePolicyExpiryDate?: Date | string;
+  rcExpiryDate?: Date | string;
+  fitnessCertificateExpiryDate?: Date | string;
   isActive: boolean;
-  vehicleName?: string;
   currentStatus: number;
 }

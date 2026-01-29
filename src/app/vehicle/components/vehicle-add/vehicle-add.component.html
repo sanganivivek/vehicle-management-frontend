@@ -12,46 +12,32 @@
 
         <form [formGroup]="vehicleForm">
           <div class="form-grid">
+            <!-- Registration Number -->
             <div class="form-group">
               <label class="form-label">Registration Number *</label>
-              <input
-                type="text"
-                class="form-control form-input"
-                formControlName="regNo"
-              />
-              <div
-                class="form-error"
-                *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors"
-              >
-                <span *ngIf="f['regNo'].errors['required']"
-                  >Registration Number is required</span
-                >
-                <span *ngIf="f['regNo'].errors['maxlength']"
-                  >Maximum 20 characters allowed</span
-                >
+              <input type="text" class="form-control form-input" formControlName="regNo"
+                placeholder="10 digit number" />
+              <div class="form-error" *ngIf="(submitted || f['regNo'].touched) && f['regNo'].errors">
+                <span *ngIf="f['regNo'].errors['required']">Registration Number is required</span>
+                <span *ngIf="f['regNo'].errors['pattern']">Must be exactly 10 digits</span>
               </div>
             </div>
 
+            <!-- Chassis Number -->
             <div class="form-group">
               <label class="form-label">Chassis Number *</label>
-              <input
-                type="text"
-                class="form-control form-input"
-                formControlName="chassisNumber"
-              />
-              <div
-                class="form-error"
-                *ngIf="
+              <input type="text" class="form-control form-input" formControlName="chassisNumber"
+                placeholder="17 digit alphanumeric" />
+              <div class="form-error" *ngIf="
                   (submitted || f['chassisNumber'].touched) &&
                   f['chassisNumber'].errors
-                "
-              >
-                <span *ngIf="f['chassisNumber'].errors['required']"
-                  >Chassis Number is required</span
-                >
+                ">
+                <span *ngIf="f['chassisNumber'].errors['required']">Chassis Number is required</span>
+                <span *ngIf="f['chassisNumber'].errors['pattern']">Must be exactly 17 alphanumeric characters</span>
               </div>
             </div>
 
+            <!-- Brand -->
             <div class="form-group">
               <label class="form-label">Brand *</label>
               <select class="form-control form-input" formControlName="brandId">
@@ -60,329 +46,216 @@
                   {{ brand.brandName }}
                 </option>
               </select>
-
-              <div
-                class="form-error"
-                *ngIf="
+              <div class="form-error" *ngIf="
                   (submitted || f['brandId'].touched) && f['brandId'].errors
-                "
-              >
-                <span *ngIf="f['brandId'].errors['required']"
-                  >Brand is required</span
-                >
+                ">
+                <span *ngIf="f['brandId'].errors['required']">Brand is required</span>
               </div>
             </div>
 
+            <!-- Model -->
             <div class="form-group">
               <label class="form-label">Model *</label>
-              <select
-                class="form-control form-input"
-                formControlName="modelId"
-                [disabled]="!models.length"
-              >
+              <select class="form-control form-input" formControlName="modelId" [disabled]="!models.length">
                 <option value="">Select Model</option>
                 <option *ngFor="let model of models" [value]="model.modelId">
                   {{ model.modelName }}
                 </option>
               </select>
-
-              <div
-                class="form-error"
-                *ngIf="
+              <div class="form-error" *ngIf="
                   (submitted || f['modelId'].touched) && f['modelId'].errors
-                "
-              >
-                <span *ngIf="f['modelId'].errors['required']"
-                  >Model is required</span
-                >
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Vehicle Type *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="VehicleType"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['VehicleType'].touched) &&
-                    f['VehicleType'].errors
-                  "
-                >
-                  <span *ngIf="f['VehicleType'].errors['required']"
-                    >Vehicle Type is required</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Fuel Type *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="FuelType"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['FuelType'].touched) && f['FuelType'].errors
-                  "
-                >
-                  <span *ngIf="f['FuelType'].errors['required']"
-                    >Vehicle Type is required</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Transmission Type*</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="Transmission"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['Transmission'].touched) &&
-                    f['Transmission'].errors
-                  "
-                >
-                  <span *ngIf="f['Transmission'].errors['required']"
-                    >Vehicle Type is required</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Seatinng Capacity *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="SeatingCapacity"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['SeatingCapacity'].touched) &&
-                    f['SeatingCapacity'].errors
-                  "
-                >
-                  <span *ngIf="f['SeatingCapacity'].errors['required']"
-                    >Vehicle Type is required</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Vehicle Colour *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="VehicleColour"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['VehicleColour'].touched) &&
-                    f['VehicleColour'].errors
-                  "
-                >
-                  <span *ngIf="f['VehicleColour'].errors['required']"
-                    >Vehicle Type is required</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Manufacture Year *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="YearOfManufacture"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['YearOfManufacture'].touched) &&
-                    f['YearOfManufacture'].errors
-                  "
-                >
-                  <span *ngIf="f['YearOfManufacture'].errors['required']"
-                    >Vehicle Type is required</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Engine Number *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="EngineNumber"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['EngineNumber'].touched) &&
-                    f['EngineNumber'].errors
-                  "
-                >
-                  <span *ngIf="f['EngineNumber'].errors['required']"
-                    >Vehicle Type is required</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Insurance Policy Number *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="InsurancePolicyNumber"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['InsurancePolicyNumber'].touched) &&
-                    f['InsurancePolicyNumber'].errors
-                  "
-                >
-                  <span *ngIf="f['InsurancePolicyNumber'].errors['required']"
-                    >Insurance Policy Number is required</span
-                  >
-                </div>
+                ">
+                <span *ngIf="f['modelId'].errors['required']">Model is required</span>
               </div>
             </div>
 
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Insurance policy Expiry Date *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="InsurancePolicyExpiryDate"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['InsurancePolicyExpiryDate'].touched) &&
-                    f['InsurancePolicyExpiryDate'].errors
-                  "
-                >
-                  <span *ngIf="f['InsurancePolicyExpiryDate'].errors['required']"
-                    >Insurance policy Expiry Date is required</span
-                  >
-                </div>
+            <!-- Vehicle Type -->
+            <div class="form-group">
+              <label class="form-label">Vehicle Type *</label>
+              <select class="form-control form-input" formControlName="vehicleType">
+                <option value="">Select Vehicle Type</option>
+                <option *ngFor="let type of vehicleTypes" [value]="type">
+                  {{ type }}
+                </option>
+              </select>
+              <div class="form-error" *ngIf="
+                  (submitted || f['vehicleType'].touched) &&
+                  f['vehicleType'].errors
+                ">
+                <span *ngIf="f['vehicleType'].errors['required']">Vehicle Type is required</span>
               </div>
             </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">RC Expiry Date *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="RcExpiryDate"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['RcExpiryDate'].touched) &&
-                    f['RcExpiryDate'].errors
-                  "
-                >
-                  <span *ngIf="f['RcExpiryDate'].errors['required']"
-                    >RC Expiry Date is required</span
-                  >
-                </div>
+
+            <!-- Fuel Type -->
+            <div class="form-group">
+              <label class="form-label">Fuel Type *</label>
+              <select class="form-control form-input" formControlName="fuelType">
+                <option value="">Select Fuel Type</option>
+                <option *ngFor="let fuel of fuelTypes" [value]="fuel">
+                  {{ fuel }}
+                </option>
+              </select>
+              <div class="form-error" *ngIf="
+                  (submitted || f['fuelType'].touched) && f['fuelType'].errors
+                ">
+                <span *ngIf="f['fuelType'].errors['required']">Fuel Type is required</span>
               </div>
             </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Fitness Certificate Expiry Date*</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="FitnessCertificateExpiryDate"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['FitnessCertificateExpiryDate'].touched) &&
-                    f['FitnessCertificateExpiryDate'].errors
-                  "
-                >
-                  <span *ngIf="f['FitnessCertificateExpiryDate'].errors['required']"
-                    >Fitness Certificate Expiry Date is required</span
-                  >
-                </div>
+
+            <!-- Transmission -->
+            <div class="form-group">
+              <label class="form-label">Transmission *</label>
+              <select class="form-control form-input" formControlName="transmission">
+                <option value="">Select Transmission</option>
+                <option *ngFor="let trans of transmissionTypes" [value]="trans">
+                  {{ trans }}
+                </option>
+              </select>
+              <div class="form-error" *ngIf="
+                  (submitted || f['transmission'].touched) &&
+                  f['transmission'].errors
+                ">
+                <span *ngIf="f['transmission'].errors['required']">Transmission is required</span>
               </div>
             </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Current Status *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="CurrentStatus"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['CurrentStatus'].touched) &&
-                    f['CurrentStatus'].errors
-                  "
-                >
-                  <span *ngIf="f['CurrentStatus'].errors['required']"
-                    >Current Status is required</span
-                  >
-                </div>
+
+            <!-- Seating Capacity -->
+            <div class="form-group">
+              <label class="form-label">Seating Capacity *</label>
+              <input type="number" class="form-control form-input" formControlName="seatingCapacity" min="1" max="50" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['seatingCapacity'].touched) &&
+                  f['seatingCapacity'].errors
+                ">
+                <span *ngIf="f['seatingCapacity'].errors['required']">Seating Capacity is required</span>
+                <span *ngIf="f['seatingCapacity'].errors['min'] || f['seatingCapacity'].errors['max']">Must be between 1
+                  and 50</span>
               </div>
             </div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Is Active *</label>
-                <input
-                  type="text"
-                  class="form-control form-input"
-                  formControlName="isActive"
-                />
-                <div
-                  class="form-error"
-                  *ngIf="
-                    (submitted || f['isActive'].touched) &&
-                    f['isActive'].errors
-                  "
-                >
-                  <span *ngIf="f['isActive'].errors['required']"
-                    >Is Active is required</span
-                  >
-                </div>
+
+            <!-- Vehicle Colour -->
+            <div class="form-group">
+              <label class="form-label">Vehicle Colour</label>
+              <input type="color" class="form-control form-input" formControlName="vehicleColour" />
+            </div>
+
+            <!-- Year of Manufacture -->
+            <div class="form-group">
+              <label class="form-label">Year of Manufacture *</label>
+              <input type="number" class="form-control form-input" formControlName="yearOfManufacture" min="1900"
+                [max]="currentYear" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['yearOfManufacture'].touched) &&
+                  f['yearOfManufacture'].errors
+                ">
+                <span *ngIf="f['yearOfManufacture'].errors['required']">Year of Manufacture is required</span>
+                <span *ngIf="f['yearOfManufacture'].errors['min'] || f['yearOfManufacture'].errors['max']">Invalid
+                  year</span>
               </div>
             </div>
-            
+
+            <!-- Engine Number -->
+            <div class="form-group">
+              <label class="form-label">Engine Number *</label>
+              <input type="text" class="form-control form-input" formControlName="engineNumber" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['engineNumber'].touched) &&
+                  f['engineNumber'].errors
+                ">
+                <span *ngIf="f['engineNumber'].errors['required']">Engine Number is required</span>
+              </div>
+            </div>
+
+            <!-- Insurance Policy Number -->
+            <div class="form-group">
+              <label class="form-label">Insurance Policy Number *</label>
+              <input type="text" class="form-control form-input" formControlName="insurancePolicyNumber" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['insurancePolicyNumber'].touched) &&
+                  f['insurancePolicyNumber'].errors
+                ">
+                <span *ngIf="f['insurancePolicyNumber'].errors['required']">Insurance Policy Number is required</span>
+              </div>
+            </div>
+
+            <!-- Insurance Policy Expiry Date -->
+            <div class="form-group">
+              <label class="form-label">Insurance Policy Expiry Date *</label>
+              <input type="date" class="form-control form-input" formControlName="insurancePolicyExpiryDate" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['insurancePolicyExpiryDate'].touched) &&
+                  f['insurancePolicyExpiryDate'].errors
+                ">
+                <span *ngIf="f['insurancePolicyExpiryDate'].errors['required']">Insurance Policy Expiry Date is
+                  required</span>
+              </div>
+            </div>
+
+            <!-- RC Expiry Date -->
+            <div class="form-group">
+              <label class="form-label">RC Expiry Date *</label>
+              <input type="date" class="form-control form-input" formControlName="rcExpiryDate" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['rcExpiryDate'].touched) &&
+                  f['rcExpiryDate'].errors
+                ">
+                <span *ngIf="f['rcExpiryDate'].errors['required']">RC Expiry Date is required</span>
+              </div>
+            </div>
+
+            <!-- Fitness Certificate Expiry Date -->
+            <div class="form-group">
+              <label class="form-label">Fitness Certificate Expiry Date *</label>
+              <input type="date" class="form-control form-input" formControlName="fitnessCertificateExpiryDate" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['fitnessCertificateExpiryDate'].touched) &&
+                  f['fitnessCertificateExpiryDate'].errors
+                ">
+                <span *ngIf="f['fitnessCertificateExpiryDate'].errors['required']">Fitness Certificate Expiry Date is
+                  required</span>
+              </div>
+            </div>
+
+            <!-- Current Status -->
+            <div class="form-group">
+              <label class="form-label">Current Status *</label>
+              <select class="form-control form-input" formControlName="currentStatus">
+                <option *ngFor="let status of statusOptions" [value]="status.value">
+                  {{ status.label }}
+                </option>
+              </select>
+              <div class="form-error" *ngIf="
+                  (submitted || f['currentStatus'].touched) &&
+                  f['currentStatus'].errors
+                ">
+                <span *ngIf="f['currentStatus'].errors['required']">Current Status is required</span>
+              </div>
+            </div>
+
+            <!-- Is Active -->
+            <div class="form-group">
+              <label class="form-label">Is Active *</label>
+              <select class="form-control form-input" formControlName="isActive">
+                <option *ngFor="let option of activeOptions" [value]="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+              <div class="form-error" *ngIf="
+                  (submitted || f['isActive'].touched) &&
+                  f['isActive'].errors
+                ">
+                <span *ngIf="f['isActive'].errors['required']">Is Active is required</span>
+              </div>
+            </div>
           </div>
+
           <div class="btn-row">
             <button type="button" class="btn btn-cancel" (click)="onCancel()">
               Cancel
             </button>
 
-            <button
-              type="submit"
-              class="btn btn-submit"
-              (click)="onSubmit()"
-              [disabled]="vehicleForm.invalid || loading"
-            >
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()"
+              [disabled]="vehicleForm.invalid || loading">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>

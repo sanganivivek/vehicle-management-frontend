@@ -63,13 +63,8 @@ export class VehicleService {
       .pipe(catchError(this.handleError));
   }
   addVehicle(vehicle: CreateVehicleDTO): Observable<VehicleMaster> {
-    const payload = {
-      ...vehicle,
-      yearOfManufacture: vehicle.modelYear,
-      chassisNumber: vehicle.chassisNumber
-    };
     return this.http
-      .post<VehicleMaster>(this.apiUrl, payload, {
+      .post<VehicleMaster>(this.apiUrl, vehicle, {
         headers: { "Content-Type": "application/json" },
       })
       .pipe(catchError(this.handleError));
@@ -81,15 +76,20 @@ export class VehicleService {
       vehicleId: vehicle.vehicleId || id,
       regNo: vehicle.regNo,
       chassisNumber: vehicle.chassisNumber,
-      yearOfManufacture: vehicle.modelYear,
+      yearOfManufacture: vehicle.yearOfManufacture,
       isActive: vehicle.isActive,
       brandId: vehicle.brandId,
       modelId: vehicle.modelId,
-      vehicleName: vehicle.vehicleName || "",
-      brand: vehicle.brand || "",
-      model: vehicle.model || "",
-      brandName: vehicle.brandName || "",
-      modelName: vehicle.modelName || "",
+      vehicleType: vehicle.vehicleType,
+      fuelType: vehicle.fuelType,
+      transmission: vehicle.transmission,
+      seatingCapacity: vehicle.seatingCapacity,
+      vehicleColour: vehicle.vehicleColour,
+      engineNumber: vehicle.engineNumber,
+      insurancePolicyNumber: vehicle.insurancePolicyNumber,
+      insurancePolicyExpiryDate: vehicle.insurancePolicyExpiryDate,
+      rcExpiryDate: vehicle.rcExpiryDate,
+      fitnessCertificateExpiryDate: vehicle.fitnessCertificateExpiryDate,
       currentStatus: vehicle.currentStatus,
     };
     return this.http
