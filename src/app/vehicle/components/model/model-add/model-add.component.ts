@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BrandService } from "../../services/brand.service";
-import { ModelService } from "../../services/model.service";
-import { Brand, CreateModelDTO } from "../../models/vehicle.model";
+import { BrandService } from "../../../services/brand.service";
+import { ModelService } from "../../../services/model.service";
+import { Brand, CreateModelDTO } from "../../../models/vehicle.model";
 @Component({
   selector: "app-model-add",
   templateUrl: "./model-add.component.html",
@@ -23,19 +23,19 @@ export class ModelAddComponent implements OnInit {
     private brandService: BrandService,
     private modelService: ModelService,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.modelForm = this.fb.group({
       brandId: ["", [Validators.required]],
       modelCode: ["", [Validators.maxLength(50)]],
       modelName: ["", [Validators.required, Validators.maxLength(50)]],
-      modelType: ["", [Validators.maxLength(100)]],
+
       description: ["", [Validators.maxLength(500)]],
     });
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.modelId = params.get("id") || "";
       this.isEditMode = !!this.modelId;
 
@@ -43,7 +43,7 @@ export class ModelAddComponent implements OnInit {
     });
 
     // Listen to brand changes to update brand code
-    this.modelForm.get('brandId')?.valueChanges.subscribe(brandId => {
+    this.modelForm.get("brandId")?.valueChanges.subscribe((brandId) => {
       this.onBrandChange(brandId);
     });
   }
@@ -66,7 +66,7 @@ export class ModelAddComponent implements OnInit {
   }
 
   onBrandChange(brandId: string): void {
-    const selectedBrand = this.brands.find(b => b.brandId === brandId);
+    const selectedBrand = this.brands.find((b) => b.brandId === brandId);
     this.selectedBrandCode = selectedBrand?.brandCode || "";
   }
 
@@ -78,8 +78,8 @@ export class ModelAddComponent implements OnInit {
           brandId: data.brandId,
           modelCode: data.modelCode,
           modelName: data.modelName,
-          modelType: data.modelType,
-          description: data.description
+
+          description: data.description,
         });
         this.onBrandChange(data.brandId);
         this.loading = false;
@@ -89,7 +89,7 @@ export class ModelAddComponent implements OnInit {
         this.loading = false;
         alert("Failed to load model details");
         this.router.navigate(["/vehicle/models"]);
-      }
+      },
     });
   }
 
@@ -109,7 +109,7 @@ export class ModelAddComponent implements OnInit {
       brandId: this.modelForm.value.brandId,
       modelCode: this.modelForm.value.modelCode?.trim() || undefined,
       name: this.modelForm.value.modelName.trim(),
-      modelType: this.modelForm.value.modelType?.trim() || undefined,
+
       description: this.modelForm.value.description?.trim() || undefined,
     };
 
@@ -123,7 +123,7 @@ export class ModelAddComponent implements OnInit {
           console.error("Error:", err);
           this.loading = false;
           alert(`Failed to update model`);
-        }
+        },
       });
     } else {
       this.modelService.addModel(modelData).subscribe({
@@ -135,7 +135,7 @@ export class ModelAddComponent implements OnInit {
           console.error("Error:", err);
           this.loading = false;
           alert(`Failed to save model: ${err}`);
-        }
+        },
       });
     }
   }
@@ -152,7 +152,7 @@ export class ModelAddComponent implements OnInit {
           console.error("Error:", err);
           this.loading = false;
           alert(`Failed to delete model`);
-        }
+        },
       });
     }
   }

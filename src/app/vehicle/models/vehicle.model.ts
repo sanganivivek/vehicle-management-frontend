@@ -20,7 +20,7 @@ export interface Model {
   modelId: string;
   modelCode?: string;
   modelName?: string;
-  modelType?: string; // Variant
+
   description?: string;
   brandId: string;
   brandName?: string;
@@ -49,7 +49,7 @@ export interface CreateModelDTO {
   brandId: string;
   modelCode?: string;
   name: string;
-  modelType?: string; // Variant
+
   description?: string;
 }
 export interface CreateBrandDTO {
@@ -62,7 +62,7 @@ export interface VehicleMaster {
   regNo: string;
   chassisNumber: string;
   modelYear?: number;
-  yearOfManufacture?: number; // Added this
+  yearOfManufacture?: number;
   isActive: boolean;
   brandId: string;
   modelId: string;
@@ -72,6 +72,11 @@ export interface VehicleMaster {
   modelName?: string;
   brand?: string;
   model?: string;
+  vehicleType?: string;
+  fuelType?: string;
+  transmission?: string;
+  seatingCapacity?: number;
+  vehicleColour?: string;
 }
 export interface VehicleListDTO {
   vehicleId: string;
@@ -82,13 +87,15 @@ export interface VehicleListDTO {
   modelId: string;
   brandName: string;
   modelName: string;
-  VehicleType?: string; //vehicle auto, manual
-  FuelType?: string; //petrol, diesel, electric
-  Transmission?: string; //automatic, manual
+  vehicleType?: string;
+  fuelType?: string;
+  transmission?: string;
+  seatingCapacity?: number;
+  vehicleColour?: string;
   brand: string;
   model: string;
   modelYear?: number;
-  yearOfManufacture?: number; // Added this
+  yearOfManufacture?: number;
   isActive: boolean;
   currentStatus: number;
 }

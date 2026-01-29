@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { VehicleService } from "../../vehicle.service";
-import { BrandService } from "../../services/brand.service";
+import { VehicleService } from "../../../vehicle.service";
+import { BrandService } from "../../../services/brand.service";
 import { ToastrService } from "ngx-toastr";
 import {
   VehicleListDTO,
   Brand,
   VehicleQueryParams,
-} from "../../models/vehicle.model";
-import { LoadingService } from "../../../shared/services/loading.service";
+} from "../../../models/vehicle.model";
+import { LoadingService } from "../../../../shared/services/loading.service";
 const STATUS_AVAILABLE = 0;
 const STATUS_ON_ROAD = 1;
 const STATUS_MAINTENANCE = 2;
@@ -19,7 +19,7 @@ const STATUS_MAINTENANCE = 2;
 })
 export class VehicleListComponent implements OnInit {
   vehicles: VehicleListDTO[] = [];
-  brands: Brand[] = [];
+  brandId: Brand[] = [];
   searchTerm = "";
   selectedBrand = "";
   sortColumn = "regNo";
@@ -48,7 +48,7 @@ export class VehicleListComponent implements OnInit {
     this.loadBrands();
   }
   loadVehicles(): void {
-    
+
     const queryParams: any = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
@@ -66,25 +66,25 @@ export class VehicleListComponent implements OnInit {
         this.totalRecords = response.totalRecords || 0;
         this.totalPages = response.totalPages || 1;
         this.generatePagesArray();
-        
+
       },
       error: (error: any) => {
         console.error("Failed to load vehicles:", error);
         this.vehicles = [];
         this.totalRecords = 0;
         this.totalPages = 1;
-        
+
       },
     });
   }
   loadBrands(): void {
     this.brandService.getBrands().subscribe({
       next: (brands: Brand[]) => {
-        this.brands = brands;
+        this.brandId = brands;
       },
       error: (error) => {
         console.error("Failed to load brands:", error);
-        this.brands = [];
+        this.brandId = [];
       },
     });
   }
@@ -211,5 +211,17 @@ export class VehicleListComponent implements OnInit {
       },
       error: () => this.toastr.error("Failed to fetch details"),
     });
+  }
+
+  getVehicleTypeName(type: string | undefined): string {
+    return type || "N/A";
+  }
+
+  getFuelTypeName(type: string | undefined): string {
+    return type || "N/A";
+  }
+
+  getTransmissionName(type: string | undefined): string {
+    return type || "N/A";
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { VehicleService } from "../../vehicle.service";
-import { Brand, Model } from "../../models/vehicle.model";
+import { VehicleService } from "../../../vehicle.service";
+import { Brand, Model } from "../../../models/vehicle.model";
 import { ngxLoadingAnimationTypes } from "ngx-loading";
 import { ToastrService } from "ngx-toastr";
 
@@ -226,6 +226,22 @@ export class VehicleEditComponent implements OnInit {
         this.toastr.error(errorMessage, "Update Failed");
       },
     });
+  }
+
+  ngDoCheck(): void {
+    if (this.vehicleForm.invalid) {
+      const invalidControls = [];
+      const controls = this.vehicleForm.controls;
+      for (const name in controls) {
+        if (controls[name].invalid) {
+          invalidControls.push(name);
+          console.log(`Invalid Control: ${name}`, controls[name].errors);
+        }
+      }
+      if (invalidControls.length > 0) {
+        console.log("Form is invalid due to:", invalidControls);
+      }
+    }
   }
 
   onCancel() {

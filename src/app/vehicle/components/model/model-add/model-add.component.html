@@ -23,12 +23,14 @@
 
             <div class="form-group">
               <label class="form-label">Brand Code</label>
-              <input type="text" class="form-control form-input" [value]="selectedBrandCode" readonly placeholder="Auto-fetched" />
+              <input type="text" class="form-control form-input" [value]="selectedBrandCode" readonly
+                placeholder="Auto-fetched" />
             </div>
 
             <div class="form-group">
               <label class="form-label">Model Code</label>
-              <input type="text" class="form-control form-input" formControlName="modelCode" placeholder="e.g. CAM-2024" />
+              <input type="text" class="form-control form-input" formControlName="modelCode"
+                placeholder="e.g. CAM-2024" />
               <div class="form-error" *ngIf="(submitted || f['modelCode'].touched) && f['modelCode'].errors">
                 <span *ngIf="f['modelCode'].errors['maxlength']">Max 50 characters allowed</span>
               </div>
@@ -43,17 +45,12 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Model Type (Variant)</label>
-              <input type="text" class="form-control form-input" formControlName="modelType" placeholder="e.g. Hybrid, Sport, Luxury" />
-              <div class="form-error" *ngIf="(submitted || f['modelType'].touched) && f['modelType'].errors">
-                <span *ngIf="f['modelType'].errors['maxlength']">Max 100 characters allowed</span>
-              </div>
-            </div>
+
 
             <div class="form-group" style="grid-column: 1 / -1;">
               <label class="form-label">Description</label>
-              <textarea class="form-control form-input" formControlName="description" rows="3" placeholder="Enter model description..."></textarea>
+              <textarea class="form-control form-input" formControlName="description" rows="3"
+                placeholder="Enter model description..."></textarea>
               <div class="form-error" *ngIf="(submitted || f['description'].touched) && f['description'].errors">
                 <span *ngIf="f['description'].errors['maxlength']">Max 500 characters allowed</span>
               </div>

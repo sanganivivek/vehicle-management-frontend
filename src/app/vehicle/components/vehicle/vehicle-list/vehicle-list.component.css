@@ -2,17 +2,17 @@
 .vehicle-page-bg {
   background: #f2f2f2;
   min-height: 100vh;
-  padding: 30px;
+  padding: 20px;
 }
 
 
 .vehicle-container {
   background: #ffffff;
-  padding: 25px;
+  padding: 20px;
   border-radius: 14px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.10);
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: auto;
 }
 

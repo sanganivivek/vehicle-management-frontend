@@ -1,12 +1,15 @@
 <div class="vehicle-page-bg">
   <div class="form-wrapper">
-    <ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
     <div class="form-card">
       <div class="form-header">
-        <h3 class="form-title">Edit Vehicle</h3>
+        <h3 class="form-title">Add New Vehicle</h3>
       </div>
 
       <div class="form-body">
+        <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+          {{ errorMessage }}
+        </div>
+
         <form [formGroup]="vehicleForm">
           <div class="form-grid">
             <!-- Registration Number -->
@@ -217,7 +220,7 @@
             <div class="form-group">
               <label class="form-label">Current Status *</label>
               <select class="form-control form-input" formControlName="currentStatus">
-                <option *ngFor="let status of statusOptions" [value]="status.value">
+                <option *ngFor="let status of statusOptions" [ngValue]="status.value">
                   {{ status.label }}
                 </option>
               </select>
@@ -233,7 +236,7 @@
             <div class="form-group">
               <label class="form-label">Is Active *</label>
               <select class="form-control form-input" formControlName="isActive">
-                <option *ngFor="let option of activeOptions" [value]="option.value">
+                <option *ngFor="let option of activeOptions" [ngValue]="option.value">
                   {{ option.label }}
                 </option>
               </select>
@@ -252,8 +255,8 @@
             </button>
 
             <button type="submit" class="btn btn-submit" (click)="onSubmit()"
-              [disabled]="vehicleForm.invalid || saving">
-              {{ saving ? "Updating..." : "Update" }}
+              [disabled]="vehicleForm.invalid || loading">
+              {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>
         </form>

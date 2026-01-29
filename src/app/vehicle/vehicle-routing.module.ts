@@ -1,16 +1,16 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { VehicleListComponent } from "./components/vehicle-list/vehicle-list.component";
-import { VehicleAddComponent } from "./components/vehicle-add/vehicle-add.component";
-import { VehicleEditComponent } from "./components/vehicle-edit/vehicle-edit.component";
-import { ModelAddComponent } from "./components/model-add/model-add.component";
-import { BrandAddComponent } from "./components/brand-add/brand-add.component";
+import { VehicleListComponent } from "./components/vehicle/vehicle-list/vehicle-list.component";
+import { VehicleAddComponent } from "./components/vehicle/vehicle-add/vehicle-add.component";
+import { VehicleEditComponent } from "./components/vehicle/vehicle-edit/vehicle-edit.component";
+import { ModelAddComponent } from "./components/model/model-add/model-add.component";
+import { BrandAddComponent } from "./components/brand/brand-add/brand-add.component";
 import { MaintenanceListComponent } from "./components/maintenance-list/maintenance-list.component";
 import { ComplianceReportComponent } from "./components/compliance-report/compliance-report.component";
 import { MainLayoutComponent } from "../layout/main-layout/main-layout.component";
 import { DashboardComponent } from "../pages/dashboard/dashboard.component";
-import { BrandListComponent } from "./components/brand-list/brand-list.component";
-import { ModelListComponent } from "./components/model-list/model-list.component";
+import { BrandListComponent } from "./components/brand/brand-list/brand-list.component";
+import { ModelListComponent } from "./components/model/model-list/model-list.component";
 
 const routes: Routes = [
   { path: "", component: DashboardComponent },
@@ -30,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class VehicleRoutingModule { }
+export class VehicleRoutingModule {}

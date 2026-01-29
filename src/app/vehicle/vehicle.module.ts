@@ -4,16 +4,16 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { NgxLoadingModule } from "ngx-loading";
 import { VehicleRoutingModule } from "./vehicle-routing.module";
-import { VehicleListComponent } from "./components/vehicle-list/vehicle-list.component";
-import { VehicleAddComponent } from "./components/vehicle-add/vehicle-add.component";
-import { VehicleEditComponent } from "./components/vehicle-edit/vehicle-edit.component";
-import { BrandAddComponent } from "./components/brand-add/brand-add.component";
-import { ModelAddComponent } from "./components/model-add/model-add.component";
+import { VehicleListComponent } from "./components/vehicle/vehicle-list/vehicle-list.component";
+import { VehicleAddComponent } from "./components/vehicle/vehicle-add/vehicle-add.component";
+import { VehicleEditComponent } from "./components/vehicle/vehicle-edit/vehicle-edit.component";
+import { BrandAddComponent } from "./components/brand/brand-add/brand-add.component";
+import { ModelAddComponent } from "./components/model/model-add/model-add.component";
 import { MaintenanceListComponent } from "./components/maintenance-list/maintenance-list.component";
 import { ComplianceReportComponent } from "./components/compliance-report/compliance-report.component";
 import { DashboardComponent } from "../pages/dashboard/dashboard.component";
-import { BrandListComponent } from "./components/brand-list/brand-list.component";
-import { ModelListComponent } from "./components/model-list/model-list.component";
+import { BrandListComponent } from "./components/brand/brand-list/brand-list.component";
+import { ModelListComponent } from "./components/model/model-list/model-list.component";
 
 @NgModule({
   declarations: [
@@ -37,4 +37,4 @@ import { ModelListComponent } from "./components/model-list/model-list.component
     DashboardComponent,
   ],
 })
-export class VehicleModule { }
+export class VehicleModule {}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BrandService } from "../../services/brand.service";
+import { BrandService } from "../../../services/brand.service";
 
 @Component({
   selector: "app-brand-add",
