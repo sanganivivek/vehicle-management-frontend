@@ -69,6 +69,15 @@ export class ModelAddComponent implements OnInit {
     const selectedBrand = this.brands.find((b) => b.brandId === brandId);
     this.selectedBrandCode = selectedBrand?.brandCode || "";
   }
+  handleSuccess(message: string) {
+    alert(message);
+    this.router.navigate(["/models"]);
+  }
+
+  handleError(err: any) {
+    console.error(err);
+    this.loading = false;
+  }
 
   loadModelData() {
     this.loading = true;
@@ -115,27 +124,13 @@ export class ModelAddComponent implements OnInit {
 
     if (this.isEditMode) {
       this.modelService.updateModel(this.modelId, modelData).subscribe({
-        next: () => {
-          alert("Model Updated Successfully!");
-          this.router.navigate(["/dashboard"]);
-        },
-        error: (err) => {
-          console.error("Error:", err);
-          this.loading = false;
-          alert(`Failed to update model`);
-        },
+        next: () => this.handleSuccess("Model Updated Successfully!"),
+        error: (err) => this.handleError(err),
       });
     } else {
       this.modelService.addModel(modelData).subscribe({
-        next: () => {
-          alert("Model Saved Successfully!");
-          this.router.navigate(["/dashboard"]);
-        },
-        error: (err) => {
-          console.error("Error:", err);
-          this.loading = false;
-          alert(`Failed to save model: ${err}`);
-        },
+        next: () => this.handleSuccess("Model Added Successfully!"),
+        error: (err) => this.handleError(err),
       });
     }
   }
@@ -146,18 +141,15 @@ export class ModelAddComponent implements OnInit {
       this.modelService.deleteModel(this.modelId).subscribe({
         next: () => {
           alert("Model Deleted Successfully!");
-          this.router.navigate(["/vehicle/models"]);
         },
         error: (err) => {
-          console.error("Error:", err);
-          this.loading = false;
-          alert(`Failed to delete model`);
+          this.handleError(err);
         },
       });
     }
   }
 
   onCancel(): void {
-    this.router.navigate(["/vehicle/models"]);
+    this.router.navigate(["/models"]);
   }
 }

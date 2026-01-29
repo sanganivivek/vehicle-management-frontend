@@ -84,7 +84,7 @@ export class BrandAddComponent implements OnInit {
 
   handleSuccess(message: string) {
     alert(message);
-    this.router.navigate(["/dashboard"]); // Go back to list
+    this.router.navigate(["/brands"]); // Go back to list
   }
 
   handleError(err: any) {
@@ -107,6 +107,6 @@ export class BrandAddComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(["/vehicle/brands"]);
+    this.router.navigate(["/brands"]);
   }
 }
