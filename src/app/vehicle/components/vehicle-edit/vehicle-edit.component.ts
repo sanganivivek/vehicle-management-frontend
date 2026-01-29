@@ -199,6 +199,12 @@ export class VehicleEditComponent implements OnInit {
       ...formValue,
       vehicleId: this.vehicleId,
     };
+
+    // Debug logging to verify GUID values
+    console.log("Updating vehicle with Brand ID:", vehicleData.brandId);
+    console.log("Updating vehicle with Model ID:", vehicleData.modelId);
+    console.log("Full vehicle data:", vehicleData);
+
     this.vehicleService.updateVehicle(this.vehicleId, vehicleData).subscribe({
       next: (response) => {
         this.saving = false;
@@ -206,9 +212,18 @@ export class VehicleEditComponent implements OnInit {
         this.router.navigate(["/vehicle"]);
       },
       error: (err) => {
-        console.error(err);
+        console.error("Error updating vehicle:", err);
         this.saving = false;
-        this.toastr.error("Failed to update vehicle", "Update Failed");
+
+        // Display specific error message from backend
+        let errorMessage = "Failed to update vehicle";
+        if (err.error && err.error.message) {
+          errorMessage = err.error.message;
+        } else if (err.error && typeof err.error === 'string') {
+          errorMessage = err.error;
+        }
+
+        this.toastr.error(errorMessage, "Update Failed");
       },
     });
   }

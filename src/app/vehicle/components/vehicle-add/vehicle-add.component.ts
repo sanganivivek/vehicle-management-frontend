@@ -49,7 +49,7 @@ export class VehicleAddComponent implements OnInit {
     private brandService: BrandService,
     private modelService: ModelService,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -175,6 +175,11 @@ export class VehicleAddComponent implements OnInit {
     this.loading = true;
     const vehicle: CreateVehicleDTO = this.vehicleForm.value;
 
+    // Debug logging to verify GUID values
+    console.log("Submitting vehicle with Brand ID:", vehicle.brandId);
+    console.log("Submitting vehicle with Model ID:", vehicle.modelId);
+    console.log("Full vehicle data:", vehicle);
+
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
         this.loading = false;
@@ -183,7 +188,16 @@ export class VehicleAddComponent implements OnInit {
       },
       error: (error) => {
         this.loading = false;
-        this.errorMessage = "Failed to add vehicle";
+        console.error("Error adding vehicle:", error);
+
+        // Display specific error message from backend
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else if (error.error && typeof error.error === 'string') {
+          this.errorMessage = error.error;
+        } else {
+          this.errorMessage = "Failed to add vehicle. Please check all fields and try again.";
+        }
       },
     });
   }
