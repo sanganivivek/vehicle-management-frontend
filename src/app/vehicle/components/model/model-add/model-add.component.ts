@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { BrandService } from "../../../services/brand.service";
 import { ModelService } from "../../../services/model.service";
 import { Brand, CreateModelDTO } from "../../../models/vehicle.model";
+import { ToastrService } from "ngx-toastr";
+
 @Component({
   selector: "app-model-add",
   templateUrl: "./model-add.component.html",
@@ -24,7 +26,8 @@ export class ModelAddComponent implements OnInit {
     private modelService: ModelService,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.modelForm = this.fb.group({
@@ -61,6 +64,7 @@ export class ModelAddComponent implements OnInit {
       },
       error: (error) => {
         console.error("Failed to load brands:", error);
+        this.toastr.error("Failed to load brands");
       },
     });
   }
@@ -70,12 +74,13 @@ export class ModelAddComponent implements OnInit {
     this.selectedBrandCode = selectedBrand?.brandCode || "";
   }
   handleSuccess(message: string) {
-    alert(message);
+    this.toastr.success(message);
     this.router.navigate(["/models"]);
   }
 
   handleError(err: any) {
     console.error(err);
+    this.toastr.error("An error occurred. Please try again.");
     this.loading = false;
   }
 
@@ -96,7 +101,7 @@ export class ModelAddComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
-        alert("Failed to load model details");
+        this.toastr.error("Failed to load model details");
         this.router.navigate(["/vehicle/models"]);
       },
     });
@@ -140,7 +145,8 @@ export class ModelAddComponent implements OnInit {
       this.loading = true;
       this.modelService.deleteModel(this.modelId).subscribe({
         next: () => {
-          alert("Model Deleted Successfully!");
+          this.toastr.warning("Model Deleted Successfully!");
+          this.router.navigate(["/models"]);
         },
         error: (err) => {
           this.handleError(err);
@@ -153,3 +159,4 @@ export class ModelAddComponent implements OnInit {
     this.router.navigate(["/models"]);
   }
 }
+

@@ -1,6 +1,6 @@
 .vehicle-page-bg {
   padding: 30px;
-  display: flex;
+  display:flex;
   justify-content: center;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .btn-submit {
-  background-color: #007bff;
+  background-color: #4e4e4e;
   border: none;
   padding: 10px 22px;
   border-radius: 6px;
@@ -70,7 +70,7 @@
 }
 
 .btn-submit:hover {
-  background-color: #005fc1;
+  background-color: #000000;
 }
 
 .btn-cancel {

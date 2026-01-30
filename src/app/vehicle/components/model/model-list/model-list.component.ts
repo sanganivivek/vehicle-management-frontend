@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { ModelService } from "../../../services/model.service";
 import { BrandService } from "../../../services/brand.service";
 import { Model, Brand } from "../../../models/vehicle.model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-model-list",
@@ -18,7 +19,8 @@ export class ModelListComponent implements OnInit {
   constructor(
     private modelService: ModelService,
     private brandService: BrandService,
-  ) {}
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -42,6 +44,7 @@ export class ModelListComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.toastr.error("Failed to load models");
       },
     });
   }
@@ -53,10 +56,17 @@ export class ModelListComponent implements OnInit {
 
   deleteModel(id: string) {
     if (confirm("Are you sure you want to delete this model?")) {
-      this.modelService.deleteModel(id).subscribe(() => {
-        alert("Model Deleted Successfully");
-        this.loadModels();
+      this.modelService.deleteModel(id).subscribe({
+        next: () => {
+          this.toastr.warning("Model Deleted Successfully");
+          this.loadModels();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("Failed to delete model");
+        }
       });
     }
   }
 }
+

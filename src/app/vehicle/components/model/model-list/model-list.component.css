@@ -39,7 +39,7 @@
 }
 
 .custom-table thead tr {
-    background: #212529;
+    background: #707070;
     color: #ffffff;
 }
 
@@ -96,7 +96,7 @@
 }
 
 .custom-add-btn {
-    background-color: #000000;
+    background-color: #4a4a4a;
     color: white;
     border: none;
     padding: 10px 24px;

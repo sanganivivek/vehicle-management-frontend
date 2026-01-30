@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BrandService } from '../../../services/brand.service';
 import { Brand } from '../../../models/vehicle.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-brand-list',
@@ -13,7 +14,7 @@ export class BrandListComponent implements OnInit {
 
   @Input() showHeader: boolean = true;
 
-  constructor(private brandService: BrandService) { }
+  constructor(private brandService: BrandService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadBrands();
@@ -29,9 +30,15 @@ export class BrandListComponent implements OnInit {
 
   deleteBrand(id: string) {
     if (confirm('Are you sure you want to delete this brand?')) {
-      this.brandService.deleteBrand(id).subscribe(() => {
-        alert('Brand Deleted Successfully');
-        this.loadBrands();
+      this.brandService.deleteBrand(id).subscribe({
+        next: () => {
+          this.toastr.warning('Brand Deleted Successfully');
+          this.loadBrands();
+        },
+        error: (err) => {
+          this.toastr.error('Failed to delete brand');
+          console.error(err);
+        }
       });
     }
   }

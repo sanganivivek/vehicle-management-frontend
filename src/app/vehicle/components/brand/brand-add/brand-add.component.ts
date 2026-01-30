@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BrandService } from "../../../services/brand.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-brand-add",
@@ -15,11 +16,17 @@ export class BrandAddComponent implements OnInit {
   isEditMode = false;
   brandId!: string;
 
+  activeOptions = [
+    { value: true, label: "Yes" },
+    { value: false, label: "No" },
+  ];
+
   constructor(
     private fb: FormBuilder,
     private brandService: BrandService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -56,6 +63,7 @@ export class BrandAddComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.toastr.error("Failed to load brand data");
       }
     });
   }
@@ -83,12 +91,13 @@ export class BrandAddComponent implements OnInit {
   }
 
   handleSuccess(message: string) {
-    alert(message);
+    this.toastr.success(message);
     this.router.navigate(["/brands"]); // Go back to list
   }
 
   handleError(err: any) {
     console.error(err);
+    this.toastr.error("An error occurred. Please try again.");
     this.loading = false;
   }
 
@@ -97,7 +106,8 @@ export class BrandAddComponent implements OnInit {
       this.loading = true;
       this.brandService.deleteBrand(this.brandId).subscribe({
         next: () => {
-          this.handleSuccess("Brand Deleted Successfully!");
+          this.toastr.warning("Brand Deleted Successfully!");
+          this.router.navigate(["/brands"]);
         },
         error: (err) => {
           this.handleError(err);
