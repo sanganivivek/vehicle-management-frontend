@@ -29,14 +29,16 @@
 
                         <td>{{ model.description || '-' }}</td>
                         <td>
-                            <div class="action-icons">
-                                <button class="icon-btn edit-icon"
-                                    [routerLink]="['/vehicle/models/edit', model.modelId]">
-                                    Edit
-                                </button>
-                                <button class="icon-btn delete-icon" (click)="deleteModel(model.modelId)">
-                                    Delete
-                                </button>
+                            <div class="d-flex align-items-center justify-content-center gap-3">
+                                <div class="action-icons d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary"
+                                        [routerLink]="['/models/edit', model.modelId]">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" (click)="deleteModel(model.modelId)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                         </td>
                     </tr>

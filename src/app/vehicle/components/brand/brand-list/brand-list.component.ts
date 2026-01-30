@@ -28,7 +28,8 @@ export class BrandListComponent implements OnInit {
     });
   }
 
-  deleteBrand(id: string) {
+  deleteBrand(event: Event, id: string) {
+    event.stopPropagation();
     if (confirm('Are you sure you want to delete this brand?')) {
       this.brandService.deleteBrand(id).subscribe({
         next: () => {

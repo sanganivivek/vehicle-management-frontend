@@ -4,7 +4,9 @@ import { VehicleListComponent } from "./components/vehicle/vehicle-list/vehicle-
 import { VehicleAddComponent } from "./components/vehicle/vehicle-add/vehicle-add.component";
 import { VehicleEditComponent } from "./components/vehicle/vehicle-edit/vehicle-edit.component";
 import { ModelAddComponent } from "./components/model/model-add/model-add.component";
+import { ModelEditComponent } from "./components/model/model-edit/model-edit.component";
 import { BrandAddComponent } from "./components/brand/brand-add/brand-add.component";
+import { BrandEditComponent } from "./components/brand/brand-edit/brand-edit.component";
 import { MaintenanceListComponent } from "./components/maintenance-list/maintenance-list.component";
 import { ComplianceReportComponent } from "./components/compliance-report/compliance-report.component";
 import { MainLayoutComponent } from "../layout/main-layout/main-layout.component";
@@ -20,14 +22,14 @@ const routes: Routes = [
   { path: "vehicle/edit/:id", component: VehicleEditComponent },
   { path: "brands", component: BrandListComponent },
   { path: "brands/add", component: BrandAddComponent },
-  { path: "brands/edit/:id", component: BrandAddComponent },
+  { path: "brands/edit/:id", component: BrandEditComponent },
   { path: "models", component: ModelListComponent },
   { path: "models/add", component: ModelAddComponent },
-  { path: "models/edit/:id", component: ModelAddComponent },
+  { path: "models/edit/:id", component: ModelEditComponent },
   { path: "reports", component: ComplianceReportComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class VehicleRoutingModule {}
+export class VehicleRoutingModule { }

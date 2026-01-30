@@ -72,28 +72,8 @@ export class VehicleService {
 
   updateVehicle(id: string, vehicle: any): Observable<any> {
     console.log("Updating vehicle:", id, vehicle);
-    const updatePayload = {
-      vehicleId: vehicle.vehicleId || id,
-      regNo: vehicle.regNo,
-      chassisNumber: vehicle.chassisNumber,
-      yearOfManufacture: vehicle.yearOfManufacture,
-      isActive: vehicle.isActive,
-      brandId: vehicle.brandId,
-      modelId: vehicle.modelId,
-      vehicleType: vehicle.vehicleType,
-      fuelType: vehicle.fuelType,
-      transmission: vehicle.transmission,
-      seatingCapacity: vehicle.seatingCapacity,
-      vehicleColour: vehicle.vehicleColour,
-      engineNumber: vehicle.engineNumber,
-      insurancePolicyNumber: vehicle.insurancePolicyNumber,
-      insurancePolicyExpiryDate: vehicle.insurancePolicyExpiryDate,
-      rcExpiryDate: vehicle.rcExpiryDate,
-      fitnessCertificateExpiryDate: vehicle.fitnessCertificateExpiryDate,
-      currentStatus: vehicle.currentStatus,
-    };
     return this.http
-      .put<any>(`${this.apiUrl}/${id}`, updatePayload, {
+      .put<any>(`${this.apiUrl}/${id}`, vehicle, {
         headers: { "Content-Type": "application/json" },
       })
       .pipe(catchError(this.handleError));

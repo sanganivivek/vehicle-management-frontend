@@ -76,6 +76,8 @@ export class VehicleEditComponent implements OnInit {
 
     // Set up brandId change listener
     this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
+      // Clear model when brand changes
+      this.vehicleForm.patchValue({ modelId: "" });
       if (brandId) {
         this.loadModels(brandId);
       } else {
@@ -136,7 +138,7 @@ export class VehicleEditComponent implements OnInit {
 
         // Then patch the form values
         this.vehicleForm.patchValue({
-          regNo: vehicle.regNo,
+          regNo: vehicle.regNo.toString(),
           chassisNumber: vehicle.chassisNumber,
           brandId: vehicle.brandId,
           modelId: vehicle.modelId,
@@ -145,7 +147,7 @@ export class VehicleEditComponent implements OnInit {
           transmission: vehicle.transmission,
           seatingCapacity: vehicle.seatingCapacity,
           vehicleColour: vehicle.vehicleColour,
-          yearOfManufacture: vehicle.yearOfManufacture,
+          yearOfManufacture: vehicle.yearOfManufacture.toString(),
           engineNumber: vehicle.engineNumber,
           insurancePolicyNumber: vehicle.insurancePolicyNumber,
           insurancePolicyExpiryDate: formatDate(vehicle.insurancePolicyExpiryDate),
@@ -153,7 +155,7 @@ export class VehicleEditComponent implements OnInit {
           fitnessCertificateExpiryDate: formatDate(vehicle.fitnessCertificateExpiryDate),
           isActive: vehicle.isActive,
           currentStatus: vehicle.currentStatus,
-        });
+        }, { emitEvent: false });
         this.loading = false;
       },
       error: (err) => {
@@ -191,13 +193,14 @@ export class VehicleEditComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.vehicleForm.invalid) {
+      this.vehicleForm.markAllAsTouched();
       return;
     }
     this.saving = true;
     const formValue = this.vehicleForm.value;
     const vehicleData = {
       ...formValue,
-      vehicleId: this.vehicleId,
+      yearOfManufacture: parseInt(formValue.yearOfManufacture, 10),
     };
 
     // Debug logging to verify GUID values

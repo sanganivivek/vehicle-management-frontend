@@ -1,0 +1,70 @@
+<div class="vehicle-page-bg">
+    <div class="form-wrapper">
+        <div class="form-card">
+            <div class="form-header">
+                <h3 class="form-title">Edit Model</h3>
+            </div>
+
+            <div class="form-body">
+                <form [formGroup]="modelForm">
+                    <div class="form-grid">
+                        <!-- Brand Dropdown -->
+                        <div class="form-group">
+                            <label class="form-label">Brand *</label>
+                            <select class="form-control form-input" formControlName="brandId">
+                                <option value="">Select Brand</option>
+                                <option *ngFor="let brand of brands" [value]="brand.brandId">
+                                    {{ brand.brandName }}
+                                </option>
+                            </select>
+                            <div class="form-error" *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors">
+                                <span *ngIf="f['brandId'].errors['required']">Brand is required</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Model Code</label>
+                            <input type="text" class="form-control form-input" formControlName="modelCode"
+                                placeholder="e.g. COR" />
+                            <div class="form-error"
+                                *ngIf="(submitted || f['modelCode'].touched) && f['modelCode'].errors">
+                                <span *ngIf="f['modelCode'].errors['maxlength']">Max 50 characters allowed</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Model Name *</label>
+                            <input type="text" class="form-control form-input" formControlName="modelName"
+                                placeholder="e.g. Corolla" />
+                            <div class="form-error"
+                                *ngIf="(submitted || f['modelName'].touched) && f['modelName'].errors">
+                                <span *ngIf="f['modelName'].errors['required']">Model Name is required</span>
+                                <span *ngIf="f['modelName'].errors['maxlength']">Max 50 characters allowed</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="grid-column: span 2">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control form-input" formControlName="description" rows="3"
+                                placeholder="Enter description" style="height: auto"></textarea>
+                            <div class="form-error"
+                                *ngIf="(submitted || f['description'].touched) && f['description'].errors">
+                                <span *ngIf="f['description'].errors['maxlength']">Max 500 characters allowed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn btn-cancel" (click)="onCancel()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-submit" (click)="onSubmit()"
+                            [disabled]="modelForm.invalid || loading">
+                            {{ loading ? "Saving..." : "Save" }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

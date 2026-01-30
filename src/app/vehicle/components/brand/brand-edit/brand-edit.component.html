@@ -1,0 +1,59 @@
+<div class="vehicle-page-bg">
+    <div class="form-wrapper">
+        <div class="form-card">
+            <div class="form-header">
+                <h3 class="form-title">Edit Brand</h3>
+            </div>
+
+            <div class="form-body">
+                <form [formGroup]="brandForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Brand Code *</label>
+                            <input type="text" class="form-control form-input" formControlName="brandCode"
+                                placeholder="e.g. TOY" />
+                            <div class="form-error"
+                                *ngIf="(submitted || f['brandCode'].touched) && f['brandCode'].errors">
+                                <span *ngIf="f['brandCode'].errors['required']">Brand Code is required</span>
+                                <span *ngIf="f['brandCode'].errors['maxlength']">Max 10 characters allowed</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Brand Name *</label>
+                            <input type="text" class="form-control form-input" formControlName="brandName"
+                                placeholder="e.g. Toyota" />
+                            <div class="form-error"
+                                *ngIf="(submitted || f['brandName'].touched) && f['brandName'].errors">
+                                <span *ngIf="f['brandName'].errors['required']">Brand Name is required</span>
+                                <span *ngIf="f['brandName'].errors['maxlength']">Max 50 characters allowed</span>
+                            </div>
+                        </div>
+
+                        <!-- Is Active -->
+                        <div class="form-group d-flex align-items-center gap-2">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" formControlName="isActive"
+                                    id="isActiveCheck" />
+                                <label class="form-check-label" for="isActiveCheck">
+                                    Is Active?
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        
+                        <button type="button" class="btn btn-cancel" (click)="onCancel()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-submit" (click)="onSubmit()"
+                            [disabled]="brandForm.invalid || loading">
+                            {{ loading ? "Saving..." : "Save" }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
