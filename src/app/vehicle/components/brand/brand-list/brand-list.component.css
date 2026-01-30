@@ -34,6 +34,7 @@
 
 .custom-table {
     width: 100%;
+    
     border-collapse: separate;
     border-spacing: 0 8px;
 }
@@ -46,11 +47,13 @@
 .custom-table thead th {
     padding: 14px;
     text-align: left;
+    
     font-size: 14px;
 }
 
 .custom-table tbody tr {
     background: #ffffff;
+    
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 }
@@ -86,7 +89,6 @@
 .action-icons {
     display: flex;
     gap: 12px;
-    justify-content: center;
 }
 
 .icon-btn {

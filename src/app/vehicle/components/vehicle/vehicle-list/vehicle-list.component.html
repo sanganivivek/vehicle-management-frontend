@@ -56,8 +56,8 @@
             <th (click)="sort('seatingCapacity')" class="sortable cursor-pointer">
               Seating Capacity <i [class]="getSortIcon('seatingCapacity')"></i>
             </th>
-            <th (click)="sort('vehicleColour')" class="sortable cursor-pointer">
-              Vehicle Color <i [class]="getSortIcon('vehicleColour')"></i>
+            <th (click)="sort('vehicleColour')" class="sortable cursor-pointer text-center">
+              Color <i [class]="getSortIcon('vehicleColour')"></i>
             </th>
             <th (click)="sort('yearOfManufacture')" class="sortable cursor-pointer">
               Manufacture Year <i [class]="getSortIcon('yearOfManufacture')"></i>
@@ -77,7 +77,19 @@
             <td>{{ getFuelTypeName(vehicle.fuelType) }}</td>
             <td>{{ getTransmissionName(vehicle.transmission) }}</td>
             <td>{{ vehicle.seatingCapacity }}</td>
-            <td>{{ vehicle.vehicleColour }}</td>
+            
+            <td class="text-center">
+              <div *ngIf="vehicle.vehicleColour; else noColor">
+                <i class="bi bi-car-front-fill car-icon" 
+                   [style.color]="vehicle.vehicleColour"
+                   [title]="vehicle.vehicleColour">
+                </i>
+              </div>
+              <ng-template #noColor>
+                <span class="text-muted">-</span>
+              </ng-template>
+            </td>
+
             <td>{{ vehicle.yearOfManufacture }}</td>
 
             <td>

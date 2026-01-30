@@ -21,8 +21,8 @@ export interface VehicleResponse {
 export interface DashboardData {
   totalVehicles: number;
   availableVehicles: number;
-  onRoad: number;
-  inMaintenance: number;
+  rented: number;
+  inmaintance: number;
 }
 @Injectable({
   providedIn: "root",

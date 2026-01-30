@@ -55,7 +55,8 @@ export class VehicleEditComponent implements OnInit {
   ngOnInit(): void {
     this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
     this.vehicleForm = this.fb.group({
-      regNo: ["", [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      // FIXED: Changed pattern to allow alphanumeric (standard vehicle numbers)
+      regNo: ["", [Validators.required, Validators.pattern(/^[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}$/)]], 
       chassisNumber: ["", [Validators.required, Validators.pattern(/^[A-Za-z0-9]{17}$/)]],
       brandId: ["", Validators.required],
       modelId: ["", Validators.required],
@@ -76,12 +77,16 @@ export class VehicleEditComponent implements OnInit {
 
     // Set up brandId change listener
     this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
-      // Clear model when brand changes
-      this.vehicleForm.patchValue({ modelId: "" });
-      if (brandId) {
+      // Only clear model if the change was user-triggered (dirty) or we aren't loading
+      if (this.vehicleForm.get('brandId')?.dirty) {
+         this.vehicleForm.patchValue({ modelId: "" });
+         this.models = [];
+         if (brandId) {
+           this.loadModels(brandId);
+         }
+      } else if (brandId && this.models.length === 0) {
+        // If not dirty but models empty (edge case), load them
         this.loadModels(brandId);
-      } else {
-        this.models = [];
       }
     });
 
@@ -91,7 +96,6 @@ export class VehicleEditComponent implements OnInit {
         const expiryYear = parseInt(year) + 15;
         const expiryDate = `${expiryYear}-12-31`;
 
-        // Auto-fill RC and Fitness expiry dates if they're empty
         if (!this.vehicleForm.get("rcExpiryDate")?.value) {
           this.vehicleForm.patchValue({ rcExpiryDate: expiryDate });
         }
@@ -124,19 +128,18 @@ export class VehicleEditComponent implements OnInit {
     this.loading = true;
     this.vehicleService.getVehicleById(id).subscribe({
       next: async (vehicle: any) => {
-        // Load models first if brandId exists
+        // Load models first if brandId exists so the dropdown works
         if (vehicle.brandId) {
           await this.loadModelsAsync(vehicle.brandId);
         }
 
-        // Format dates for input fields (YYYY-MM-DD)
         const formatDate = (dateStr: string | null) => {
           if (!dateStr) return '';
           const date = new Date(dateStr);
           return date.toISOString().split('T')[0];
         };
 
-        // Then patch the form values
+        // Use emitEvent: false to prevent triggering the brandId subscription which clears modelId
         this.vehicleForm.patchValue({
           regNo: vehicle.regNo.toString(),
           chassisNumber: vehicle.chassisNumber,
@@ -156,13 +159,14 @@ export class VehicleEditComponent implements OnInit {
           isActive: vehicle.isActive,
           currentStatus: vehicle.currentStatus,
         }, { emitEvent: false });
+        
         this.loading = false;
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
         this.toastr.error("Failed to load vehicle details", "Error");
-        this.router.navigate(["/vehicles"]);
+        this.router.navigate(["/vehicle"]); // Fixed route from /vehicles to /vehicle
       },
     });
   }
@@ -174,7 +178,6 @@ export class VehicleEditComponent implements OnInit {
     });
   }
 
-  // Async version for sequential loading
   loadModelsAsync(brandId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.vehicleService.getModelsByBrand(brandId).subscribe({
@@ -192,59 +195,51 @@ export class VehicleEditComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.vehicleForm.invalid) {
-      this.vehicleForm.markAllAsTouched();
-      return;
-    }
-    this.saving = true;
-    const formValue = this.vehicleForm.value;
-    const vehicleData = {
-      ...formValue,
-      yearOfManufacture: parseInt(formValue.yearOfManufacture, 10),
-    };
-
-    // Debug logging to verify GUID values
-    console.log("Updating vehicle with Brand ID:", vehicleData.brandId);
-    console.log("Updating vehicle with Model ID:", vehicleData.modelId);
-    console.log("Full vehicle data:", vehicleData);
-
-    this.vehicleService.updateVehicle(this.vehicleId, vehicleData).subscribe({
-      next: (response) => {
-        this.saving = false;
-        this.toastr.success("Vehicle updated successfully", "Success");
-        this.router.navigate(["/vehicle"]);
-      },
-      error: (err) => {
-        console.error("Error updating vehicle:", err);
-        this.saving = false;
-
-        // Display specific error message from backend
-        let errorMessage = "Failed to update vehicle";
-        if (err.error && err.error.message) {
-          errorMessage = err.error.message;
-        } else if (err.error && typeof err.error === 'string') {
-          errorMessage = err.error;
-        }
-
-        this.toastr.error(errorMessage, "Update Failed");
-      },
-    });
-  }
-
-  ngDoCheck(): void {
+    
+    // Debugging: Log invalid controls if form is invalid
     if (this.vehicleForm.invalid) {
       const invalidControls = [];
       const controls = this.vehicleForm.controls;
       for (const name in controls) {
         if (controls[name].invalid) {
           invalidControls.push(name);
-          console.log(`Invalid Control: ${name}`, controls[name].errors);
         }
       }
-      if (invalidControls.length > 0) {
-        console.log("Form is invalid due to:", invalidControls);
-      }
+      console.error("Form is invalid. Check controls:", invalidControls);
+      this.toastr.error("Please fill all required fields correctly", "Validation Error");
+      this.vehicleForm.markAllAsTouched();
+      return;
     }
+
+    this.saving = true;
+    const formValue = this.vehicleForm.value;
+    
+    const vehicleData = {
+      ...formValue,
+      vehicleId: this.vehicleId, // FIXED: Added vehicleId to payload
+      yearOfManufacture: parseInt(formValue.yearOfManufacture, 10),
+    };
+
+    console.log("Sending Update Data:", vehicleData);
+
+    this.vehicleService.updateVehicle(this.vehicleId, vehicleData).subscribe({
+      next: (response) => {
+        this.saving = false;
+        this.toastr.success("Vehicle updated successfully", "Success");
+        this.router.navigate(["/vehicle"]); // Fixed route
+      },
+      error: (err) => {
+        console.error("Error updating vehicle:", err);
+        this.saving = false;
+        let errorMessage = "Failed to update vehicle";
+        if (err.error && err.error.message) {
+          errorMessage = err.error.message;
+        } else if (err.error && typeof err.error === 'string') {
+          errorMessage = err.error;
+        }
+        this.toastr.error(errorMessage, "Update Failed");
+      },
+    });
   }
 
   onCancel() {
