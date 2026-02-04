@@ -77,6 +77,10 @@ export interface VehicleMaster {
   transmission?: string;
   seatingCapacity?: number;
   vehicleColour?: string;
+  insurancePolicyNo?: string;
+  insuranceExpiry?: Date | string;
+  rcExpiry?: Date | string;
+  fitnessCertExpiry?: Date | string;
 }
 export interface VehicleListDTO {
   vehicleId: string;

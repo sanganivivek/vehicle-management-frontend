@@ -33,16 +33,7 @@ export class ComplianceReportComponent implements OnInit {
     });
   }
 
-  // Text for the status
-  getStatusText(status: number): string {
-    switch (status) {
-      case 0: return 'Available';
-      case 1: return 'Rented';
-      case 2: return 'Maintenance';
-      default: return 'Unknown';
-    }
-  }
-
+  
   // CSS Class for the status (Green, Yellow, Red)
   getStatusClass(status: number): string {
     switch (status) {

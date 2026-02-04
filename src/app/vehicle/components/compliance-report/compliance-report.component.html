@@ -8,8 +8,11 @@
 
         <th>Brand</th>
         <th>Model</th>
-        <th>Status</th>
-        <th>Compliance</th>
+        <th>Insurance Policy No</th>
+        <th>Insurance Expiry</th>
+        <th>RC Expiry</th>
+        <th>Fitness Cert. Expiry</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -19,21 +22,12 @@
         <td>{{ v.brandName }}</td>
         <td>{{ v.modelName }}</td>
 
-        <td>
-          <span
-            class="status-badge"
-            [ngClass]="getStatusClass(v.currentStatus)"
-          >
-            {{ getStatusText(v.currentStatus) }}
-          </span>
-        </td>
+        <td>{{ v.insurancePolicyNo }}</td>
+        <td>{{ v.insuranceExpiry | date: "dd-MM-yyyy" }}</td>
 
-        <td
-          [style.color]="isCompliant(v) ? 'green' : 'red'"
-          style="font-weight: bold"
-        >
-          {{ isCompliant(v) ? "COMPLIANT" : "NON-COMPLIANT" }}
-        </td>
+        <td>{{ v.rcExpiry | date: "dd-MM-yyyy" }}</td>
+        <td>{{ v.fitnessCertExpiry | date: "dd-MM-yyyy" }}</td>
+        <td>Actions</td>
       </tr>
 
       <tr *ngIf="vehicles.length === 0" class="empty-row">
