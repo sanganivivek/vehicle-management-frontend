@@ -8,7 +8,6 @@ export interface Vehicle {
   FuelType?: string; //petrol, diesel, electric
   Transmission?: string; //automatic, manual
   seatingCapacity?: number;
-
 }
 export interface Brand {
   brandId: string;
@@ -77,10 +76,10 @@ export interface VehicleMaster {
   transmission?: string;
   seatingCapacity?: number;
   vehicleColour?: string;
-  insurancePolicyNo?: string;
-  insuranceExpiry?: Date | string;
-  rcExpiry?: Date | string;
-  fitnessCertExpiry?: Date | string;
+  insurancePolicyNumber?: string; // Was insurancePolicyNo
+  insurancePolicyExpiryDate?: Date | string; // Was insuranceExpiry
+  rcExpiryDate?: Date | string; // Was rcExpiry
+  fitnessCertificateExpiryDate?: Date | string; // Was fitnessCertExpiry
 }
 export interface VehicleListDTO {
   vehicleId: string;

@@ -9,11 +9,18 @@ import { Brand, CreateBrandDTO } from "../models/vehicle.model";
 export class BrandService {
   private apiUrl = `${environment.apiUrl}/brands`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  // Get All Brands
-  getBrands(): Observable<Brand[]> {
-    return this.http.get<Brand[]>(this.apiUrl).pipe(catchError(this.handleError));
+  // Get All Brands with Pagination
+  getBrands(search?: string, page: number = 1, pageSize: number = 10): Observable<any> {
+    let params = {
+      page: page.toString(),
+      pageSize: pageSize.toString()
+    };
+    if (search) {
+      Object.assign(params, { search });
+    }
+    return this.http.get<any>(this.apiUrl, { params }).pipe(catchError(this.handleError));
   }
 
   // Get Single Brand (For Editing)

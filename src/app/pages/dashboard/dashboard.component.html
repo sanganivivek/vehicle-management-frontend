@@ -34,28 +34,34 @@
         <h3>Recent Activity</h3>
         <!-- <button class="btn btn-sm btn-light">View All</button> -->
       </div>
-      
-      <div class="activity-feed">
-        <div *ngFor="let activity of activities" class="feed-item">
-          <div class="feed-icon" [ngClass]="{
-                'bg-success': activity.type === 'success',
-                'bg-warning': activity.type === 'warning',
-                'bg-info': activity.type === 'info',
+
+      <div class="activity-list" *ngIf="activities.length > 0; else noActivity">
+        <div *ngFor="let activity of activities" class="activity-item">
+          <div class="activity-icon" [ngClass]="{
+                'bg-success-light text-success': activity.type === 'success',
+                'bg-warning-light text-warning': activity.type === 'warning',
+                'bg-info-light text-info': activity.type === 'info'
               }">
-            <i class="bi bi-bell-fill text-white" style="font-size: 0.7rem"></i>
+            <i class="bi" [ngClass]="{
+                  'bi-check-circle-fill': activity.type === 'success',
+                  'bi-exclamation-circle-fill': activity.type === 'warning',
+                  'bi-info-circle-fill': activity.type === 'info'
+                }"></i>
           </div>
 
-          <div class="feed-content">
-            <p class="feed-text">{{ activity.message }}</p>
-            <span class="feed-date">{{ activity.time }}</span>
+          <div class="activity-details">
+            <span class="activity-msg">{{ activity.message }}</span>
+            <span class="activity-time">{{ activity.time }}</span>
           </div>
         </div>
+      </div>
 
-        <div *ngIf="activities.length === 0" class="empty-state">
+      <ng-template #noActivity>
+        <div class="empty-state">
           <i class="bi bi-inbox"></i>
           <p>No recent activity</p>
         </div>
-      </div>
+      </ng-template>
     </div>
 
     <div class="content-card">
@@ -63,7 +69,28 @@
         <h3>Quick Actions</h3>
       </div>
       <div class="actions-content">
-        <!-- Quick actions content will go here -->
+        <div class="quick-actions-list" *ngIf="complianceAlerts.length > 0; else noActions">
+          <div *ngFor="let alert of complianceAlerts" class="action-item" [ngClass]="alert.type">
+            <div class="action-icon">
+              <i class="bi"
+                [ngClass]="alert.type === 'danger' ? 'bi-exclamation-octagon-fill' : 'bi-exclamation-triangle-fill'"></i>
+            </div>
+            <div class="action-details">
+              <span class="reg-no">{{ alert.regNo }}</span>
+              <span class="alert-msg">{{ alert.message }}</span>
+              <span class="alert-date">{{ alert.date | date: 'dd MMM yyyy' }}</span>
+            </div>
+            <button class="btn-renew" (click)="navigateToEdit(alert.vehicleId)">
+              Renew
+            </button>
+          </div>
+        </div>
+        <ng-template #noActions>
+          <div class="empty-state">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+            <p>All vehicles are compliant!</p>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

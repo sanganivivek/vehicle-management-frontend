@@ -8,9 +8,16 @@ import { Model, CreateModelDTO } from "../models/vehicle.model";
 export class ModelService {
   private apiUrl = `${environment.apiUrl}/models`;
   constructor(private http: HttpClient) { }
-  getModels(): Observable<Model[]> {
+  getModels(search?: string, page: number = 1, pageSize: number = 10): Observable<any> {
+    let params: any = {
+      page: page.toString(),
+      pageSize: pageSize.toString()
+    };
+    if (search) {
+      params['search'] = search;
+    }
     return this.http
-      .get<Model[]>(this.apiUrl)
+      .get<any>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));
   }
   getModelsByBrand(brandId: string): Observable<Model[]> {

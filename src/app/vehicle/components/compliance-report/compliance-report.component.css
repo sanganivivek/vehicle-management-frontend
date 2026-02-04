@@ -3,17 +3,17 @@
   background: #fff;
   border-radius: 14px;
   margin: 30px;
-  
+
 }
 
 .simple-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
-  
+
 }
 
-.simple-table th, 
+.simple-table th,
 .simple-table td {
   border: 1px solid #ddd;
   padding: 12px;
@@ -30,7 +30,8 @@
   padding: 5px 10px;
   border-radius: 4px;
   font-weight: bold;
-  color: #fff; /* White text for contrast */
+  color: #fff;
+  /* White text for contrast */
   display: inline-block;
   min-width: 80px;
   text-align: center;
@@ -38,29 +39,32 @@
 
 /* 0: Available -> Green */
 .status-green {
-  background-color: #28a745; /* Green */
+  background-color: #28a745;
+  /* Green */
 }
 
 /* 1: Rented -> Yellow (Darker yellow/orange for readability) */
 .status-yellow {
-  background-color: #ffc107; /* Yellow/Orange */
-  color: #000; /* Black text for yellow background */
+  background-color: #ffc107;
+  /* Yellow/Orange */
+  color: #000;
+  /* Black text for yellow background */
 }
 
 
 .status-red {
-  background-color: #dc3545; 
+  background-color: #dc3545;
 }
 
 .empty-row td {
-  height: 10px; 
+  height: 10px;
 }
 
 .empty-message {
   height: 100%;
   display: flex;
-  justify-content: center;   
-  align-items: center;      
+  justify-content: center;
+  align-items: center;
   gap: 8px;
   color: #adb5bd;
   font-size: 1rem;
@@ -68,4 +72,16 @@
 
 .empty-message i {
   font-size: 1.4rem;
+}
+
+/* Text Colors for Expiry Warning */
+.text-danger {
+  color: #dc3545 !important;
+  font-weight: bold;
+}
+
+.text-warning {
+  color: #c79100 !important;
+  /* Darker Yellow for visibility on white */
+  font-weight: bold;
 }

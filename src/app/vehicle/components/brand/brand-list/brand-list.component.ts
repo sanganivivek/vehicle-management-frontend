@@ -12,6 +12,14 @@ export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   loading = false;
 
+  // Pagination & Search
+  currentPage = 1;
+  pageSize = 10;
+  totalRecords = 0;
+  totalPages = 1;
+  searchTerm = '';
+  pagesArray: number[] = [];
+
   @Input() showHeader: boolean = true;
 
   constructor(private brandService: BrandService, private toastr: ToastrService) { }
@@ -22,10 +30,58 @@ export class BrandListComponent implements OnInit {
 
   loadBrands() {
     this.loading = true;
-    this.brandService.getBrands().subscribe(data => {
-      this.brands = data;
-      this.loading = false;
+    this.brandService.getBrands(this.searchTerm, this.currentPage, this.pageSize).subscribe({
+      next: (response: any) => {
+        // Backend returns response object with data, totalCount, etc.
+        this.brands = response.data || [];
+        this.totalRecords = response.totalCount || 0;
+        this.totalPages = response.totalPages || 1;
+        this.generatePagesArray();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error("Error loading brands", err);
+        this.brands = []; // Clear list on error
+        this.loading = false;
+      }
     });
+  }
+
+  onSearch(): void {
+    this.currentPage = 1;
+    this.loadBrands();
+  }
+
+  generatePagesArray(): void {
+    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadBrands();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadBrands();
+    }
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadBrands();
+    }
+  }
+
+  getDisplayRange(): string {
+    if (this.totalRecords === 0) return 'No brands found';
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.totalRecords);
+    return `Showing ${start}-${end} of ${this.totalRecords} brands`;
   }
 
   deleteBrand(event: Event, id: string) {

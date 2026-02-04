@@ -7,7 +7,6 @@ import { ModelAddComponent } from "./components/model/model-add/model-add.compon
 import { ModelEditComponent } from "./components/model/model-edit/model-edit.component";
 import { BrandAddComponent } from "./components/brand/brand-add/brand-add.component";
 import { BrandEditComponent } from "./components/brand/brand-edit/brand-edit.component";
-import { MaintenanceListComponent } from "./components/maintenance-list/maintenance-list.component";
 import { ComplianceReportComponent } from "./components/compliance-report/compliance-report.component";
 import { MainLayoutComponent } from "../layout/main-layout/main-layout.component";
 import { DashboardComponent } from "../pages/dashboard/dashboard.component";

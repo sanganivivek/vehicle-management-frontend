@@ -14,6 +14,14 @@ export class ModelListComponent implements OnInit {
   brands: Brand[] = [];
   loading = false;
 
+  // Pagination & Search
+  currentPage = 1;
+  pageSize = 10;
+  totalRecords = 0;
+  totalPages = 1;
+  searchTerm = '';
+  pagesArray: number[] = [];
+
   @Input() showHeader: boolean = true;
 
   constructor(
@@ -23,22 +31,26 @@ export class ModelListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadData();
-  }
-
-  loadData() {
-    this.loading = true;
-    // Load brands first to map names
+    // Only load brands initially, models will be loaded via loadModels with pagination
     this.brandService.getBrands().subscribe((brands) => {
       this.brands = brands;
       this.loadModels();
     });
   }
 
+  loadData() {
+    this.loadModels();
+  }
+
   loadModels() {
-    this.modelService.getModels().subscribe({
-      next: (data) => {
-        this.models = data;
+    this.loading = true;
+    this.modelService.getModels(this.searchTerm, this.currentPage, this.pageSize).subscribe({
+      next: (response: any) => {
+        // Backend returns response object with data, totalCount, etc.
+        this.models = response.data || [];
+        this.totalRecords = response.totalCount || 0;
+        this.totalPages = response.totalPages || 1;
+        this.generatePagesArray();
         this.loading = false;
       },
       error: (err) => {
@@ -47,6 +59,43 @@ export class ModelListComponent implements OnInit {
         this.toastr.error("Failed to load models");
       },
     });
+  }
+
+  onSearch(): void {
+    this.currentPage = 1;
+    this.loadModels();
+  }
+
+  generatePagesArray(): void {
+    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadModels();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadModels();
+    }
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadModels();
+    }
+  }
+
+  getDisplayRange(): string {
+    if (this.totalRecords === 0) return 'No models found';
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.totalRecords);
+    return `Showing ${start}-${end} of ${this.totalRecords} models`;
   }
 
   getBrandName(brandId: string): string {
