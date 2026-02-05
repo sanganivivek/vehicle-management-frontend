@@ -10,17 +10,19 @@ import { Dealer } from '../../../models/dealer.model';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './add-dealer.component.html',
-  styleUrls: ['./add-dealer.component.css'] // Make sure this CSS file exists, or remove this line
+  styleUrls: ['./add-dealer.component.css']
 })
 export class AddDealerComponent implements OnInit {
-  dealer: any = { // Using 'any' temporarily to match your model flexibility
+  
+  dealer: Dealer = {
     dealerName: '',
     contactPerson: '',
-    email: '',
     phone: '',
-    address: '',
-    isActive: true
+    email: '',
+    address: '', // Stores the 'Location' data
+    status: 'Active'
   };
+  
   isEditMode = false;
   dealerId: string | null = null;
 
@@ -31,7 +33,6 @@ export class AddDealerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Check if we are in edit mode
     this.dealerId = this.route.snapshot.paramMap.get('id');
     if (this.dealerId) {
       this.isEditMode = true;
@@ -41,7 +42,11 @@ export class AddDealerComponent implements OnInit {
 
   loadDealerData(id: string) {
     this.dealerService.getDealerById(id).subscribe({
-      next: (data) => this.dealer = data,
+      next: (data) => {
+        this.dealer = data;
+        // Default to 'Active' if status is missing or undefined
+        if (!this.dealer.status) this.dealer.status = 'Active'; 
+      },
       error: (err) => console.error('Error loading dealer', err)
     });
   }

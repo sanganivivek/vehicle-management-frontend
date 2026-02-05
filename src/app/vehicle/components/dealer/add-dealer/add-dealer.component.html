@@ -1,51 +1,110 @@
-<div class="dealer-page-bg">
-  <div class="dealer-container mt-4 p-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="title">{{ isEditMode ? 'Edit Dealer' : 'Add New Dealer' }}</h2>
-      <button class="btn btn-outline-secondary" routerLink="/vehicle/dealers">
-        <i class="bi bi-arrow-left me-2"></i> Back to List
-      </button>
+<div class="vehicle-page-bg">
+  <div class="form-wrapper">
+    <div class="form-card">
+      
+      <div class="form-header">
+        <h3 class="form-title">{{ isEditMode ? 'Edit' : 'Add New' }} Dealer</h3>
+      </div>
+
+      <div class="form-body">
+        <form (ngSubmit)="onSubmit()" #dealerForm="ngForm">
+          
+          <div class="form-grid">
+            
+            <div class="form-group">
+              <label class="form-label">Dealer ID</label>
+              <input 
+                type="text" 
+                class="form-control form-input bg-light" 
+                [value]="isEditMode ? dealerId : 'Auto-Generated'" 
+                readonly 
+                disabled 
+                title="Dealer ID is automatically assigned">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Dealer Name <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="form-control form-input" 
+                [(ngModel)]="dealer.dealerName" 
+                name="dealerName" 
+                required 
+                placeholder="Ex: ABC Motors">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contact Person <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                class="form-control form-input" 
+                [(ngModel)]="dealer.contactPerson" 
+                name="contactPerson" 
+                required 
+                placeholder="Ex: John Doe">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contact Number <span class="text-danger">*</span></label>
+              <input 
+                type="tel" 
+                class="form-control form-input" 
+                [(ngModel)]="dealer.phone" 
+                name="phone" 
+                required
+                pattern="[0-9]{10}"
+                placeholder="Ex: 9876543210">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email <span class="text-danger">*</span></label>
+              <input 
+                type="email" 
+                class="form-control form-input" 
+                [(ngModel)]="dealer.email" 
+                name="email" 
+                required 
+                email
+                placeholder="admin@abcmotors.com">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select 
+                class="form-control form-input" 
+                [(ngModel)]="dealer.status" 
+                name="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">Location <span class="text-danger">*</span></label>
+              <textarea 
+                class="form-control form-input" 
+                style="height: auto;"
+                rows="3" 
+                [(ngModel)]="dealer.address" 
+                name="address" 
+                required 
+                placeholder="Enter full location/address..."></textarea>
+            </div>
+
+          </div>
+
+          <div class="btn-row pt-3">
+            <button type="button" class="btn btn-cancel" routerLink="/dealers">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-submit" [disabled]="!dealerForm.valid">
+              {{ isEditMode ? 'Update Dealer' : 'Save Dealer' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+
     </div>
-
-    <form (ngSubmit)="onSubmit()" #dealerForm="ngForm" class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label">Dealer Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="dealer.dealerName" name="dealerName" required placeholder="Ex: ABC Motors">
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Contact Person <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="dealer.contactPerson" name="contactPerson" required placeholder="Ex: John Doe">
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Email Address <span class="text-danger">*</span></label>
-        <input type="email" class="form-control" [(ngModel)]="dealer.email" name="email" required email placeholder="admin@abcmotors.com">
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" [(ngModel)]="dealer.phone" name="phone" placeholder="Ex: +1 234 567 8900">
-      </div>
-
-      <div class="col-12">
-        <label class="form-label">Location / Address <span class="text-danger">*</span></label>
-        <textarea class="form-control" rows="3" [(ngModel)]="dealer.address" name="address" required placeholder="Full street address..."></textarea>
-      </div>
-
-      <div class="col-12">
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="statusSwitch" [(ngModel)]="dealer.isActive" name="isActive">
-          <label class="form-check-label" for="statusSwitch">Active Status</label>
-        </div>
-      </div>
-
-      <div class="col-12 mt-4 d-flex gap-2 justify-content-end">
-        <button type="button" class="btn btn-secondary" routerLink="/vehicle/dealers">Cancel</button>
-        <button type="submit" class="btn btn-primary px-4" [disabled]="!dealerForm.valid">
-          {{ isEditMode ? 'Update Dealer' : 'Save Dealer' }}
-        </button>
-      </div>
-    </form>
   </div>
 </div>
