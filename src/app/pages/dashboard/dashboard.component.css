@@ -320,3 +320,27 @@
   background-color: #ddd;
   border-radius: 10px;
 }
+
+.stat-card.clickable {
+  background: white;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%; /* Ensures button fills the grid/row space */
+  text-align: center;
+  padding: 20px;
+  display: block;
+}
+
+/* Hover Effect */
+.stat-card.clickable:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: #000000; /* Optional: highlight border on hover */
+}
+
+/* Active/Click Effect */
+.stat-card.clickable:active {
+  transform: translateY(0);
+  background-color: #f8f9fa;
+}

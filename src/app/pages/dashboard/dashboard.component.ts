@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
 import { VehicleService, DashboardData } from "src/app/vehicle/vehicle.service";
 import { DashboardService } from "./dashboard.service";
 import { RecentActivity } from "./dashboard.model";
 import { LoadingService } from "src/app/shared/services/loading.service";
-import { Router } from "@angular/router";
+
 @Component({
   selector: "app-dashboard",
   standalone: true,
@@ -24,14 +25,27 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) { }
 
-  navigateToEdit(id: string) {
-    this.router.navigate(['/vehicle/edit', id]);
-  }
   ngOnInit(): void {
     this.loadDashboard();
     this.loadActivity();
     this.loadComplianceAlerts();
   }
+
+  /**
+   * Handles the click on Dashboard cards.
+   * Navigates to the vehicle list and passes the status filter.
+   */
+  filterVehicles(status: string) {
+    // Update '/vehicle/list' to match the actual route of your vehicle list page
+    this.router.navigate(['/vehicle/list'], { 
+      queryParams: { status: status } 
+    });
+  }
+
+  navigateToEdit(id: string) {
+    this.router.navigate(['/vehicle/edit', id]);
+  }
+
   loadDashboard() {
     this.loadingService.show();
     this.vehicleService.getDashboardData().subscribe({
@@ -45,6 +59,7 @@ export class DashboardComponent implements OnInit {
       },
     });
   }
+
   loadActivity() {
     this.dashboardService.getRecentActivity().subscribe({
       next: (data) => {
@@ -63,7 +78,7 @@ export class DashboardComponent implements OnInit {
         const warningDate = new Date();
         warningDate.setDate(today.getDate() + 30);
 
-        vehicles.forEach(v => {
+        vehicles.forEach((v: any) => {
           this.checkExpiry(v, v.insurancePolicyExpiryDate, 'Insurance Expired', 'Insurance Expiring Soon');
           this.checkExpiry(v, v.rcExpiryDate, 'RC Expired', 'RC Expiring Soon');
           this.checkExpiry(v, v.fitnessCertificateExpiryDate, 'Fitness Cert Expired', 'Fitness Cert Expiring Soon');

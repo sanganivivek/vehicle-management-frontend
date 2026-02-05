@@ -5,27 +5,30 @@
 
   <!-- Stats Row -->
   <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-icon"><i class="bi bi-truck-front-fill"></i></div>
-      <h3>{{ stats?.totalVehicles || 0 }}</h3>
-      <p>Total Vehicles</p>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon"><i class="bi bi-car-front-fill"></i></div>
-      <h3>{{ stats?.availableVehicles || 0 }}</h3>
-      <p>Available</p>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
-      <h3>{{ stats?.rented || 0 }}</h3>
-      <p>Rented</p>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon"><i class="bi bi-tools"></i></div>
-      <h3>{{ stats?.inmaintance || 0 }}</h3>
-      <p>In Maintenance</p>
-    </div>
-  </div>
+  <button class="stat-card clickable" (click)="('totalVehicles')">
+    <div class="stat-icon"><i class="bi bi-truck-front-fill"></i></div>
+    <h3>{{ stats?.totalVehicles || 0 }}</h3>
+    <p>Total Vehicles</p>
+  </button>
+
+  <button class="stat-card clickable" (click)="('available')">
+    <div class="stat-icon"><i class="bi bi-car-front-fill"></i></div>
+    <h3>{{ stats?.availableVehicles || 0 }}</h3>
+    <p>Available</p>
+  </button>
+
+  <button class="stat-card clickable" (click)="('rented')">
+    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+    <h3>{{ stats?.rented || 0 }}</h3>
+    <p>Rented</p>
+  </button>
+
+  <button class="stat-card clickable" (click)="('maintenance')">
+    <div class="stat-icon"><i class="bi bi-tools"></i></div>
+    <h3>{{ stats?.inmaintance || 0 }}</h3>
+    <p>In Maintenance</p>
+  </button>
+</div>
 
   <!-- Content Boxes Row -->
   <div class="content-row">
