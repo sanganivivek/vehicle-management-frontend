@@ -1,35 +1,40 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { environment } from "../../../environments/environment";
-import { Dealer } from "../models/dealer.model"; // Ensure this model exists
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Dealer } from '../models/dealer.model';
 
-@Injectable({ providedIn: "root" })
+@Injectable({
+  providedIn: 'root'
+})
 export class DealerService {
   private apiUrl = `${environment.apiUrl}/dealers`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  // Get All Dealers with Pagination
-  getDealers(search?: string, page: number = 1, pageSize: number = 10): Observable<any> {
-    let params: any = {
-      page: page.toString(),
-      pageSize: pageSize.toString()
-    };
-    if (search) {
-      params.search = search;
-    }
-    return this.http.get<any>(this.apiUrl, { params }).pipe(catchError(this.handleError));
+  // Get all dealers
+  getDealers(search: string = '', page: number = 1, pageSize: number = 10): Observable<any> {
+    const params: any = { search, page, pageSize };
+    return this.http.get<any>(this.apiUrl, { params });
   }
 
-  // Delete Dealer
+  // Add a new dealer
+  addDealer(dealer: Dealer): Observable<Dealer> {
+    return this.http.post<Dealer>(this.apiUrl, dealer);
+  }
+
+  // Update a dealer
+  updateDealer(id: string, dealer: Dealer): Observable<Dealer> {
+    return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer);
+  }
+
+  // Delete a dealer
   deleteDealer(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    console.error("DealerService Error:", error);
-    return throwError(() => error.error?.message || "Server error");
+  // Get single dealer by ID
+  getDealerById(id: string): Observable<Dealer> {
+    return this.http.get<Dealer>(`${this.apiUrl}/${id}`);
   }
 }

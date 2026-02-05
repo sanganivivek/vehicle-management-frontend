@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { VehicleService } from "../../../vehicle.service";
 import { Brand, Model } from "../../../models/vehicle.model";
-import { ngxLoadingAnimationTypes } from "ngx-loading";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
@@ -35,14 +34,6 @@ export class VehicleEditComponent implements OnInit {
   ];
 
   currentYear = new Date().getFullYear();
-
-  loadingConfig = {
-    animationType: ngxLoadingAnimationTypes.circleSwish,
-    backdropBorderRadius: "3px",
-    primaryColour: "#ffffff",
-    secondaryColour: "#ccc",
-    tertiaryColour: "#fff",
-  };
 
   constructor(
     private route: ActivatedRoute,

@@ -13,6 +13,7 @@ import { DashboardComponent } from "../pages/dashboard/dashboard.component";
 import { BrandListComponent } from "./components/brand/brand-list/brand-list.component";
 import { ModelListComponent } from "./components/model/model-list/model-list.component";
 import { DealerListComponent } from "./components/dealer/dealer-list/dealer-list.component";
+import { AddDealerComponent } from "./components/dealer/add-dealer/add-dealer.component";
 
 const routes: Routes = [
   { path: "", component: DashboardComponent },
@@ -28,6 +29,8 @@ const routes: Routes = [
   { path: "models/edit/:id", component: ModelEditComponent },
   { path: "reports", component: ComplianceReportComponent },
   { path: "dealers", component: DealerListComponent },
+  { path: "dealers/add", component: AddDealerComponent },
+  { path: "dealers/edit/:id", component: AddDealerComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
