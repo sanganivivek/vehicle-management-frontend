@@ -1,1 +1,88 @@
-<p>dealer-list works!</p>
+<div class="dealer-page-bg">
+  <div class="dealer-container mt-4">
+    <div class="header-section d-flex justify-content-between align-items-center mb-4">
+      <h2 class="title mb-0">Dealer List</h2>
+      <button class="btn btn-primary custom-add-btn" routerLink="/vehicle/components/dealer/add-dealer">
+        <i class="bi bi-plus-lg me-2"></i> Add New Dealer
+      </button>
+    </div>
+
+    <div class="filter-row d-flex gap-3 mb-4">
+      <input type="text" class="form-control search-box" placeholder="Search by Dealer Name..."
+        [(ngModel)]="searchTerm" (input)="onSearch()" />
+    </div>
+
+    <div class="table-wrapper shadow-sm rounded bg-black">
+      <table class="table custom-table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Dealer ID</th>
+            <th>Dealer Name</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let dealer of dealers">
+            <td class="fw-bold">{{ dealer.dealerName }}</td>
+            <td>{{ dealer.contactPerson }}</td>
+            <td>{{ dealer.phone }}</td>
+            <td>{{ dealer.email }}</td>
+            <td>{{ dealer.address }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="dealer.isActive ? 'active' : 'inactive'">
+                {{ dealer.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                <div class="action-icons d-flex gap-2 border-start ps-3">
+                  <button class="btn btn-sm btn-outline-primary" [routerLink]="['/vehicle/components/dealer/edit-dealer', dealer.id]">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteDealer(dealer.id!)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="dealers.length === 0">
+            <td colspan="7" class="text-center py-4 text-muted empty-state">
+              <i class="bi bi-building fs-1 d-block mb-2"></i>
+              No dealers found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-container" *ngIf="totalRecords > 0">
+      <div class="pagination-info">
+        Showing {{ (page - 1) * pageSize + 1 }} - {{ getMin(page * pageSize, totalRecords) }} of {{ totalRecords }}
+      </div>
+
+      <nav class="pagination-wrapper">
+        <ul class="custom-pagination">
+          <li class="page-item" [class.disabled]="page === 1" (click)="changePage(page - 1)">
+            <span class="page-link">‹ Prev</span>
+          </li>
+
+          <li class="page-item number" *ngFor="let p of getPagesArray()" [class.active]="page === p"
+            (click)="changePage(p)">
+            <span class="page-link">{{ p }}</span>
+          </li>
+
+          <li class="page-item" [class.disabled]="page * pageSize >= totalRecords" (click)="changePage(page + 1)">
+            <span class="page-link">Next ›</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

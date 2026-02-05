@@ -1,0 +1,199 @@
+.dealer-page-bg {
+  background: #f2f2f2;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dealer-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+  width: 100%;
+ max-width: 1200px;
+  margin: auto;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* Custom Add Button Style */
+.custom-add-btn {
+  background-color: #4a4a4a; 
+  color: white;
+  border: none;
+  padding: 10px 24px; 
+  font-weight: 600;
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); 
+  transition: all 0.3s ease; 
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.custom-add-btn:hover {
+  background-color: #313131; 
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35); 
+}
+
+.custom-add-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.filter-row {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.search-box {
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  padding-left: 14px;
+  font-size: 15px;
+  width: 300px; /* Fixed width for search */
+}
+
+.table-wrapper {
+  margin-top: 15px;
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 10px; /* Match vehicle list rounded corners */
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.custom-table thead tr {
+  background: #707070;
+  color: #ffffff;
+}
+
+.custom-table thead th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.custom-table tbody tr {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.custom-table tbody td {
+  padding: 14px;
+  vertical-align: middle;
+}
+
+.custom-table tbody tr:hover {
+  background: #f0f6ff;
+  cursor: pointer;
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #28a745;
+  color: white;
+}
+
+.status-badge.inactive {
+  background: #6c757d;
+  color: white;
+}
+
+.action-icons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.empty-state {
+  text-align: center;
+  color: #adb5bd;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+/* Pagination Styles */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination-info {
+  margin-bottom: 10px;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.custom-pagination {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-pagination .page-item {
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-pagination .page-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.custom-pagination .page-link {
+  padding: 8px 14px;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s;
+  display: inline-block;
+}
+
+.custom-pagination .page-link:hover {
+  background: #e7f1ff;
+  border-color: #000000;
+}
+
+.custom-pagination .active .page-link {
+  background: #2f2f2f;
+  color: #ffffff;
+  border-color: #000000;
+  font-weight: 600;
+}
+
+.custom-pagination .number .page-link {
+  min-width: 38px;
+  text-align: center;
+}
