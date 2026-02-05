@@ -36,9 +36,9 @@ export class DashboardComponent implements OnInit {
    * Navigates to the vehicle list and passes the status filter.
    */
   filterVehicles(status: string) {
-    // Update '/vehicle/list' to match the actual route of your vehicle list page
-    this.router.navigate(['/vehicle/list'], { 
-      queryParams: { status: status } 
+    // Navigating to '/vehicle' which maps to VehicleListComponent
+    this.router.navigate(['/vehicle'], {
+      queryParams: { status: status }
     });
   }
 
