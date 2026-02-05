@@ -5,31 +5,30 @@
 
   <!-- Stats Row -->
   <div class="stats-row">
-  <button class="stat-card clickable" (click)="('totalVehicles')">
-    <div class="stat-icon"><i class="bi bi-truck-front-fill"></i></div>
-    <h3>{{ stats?.totalVehicles || 0 }}</h3>
-    <p>Total Vehicles</p>
-  </button>
+    <button class="stat-card clickable" (click)="filterVehicles('all')">
+      <div class="stat-icon"><i class="bi bi-truck-front-fill"></i></div>
+      <h3>{{ stats?.totalVehicles || 0 }}</h3>
+      <p>Total Vehicles</p>
+    </button>
 
-  <button class="stat-card clickable" (click)="('available')">
-    <div class="stat-icon"><i class="bi bi-car-front-fill"></i></div>
-    <h3>{{ stats?.availableVehicles || 0 }}</h3>
-    <p>Available</p>
-  </button>
+    <button class="stat-card clickable" (click)="filterVehicles('available')">
+      <div class="stat-icon"><i class="bi bi-car-front-fill"></i></div>
+      <h3>{{ stats?.availableVehicles || 0 }}</h3>
+      <p>Available</p>
+    </button>
 
-  <button class="stat-card clickable" (click)="('rented')">
-    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
-    <h3>{{ stats?.rented || 0 }}</h3>
-    <p>Rented</p>
-  </button>
+    <button class="stat-card clickable" (click)="filterVehicles('rented')">
+      <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+      <h3>{{ stats?.rented || 0 }}</h3>
+      <p>Rented</p>
+    </button>
 
-  <button class="stat-card clickable" (click)="('maintenance')">
-    <div class="stat-icon"><i class="bi bi-tools"></i></div>
-    <h3>{{ stats?.inmaintance || 0 }}</h3>
-    <p>In Maintenance</p>
-  </button>
-</div>
-
+    <button class="stat-card clickable" (click)="filterVehicles('maintenance')">
+      <div class="stat-icon"><i class="bi bi-tools"></i></div>
+      <h3>{{ stats?.inmaintance || 0 }}</h3>
+      <p>In Maintenance</p>
+    </button>
+  </div>
   <!-- Content Boxes Row -->
   <div class="content-row">
     <div class="content-card">
@@ -40,16 +39,22 @@
 
       <div class="activity-list" *ngIf="activities.length > 0; else noActivity">
         <div *ngFor="let activity of activities" class="activity-item">
-          <div class="activity-icon" [ngClass]="{
-                'bg-success-light text-success': activity.type === 'success',
-                'bg-warning-light text-warning': activity.type === 'warning',
-                'bg-info-light text-info': activity.type === 'info'
-              }">
-            <i class="bi" [ngClass]="{
-                  'bi-check-circle-fill': activity.type === 'success',
-                  'bi-exclamation-circle-fill': activity.type === 'warning',
-                  'bi-info-circle-fill': activity.type === 'info'
-                }"></i>
+          <div
+            class="activity-icon"
+            [ngClass]="{
+              'bg-success-light text-success': activity.type === 'success',
+              'bg-warning-light text-warning': activity.type === 'warning',
+              'bg-info-light text-info': activity.type === 'info',
+            }"
+          >
+            <i
+              class="bi"
+              [ngClass]="{
+                'bi-check-circle-fill': activity.type === 'success',
+                'bi-exclamation-circle-fill': activity.type === 'warning',
+                'bi-info-circle-fill': activity.type === 'info',
+              }"
+            ></i>
           </div>
 
           <div class="activity-details">
@@ -72,16 +77,31 @@
         <h3>Quick Actions</h3>
       </div>
       <div class="actions-content">
-        <div class="quick-actions-list" *ngIf="complianceAlerts.length > 0; else noActions">
-          <div *ngFor="let alert of complianceAlerts" class="action-item" [ngClass]="alert.type">
+        <div
+          class="quick-actions-list"
+          *ngIf="complianceAlerts.length > 0; else noActions"
+        >
+          <div
+            *ngFor="let alert of complianceAlerts"
+            class="action-item"
+            [ngClass]="alert.type"
+          >
             <div class="action-icon">
-              <i class="bi"
-                [ngClass]="alert.type === 'danger' ? 'bi-exclamation-octagon-fill' : 'bi-exclamation-triangle-fill'"></i>
+              <i
+                class="bi"
+                [ngClass]="
+                  alert.type === 'danger'
+                    ? 'bi-exclamation-octagon-fill'
+                    : 'bi-exclamation-triangle-fill'
+                "
+              ></i>
             </div>
             <div class="action-details">
               <span class="reg-no">{{ alert.regNo }}</span>
               <span class="alert-msg">{{ alert.message }}</span>
-              <span class="alert-date">{{ alert.date | date: 'dd MMM yyyy' }}</span>
+              <span class="alert-date">{{
+                alert.date | date: "dd MMM yyyy"
+              }}</span>
             </div>
             <button class="btn-renew" (click)="navigateToEdit(alert.vehicleId)">
               Renew
@@ -90,7 +110,10 @@
         </div>
         <ng-template #noActions>
           <div class="empty-state">
-            <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+            <i
+              class="bi bi-check-circle-fill text-success"
+              style="font-size: 2rem"
+            ></i>
             <p>All vehicles are compliant!</p>
           </div>
         </ng-template>

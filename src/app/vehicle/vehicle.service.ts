@@ -46,8 +46,9 @@ export class VehicleService {
       params = params.set("page", queryParams.page.toString());
     if (queryParams.pageSize)
       params = params.set("pageSize", queryParams.pageSize.toString());
-    if (queryParams.status !== undefined)
+    if (queryParams.status !== undefined && queryParams.status !== null) {
       params = params.set("status", queryParams.status.toString());
+    }
     return this.http
       .get<VehicleResponse>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));
