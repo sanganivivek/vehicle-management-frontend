@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { VehicleService } from "../../../vehicle.service";
-import { BrandService } from "../../../services/brand.service";
+
 import { ToastrService } from "ngx-toastr";
 import {
   VehicleListDTO,
@@ -38,7 +38,7 @@ export class VehicleListComponent implements OnInit {
   ];
   constructor(
     private vehicleService: VehicleService,
-    private brandService: BrandService,
+
     private router: Router,
     private toastr: ToastrService,
     private loadingService: LoadingService,
@@ -78,9 +78,16 @@ export class VehicleListComponent implements OnInit {
     });
   }
   loadBrands(): void {
-    this.brandService.getBrands().subscribe({
-      next: (brands: Brand[]) => {
-        this.brandId = brands;
+    this.vehicleService.getBrands().subscribe({
+      next: (response: any) => {
+        if (Array.isArray(response)) {
+          this.brandId = response;
+        } else if (response && Array.isArray(response.data)) {
+          this.brandId = response.data;
+        } else {
+          console.error("Unexpected brand response structure:", response);
+          this.brandId = [];
+        }
       },
       error: (error) => {
         console.error("Failed to load brands:", error);

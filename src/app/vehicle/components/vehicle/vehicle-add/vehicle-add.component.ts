@@ -135,8 +135,15 @@ export class VehicleAddComponent implements OnInit {
 
   loadBrands(): void {
     this.vehicleService.getBrands().subscribe({
-      next: (brands: Brand[]) => {
-        this.brands = brands;
+      next: (response: any) => {
+        if (Array.isArray(response)) {
+          this.brands = response;
+        } else if (response && Array.isArray(response.data)) {
+          this.brands = response.data;
+        } else {
+          console.error("Unexpected brand response structure:", response);
+          this.brands = [];
+        }
       },
       error: (error) => {
         console.error("Failed to load brands:", error);

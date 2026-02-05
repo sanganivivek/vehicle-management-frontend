@@ -56,7 +56,7 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleId = this.route.snapshot.paramMap.get("id") || "";
     this.vehicleForm = this.fb.group({
       // FIXED: Changed pattern to allow alphanumeric (standard vehicle numbers)
-      regNo: ["", [Validators.required, Validators.pattern(/^[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}$/)]], 
+      regNo: ["", [Validators.required, Validators.pattern(/^[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}$/)]],
       chassisNumber: ["", [Validators.required, Validators.pattern(/^[A-Za-z0-9]{17}$/)]],
       brandId: ["", Validators.required],
       modelId: ["", Validators.required],
@@ -79,11 +79,11 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleForm.get("brandId")?.valueChanges.subscribe((brandId) => {
       // Only clear model if the change was user-triggered (dirty) or we aren't loading
       if (this.vehicleForm.get('brandId')?.dirty) {
-         this.vehicleForm.patchValue({ modelId: "" });
-         this.models = [];
-         if (brandId) {
-           this.loadModels(brandId);
-         }
+        this.vehicleForm.patchValue({ modelId: "" });
+        this.models = [];
+        if (brandId) {
+          this.loadModels(brandId);
+        }
       } else if (brandId && this.models.length === 0) {
         // If not dirty but models empty (edge case), load them
         this.loadModels(brandId);
@@ -117,8 +117,15 @@ export class VehicleEditComponent implements OnInit {
 
   loadBrands() {
     this.vehicleService.getBrands().subscribe({
-      next: (data) => {
-        this.brands = data;
+      next: (response: any) => {
+        if (Array.isArray(response)) {
+          this.brands = response;
+        } else if (response && Array.isArray(response.data)) {
+          this.brands = response.data;
+        } else {
+          console.error("Unexpected brand response structure:", response);
+          this.brands = [];
+        }
       },
       error: (err) => console.error("Failed to load brands", err),
     });
@@ -159,7 +166,7 @@ export class VehicleEditComponent implements OnInit {
           isActive: vehicle.isActive,
           currentStatus: vehicle.currentStatus,
         }, { emitEvent: false });
-        
+
         this.loading = false;
       },
       error: (err) => {
@@ -195,7 +202,7 @@ export class VehicleEditComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    
+
     // Debugging: Log invalid controls if form is invalid
     if (this.vehicleForm.invalid) {
       const invalidControls = [];
@@ -213,7 +220,7 @@ export class VehicleEditComponent implements OnInit {
 
     this.saving = true;
     const formValue = this.vehicleForm.value;
-    
+
     const vehicleData = {
       ...formValue,
       vehicleId: this.vehicleId, // FIXED: Added vehicleId to payload
