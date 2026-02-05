@@ -3,16 +3,16 @@
     <div class="header-section d-flex justify-content-between align-items-center mb-4">
       <h2 class="title mb-0">Dealer List</h2>
       <button class="btn btn-primary custom-add-btn" routerLink="/vehicle/components/dealer/add-dealer">
-        <i class="bi bi-plus-lg me-2"></i> Add New Dealer
+        <i class="bi bi-plus-lg me-2"></i> Add Dealer
       </button>
     </div>
 
-    <div class="filter-row d-flex gap-3 mb-4">
-      <input type="text" class="form-control search-box" placeholder="Search by Dealer Name..."
-        [(ngModel)]="searchTerm" (input)="onSearch()" />
+    <div class="filter-row mb-4">
+      <input type="text" class="form-control search-box" placeholder="Search by Dealer Name..." 
+             [(ngModel)]="searchTerm" (input)="onSearch()" />
     </div>
 
-    <div class="table-wrapper shadow-sm rounded bg-black">
+    <div class="table-wrapper shadow-sm rounded bg-white">
       <table class="table custom-table table-hover mb-0">
         <thead class="table-light">
           <tr>
@@ -25,61 +25,48 @@
             <th>Actions</th>
           </tr>
         </thead>
-
         <tbody>
           <tr *ngFor="let dealer of dealers">
+            <td>#{{ dealer.id }}</td>
             <td class="fw-bold">{{ dealer.dealerName }}</td>
             <td>{{ dealer.contactPerson }}</td>
-            <td>{{ dealer.phone }}</td>
             <td>{{ dealer.email }}</td>
             <td>{{ dealer.address }}</td>
             <td>
-              <span class="status-badge" [ngClass]="dealer.isActive ? 'active' : 'inactive'">
+              <span class="badge" [ngClass]="dealer.isActive ? 'bg-success' : 'bg-secondary'">
                 {{ dealer.isActive ? 'Active' : 'Inactive' }}
               </span>
             </td>
             <td>
-              <div class="d-flex align-items-center gap-3">
-                <div class="action-icons d-flex gap-2 border-start ps-3">
-                  <button class="btn btn-sm btn-outline-primary" [routerLink]="['/vehicle/components/dealer/edit-dealer', dealer.id]">
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" (click)="deleteDealer(dealer.id!)">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary" [routerLink]="['/vehicle/components/dealer/edit-dealer', dealer.id]">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="dealer.id && deleteDealer(dealer.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
               </div>
             </td>
           </tr>
-
+          
           <tr *ngIf="dealers.length === 0">
-            <td colspan="7" class="text-center py-4 text-muted empty-state">
-              <i class="bi bi-building fs-1 d-block mb-2"></i>
-              No dealers found
-            </td>
+            <td colspan="7" class="text-center py-4 text-muted">No dealers found.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="pagination-container" *ngIf="totalRecords > 0">
-      <div class="pagination-info">
-        Showing {{ (page - 1) * pageSize + 1 }} - {{ getMin(page * pageSize, totalRecords) }} of {{ totalRecords }}
-      </div>
-
-      <nav class="pagination-wrapper">
-        <ul class="custom-pagination">
-          <li class="page-item" [class.disabled]="page === 1" (click)="changePage(page - 1)">
-            <span class="page-link">‹ Prev</span>
+    <div class="pagination-container mt-3" *ngIf="totalRecords > pageSize">
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="page === 1">
+            <button class="page-link" (click)="changePage(page - 1)">Previous</button>
           </li>
-
-          <li class="page-item number" *ngFor="let p of getPagesArray()" [class.active]="page === p"
-            (click)="changePage(p)">
-            <span class="page-link">{{ p }}</span>
+          <li class="page-item" *ngFor="let p of getPagesArray()" [class.active]="page === p">
+            <button class="page-link" (click)="changePage(p)">{{ p }}</button>
           </li>
-
-          <li class="page-item" [class.disabled]="page * pageSize >= totalRecords" (click)="changePage(page + 1)">
-            <span class="page-link">Next ›</span>
+          <li class="page-item" [class.disabled]="page * pageSize >= totalRecords">
+            <button class="page-link" (click)="changePage(page + 1)">Next</button>
           </li>
         </ul>
       </nav>

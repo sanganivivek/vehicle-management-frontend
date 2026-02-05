@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { DealerService } from '../../../services/dealer.service';
 import { Dealer } from '../../../models/dealer.model';
-import { DealerService } from '../../../services/dealer.service'; // Ensure this service exists
 
 @Component({
   selector: 'app-dealer-list',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './dealer-list.component.html',
-  styleUrl: './dealer-list.component.css'
+  styleUrls: ['./dealer-list.component.css']
 })
 export class DealerListComponent implements OnInit {
   dealers: Dealer[] = [];
@@ -26,14 +26,13 @@ export class DealerListComponent implements OnInit {
   }
 
   loadDealers() {
-    // Call your service here. Assuming a signature like: getDealers(search, page, size)
     this.dealerService.getDealers(this.searchTerm, this.page, this.pageSize).subscribe({
       next: (res: any) => {
-        // Adjust response structure handling based on your actual API
+        // Adjust these properties based on your actual API response structure
         this.dealers = res.data || res; 
-        this.totalRecords = res.totalRecords || this.dealers.length; 
+        this.totalRecords = res.totalRecords || this.dealers.length;
       },
-      error: (err) => console.error('Error loading dealers', err)
+      error: (err) => console.error('Error fetching dealers:', err)
     });
   }
 
@@ -43,10 +42,8 @@ export class DealerListComponent implements OnInit {
   }
 
   changePage(newPage: number) {
-    if (newPage >= 1 && (newPage - 1) * this.pageSize < this.totalRecords) {
-      this.page = newPage;
-      this.loadDealers();
-    }
+    this.page = newPage;
+    this.loadDealers();
   }
 
   deleteDealer(id: string) {
@@ -57,12 +54,9 @@ export class DealerListComponent implements OnInit {
     }
   }
 
+  // Helper for pagination
   getPagesArray(): number[] {
     const totalPages = Math.ceil(this.totalRecords / this.pageSize);
     return Array(totalPages).fill(0).map((x, i) => i + 1);
-  }
-
-  getMin(a: number, b: number): number {
-    return Math.min(a, b);
   }
 }
