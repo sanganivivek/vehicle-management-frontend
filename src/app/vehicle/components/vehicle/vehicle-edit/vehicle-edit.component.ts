@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { VehicleService } from "../../../vehicle.service";
 import { Brand, Model } from "../../../models/vehicle.model";
 import { ToastrService } from "ngx-toastr";
+import { LoadingService } from "../../../../shared/services/loading.service";
 
 @Component({
   selector: "app-vehicle-edit",
@@ -13,7 +14,7 @@ import { ToastrService } from "ngx-toastr";
 export class VehicleEditComponent implements OnInit {
   vehicleId: string = "";
   vehicleForm!: FormGroup;
-  loading = false;
+  // loading = false; // Replaced by LoadingService
   saving = false;
   submitted = false;
   brands: Brand[] = [];
@@ -41,6 +42,7 @@ export class VehicleEditComponent implements OnInit {
     private vehicleService: VehicleService,
     private fb: FormBuilder,
     private toastr: ToastrService,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -123,7 +125,7 @@ export class VehicleEditComponent implements OnInit {
   }
 
   loadVehicle(id: string) {
-    this.loading = true;
+    this.loadingService.show();
     this.vehicleService.getVehicleById(id).subscribe({
       next: async (vehicle: any) => {
         // Load models first if brandId exists so the dropdown works
@@ -158,11 +160,11 @@ export class VehicleEditComponent implements OnInit {
           currentStatus: vehicle.currentStatus,
         }, { emitEvent: false });
 
-        this.loading = false;
+        this.loadingService.hide();
       },
       error: (err) => {
         console.error(err);
-        this.loading = false;
+        this.loadingService.hide();
         this.toastr.error("Failed to load vehicle details", "Error");
         this.router.navigate(["/vehicle"]); // Fixed route from /vehicles to /vehicle
       },

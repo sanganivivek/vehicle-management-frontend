@@ -52,9 +52,11 @@ export class ModelAddComponent implements OnInit {
   }
 
   loadBrands(): void {
-    this.brandService.getBrands().subscribe({
-      next: (brands: Brand[]) => {
-        this.brands = brands;
+    // Request a large page size to ensure we get all brands for the dropdown
+    this.brandService.getBrands('', 1, 1000).subscribe({
+      next: (response: any) => {
+        // Handle paginated response structure
+        this.brands = response.data || [];
         if (this.isEditMode) {
           this.loadModelData();
         } else {
