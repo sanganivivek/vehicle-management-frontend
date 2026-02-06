@@ -8,49 +8,66 @@
         
         <div class="mb-3">
           <label class="form-label">Dealer Name <span class="text-danger">*</span></label>
-          <input type="text" formControlName="name" class="form-control" 
-                 [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
-          <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-            <div *ngIf="f['name'].errors['required']">Dealer Name is required</div>
+          <input type="text" formControlName="dealerName" class="form-control" 
+                 [ngClass]="{ 'is-invalid': submitted && f['dealerName'].errors }" />
+          <div *ngIf="submitted && f['dealerName'].errors" class="invalid-feedback">
+            <div *ngIf="f['dealerName'].errors['required']">Dealer Name is required</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Contact Person</label>
+          <input type="text" formControlName="contactPerson" class="form-control" />
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Contact Number <span class="text-danger">*</span></label>
+            <input type="text" formControlName="contactNo" class="form-control" 
+                   [ngClass]="{ 'is-invalid': submitted && f['contactNo'].errors }" placeholder="10 digit number" />
+            <div *ngIf="submitted && f['contactNo'].errors" class="invalid-feedback">
+              <div *ngIf="f['contactNo'].errors['required']">Contact Number is required</div>
+              <div *ngIf="f['contactNo'].errors['pattern']">Enter a valid 10-digit number</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" formControlName="email" class="form-control" 
+                   [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+              <div *ngIf="f['email'].errors['email']">Enter a valid email address</div>
+            </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
-            <input type="text" formControlName="mobileNo" class="form-control" 
-                   [ngClass]="{ 'is-invalid': submitted && f['mobileNo'].errors }" placeholder="10 digit number" />
-            <div *ngIf="submitted && f['mobileNo'].errors" class="invalid-feedback">
-              <div *ngIf="f['mobileNo'].errors['required']">Mobile Number is required</div>
-              <div *ngIf="f['mobileNo'].errors['pattern']">Enter a valid 10-digit number</div>
-            </div>
+            <label class="form-label">GST Number</label>
+            <input type="text" formControlName="gstNo" class="form-control" />
           </div>
 
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Email ID</label>
-            <input type="email" formControlName="emailId" class="form-control" 
-                   [ngClass]="{ 'is-invalid': submitted && f['emailId'].errors }" />
-            <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback">
-              <div *ngIf="f['emailId'].errors['email']">Enter a valid email address</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">City</label>
             <input type="text" formControlName="city" class="form-control" />
           </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Address</label>
-            <textarea formControlName="address" class="form-control" rows="1"></textarea>
-          </div>
         </div>
 
-        <div class="mb-3 form-check">
-          <input type="checkbox" formControlName="isActive" class="form-check-input" id="isActiveCheck">
-          <label class="form-check-label" for="isActiveCheck">Is Active</label>
+        <div class="mb-3">
+          <label class="form-label">Address</label>
+          <textarea formControlName="address" class="form-control" rows="2"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Status <span class="text-danger">*</span></label>
+          <select formControlName="status" class="form-select"
+                  [ngClass]="{ 'is-invalid': submitted && f['status'].errors }">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          <div *ngIf="submitted && f['status'].errors" class="invalid-feedback">
+            <div *ngIf="f['status'].errors['required']">Status is required</div>
+          </div>
         </div>
 
         <div class="mt-4">

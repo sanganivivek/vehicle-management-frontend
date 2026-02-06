@@ -16,9 +16,11 @@
     <table class="table table-hover table-bordered shadow-sm">
       <thead class="table-light">
         <tr>
-          <th>Name</th>
-          <th>Mobile</th>
+          <th>Dealer Name</th>
+          <th>Contact Person</th>
+          <th>Contact No</th>
           <th>Email</th>
+          <th>GST No</th>
           <th>City</th>
           <th>Address</th>
           <th>Status</th>
@@ -27,14 +29,17 @@
       </thead>
       <tbody>
         <tr *ngFor="let dealer of dealers">
-          <td class="fw-bold">{{ dealer.name }}</td>
-          <td>{{ dealer.mobileNo }}</td>
-          <td>{{ dealer.emailId || '-' }}</td>
+          <td class="fw-bold">{{ dealer.dealerName }}</td>
+          <td>{{ dealer.contactPerson || '-' }}</td>
+          <td>{{ dealer.contactNo }}</td>
+          <td>{{ dealer.email || '-' }}</td>
+          <td>{{ dealer.gstNo || '-' }}</td>
           <td>{{ dealer.city || '-' }}</td>
-          <td class="text-truncate" style="max-width: 150px;" title="{{dealer.address}}">{{ dealer.address || '-' }}</td>
+          <td class="text-truncate" style="max-width: 150px;" title="{{dealer.address}}">{{ dealer.address || '-' }}
+          </td>
           <td>
-            <span [class]="dealer.isActive ? 'badge bg-success' : 'badge bg-secondary'">
-              {{ dealer.isActive ? 'Active' : 'Inactive' }}
+            <span [class]="dealer.status === 'Active' ? 'badge bg-success' : 'badge bg-secondary'">
+              {{ dealer.status }}
             </span>
           </td>
           <td>
@@ -47,7 +52,7 @@
           </td>
         </tr>
         <tr *ngIf="dealers.length === 0">
-          <td colspan="7" class="text-center py-4 text-muted">No dealers found.</td>
+          <td colspan="9" class="text-center py-4 text-muted">No dealers found.</td>
         </tr>
       </tbody>
     </table>

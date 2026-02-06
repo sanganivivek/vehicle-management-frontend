@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DealerService } from '../../../services/dealer.service';
 import { first } from 'rxjs/operators';
-import { UpdateDealerDTO } from '../../../models/dealer.model';
 
 @Component({
   selector: 'app-add-dealer',
@@ -16,29 +15,28 @@ export class AddDealerComponent implements OnInit {
   dealerId!: number;
   submitted = false;
   loading = false;
-  
-  // Property to hold existing dealer data for edit mode
-  existingDealer: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private dealerService: DealerService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.dealerId = this.route.snapshot.params['id'];
     this.isEditMode = !!this.dealerId;
 
-    // Initialize Form
+    // Initialize Form with correct field names matching backend
     this.dealerForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      address: [''],
+      dealerName: ['', Validators.required],
+      contactPerson: [''],
+      contactNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      email: ['', [Validators.email]],
+      gstNo: [''],
       city: [''],
-      mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      emailId: ['', [Validators.email]],
-      isActive: [true] // Default to true
+      address: [''],
+      status: ['Active', Validators.required] // Dropdown: Active/Inactive
     });
 
     // If Edit Mode, fetch data
@@ -46,7 +44,6 @@ export class AddDealerComponent implements OnInit {
       this.dealerService.getDealerById(this.dealerId)
         .pipe(first())
         .subscribe(x => {
-          this.existingDealer = x;
           this.dealerForm.patchValue(x);
         });
     }
@@ -79,16 +76,15 @@ export class AddDealerComponent implements OnInit {
         error: error => {
           console.error(error);
           this.loading = false;
-          alert('Error creating dealer');
+          alert('Error creating dealer: ' + (error.error?.message || error.message));
         }
       });
   }
 
   private updateDealer() {
-    // Merge id and form values into UpdateDealerDTO
-    const updatedDealer: UpdateDealerDTO = { 
-      ...this.dealerForm.value, 
-      id: Number(this.dealerId) 
+    const updatedDealer = {
+      ...this.dealerForm.value,
+      id: Number(this.dealerId)
     };
 
     this.dealerService.updateDealer(this.dealerId, updatedDealer)
@@ -100,7 +96,7 @@ export class AddDealerComponent implements OnInit {
         error: error => {
           console.error(error);
           this.loading = false;
-          alert('Error updating dealer');
+          alert('Error updating dealer: ' + (error.error?.message || error.message));
         }
       });
   }

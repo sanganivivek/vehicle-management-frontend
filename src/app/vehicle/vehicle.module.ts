@@ -14,6 +14,9 @@ import { ComplianceReportComponent } from "./components/compliance-report/compli
 import { DashboardComponent } from "../pages/dashboard/dashboard.component";
 import { BrandListComponent } from "./components/brand/brand-list/brand-list.component";
 import { ModelListComponent } from "./components/model/model-list/model-list.component";
+import { DealerListComponent } from "./components/dealer/dealer-list/dealer-list.component";
+import { AddDealerComponent } from "./components/dealer/add-dealer/add-dealer.component";
+import { EditDealerComponent } from "./components/dealer/edit-dealer/edit-dealer.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { ModelListComponent } from "./components/model/model-list/model-list.com
     BrandListComponent,
     ModelAddComponent,
     ModelListComponent,
+    DealerListComponent,
+    AddDealerComponent,
+    EditDealerComponent,
   ],
   imports: [
     CommonModule,

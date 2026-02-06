@@ -14,6 +14,7 @@ import { BrandListComponent } from "./components/brand/brand-list/brand-list.com
 import { ModelListComponent } from "./components/model/model-list/model-list.component";
 import { DealerListComponent } from "./components/dealer/dealer-list/dealer-list.component";
 import { AddDealerComponent } from "./components/dealer/add-dealer/add-dealer.component";
+import { EditDealerComponent } from "./components/dealer/edit-dealer/edit-dealer.component";
 
 const routes: Routes = [
   { path: "", component: DashboardComponent },
@@ -30,7 +31,7 @@ const routes: Routes = [
   { path: "reports", component: ComplianceReportComponent },
   { path: "dealers", component: DealerListComponent },
   { path: "dealers/add", component: AddDealerComponent },
-  { path: "dealers/edit/:id", component: AddDealerComponent },
+  { path: 'edit/:id', component: EditDealerComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

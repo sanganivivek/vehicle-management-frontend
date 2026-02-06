@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Dealer, CreateDealerDTO, UpdateDealerDTO } from '../models/dealer.model';
 import { environment } from '../../../environments/environment';
-import { CreateDealerDTO, Dealer, UpdateDealerDTO } from '../models/dealer.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DealerService {
-  // Adjust endpoint if your backend uses a different prefix (e.g., /api/Dealer)
-  private apiUrl = `${environment.apiUrl}/Dealer`;
+  private apiUrl = `${environment.apiUrl}/api/Dealer`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getDealers(): Observable<Dealer[]> {
+  getAllDealers(): Observable<Dealer[]> {
     return this.http.get<Dealer[]>(this.apiUrl);
   }
 
@@ -25,8 +24,8 @@ export class DealerService {
     return this.http.post<Dealer>(this.apiUrl, dealer);
   }
 
-  updateDealer(id: number, dealer: UpdateDealerDTO): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, dealer);
+  updateDealer(id: number, dealer: UpdateDealerDTO): Observable<Dealer> {
+    return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer);
   }
 
   deleteDealer(id: number): Observable<void> {

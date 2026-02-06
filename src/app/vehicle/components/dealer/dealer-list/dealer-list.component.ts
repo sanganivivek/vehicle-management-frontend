@@ -9,40 +9,36 @@ import { Dealer } from '../../../models/dealer.model';
 })
 export class DealerListComponent implements OnInit {
   dealers: Dealer[] = [];
-  loading = true;
+  loading = false;
 
-  constructor(private dealerService: DealerService) {}
+  constructor(private dealerService: DealerService) { }
 
   ngOnInit(): void {
     this.loadDealers();
   }
 
-  loadDealers() {
-    this.dealerService.getDealers().subscribe({
+  loadDealers(): void {
+    this.loading = true;
+    this.dealerService.getAllDealers().subscribe({
       next: (data) => {
         this.dealers = data;
         this.loading = false;
       },
-      error: (e) => {
+      error: (err) => {
+        console.error('Error fetching dealers', err);
         this.loading = false;
-        console.error('Error loading dealers', e);
       }
     });
   }
 
-  deleteDealer(id: number) {
-    if(confirm("Are you sure you want to delete this dealer?")) {
+  deleteDealer(id: number): void {
+    if (confirm('Are you sure you want to delete this dealer?')) {
       this.dealerService.deleteDealer(id).subscribe({
         next: () => {
-          // Remove deleted dealer from local array
-          this.dealers = this.dealers.filter(x => x.id !== id);
-          alert('Dealer deleted successfully.');
+          this.loadDealers(); // Refresh list after delete
         },
-        error: (err) => {
-          console.error(err);
-          alert('Failed to delete dealer.');
-        }
+        error: (err) => console.error('Error deleting dealer', err)
       });
     }
   }
-} 
+}
