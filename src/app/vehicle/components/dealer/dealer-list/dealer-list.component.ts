@@ -1,23 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { DealerService } from '../../../services/dealer.service';
 import { Dealer } from '../../../models/dealer.model';
 
 @Component({
   selector: 'app-dealer-list',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './dealer-list.component.html',
   styleUrls: ['./dealer-list.component.css']
 })
 export class DealerListComponent implements OnInit {
   dealers: Dealer[] = [];
-  searchTerm: string = '';
-  page: number = 1;
-  pageSize: number = 10;
-  totalRecords: number = 0;
+  loading = true;
 
   constructor(private dealerService: DealerService) {}
 
@@ -26,37 +18,31 @@ export class DealerListComponent implements OnInit {
   }
 
   loadDealers() {
-    this.dealerService.getDealers(this.searchTerm, this.page, this.pageSize).subscribe({
-      next: (res: any) => {
-        // Adjust these properties based on your actual API response structure
-        this.dealers = res.data || res; 
-        this.totalRecords = res.totalRecords || this.dealers.length;
+    this.dealerService.getDealers().subscribe({
+      next: (data) => {
+        this.dealers = data;
+        this.loading = false;
       },
-      error: (err) => console.error('Error fetching dealers:', err)
+      error: (e) => {
+        this.loading = false;
+        console.error('Error loading dealers', e);
+      }
     });
   }
 
-  onSearch() {
-    this.page = 1;
-    this.loadDealers();
-  }
-
-  changePage(newPage: number) {
-    this.page = newPage;
-    this.loadDealers();
-  }
-
-  deleteDealer(id: string) {
-    if (confirm('Are you sure you want to delete this dealer?')) {
-      this.dealerService.deleteDealer(id).subscribe(() => {
-        this.loadDealers();
+  deleteDealer(id: number) {
+    if(confirm("Are you sure you want to delete this dealer?")) {
+      this.dealerService.deleteDealer(id).subscribe({
+        next: () => {
+          // Remove deleted dealer from local array
+          this.dealers = this.dealers.filter(x => x.id !== id);
+          alert('Dealer deleted successfully.');
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Failed to delete dealer.');
+        }
       });
     }
   }
-
-  // Helper for pagination
-  getPagesArray(): number[] {
-    const totalPages = Math.ceil(this.totalRecords / this.pageSize);
-    return Array(totalPages).fill(0).map((x, i) => i + 1);
-  }
-}
+} 

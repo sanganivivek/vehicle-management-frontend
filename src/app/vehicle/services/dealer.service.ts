@@ -2,39 +2,34 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Dealer } from '../models/dealer.model';
+import { CreateDealerDTO, Dealer, UpdateDealerDTO } from '../models/dealer.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DealerService {
-  private apiUrl = `${environment.apiUrl}/dealers`;
+  // Adjust endpoint if your backend uses a different prefix (e.g., /api/Dealer)
+  private apiUrl = `${environment.apiUrl}/Dealer`;
 
   constructor(private http: HttpClient) {}
 
-  // Get all dealers
-  getDealers(search: string = '', page: number = 1, pageSize: number = 10): Observable<any> {
-    const params: any = { search, page, pageSize };
-    return this.http.get<any>(this.apiUrl, { params });
+  getDealers(): Observable<Dealer[]> {
+    return this.http.get<Dealer[]>(this.apiUrl);
   }
 
-  // Add a new dealer
-  addDealer(dealer: Dealer): Observable<Dealer> {
+  getDealerById(id: number): Observable<Dealer> {
+    return this.http.get<Dealer>(`${this.apiUrl}/${id}`);
+  }
+
+  createDealer(dealer: CreateDealerDTO): Observable<Dealer> {
     return this.http.post<Dealer>(this.apiUrl, dealer);
   }
 
-  // Update a dealer
-  updateDealer(id: string, dealer: Dealer): Observable<Dealer> {
-    return this.http.put<Dealer>(`${this.apiUrl}/${id}`, dealer);
+  updateDealer(id: number, dealer: UpdateDealerDTO): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, dealer);
   }
 
-  // Delete a dealer
-  deleteDealer(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
-  }
-
-  // Get single dealer by ID
-  getDealerById(id: string): Observable<Dealer> {
-    return this.http.get<Dealer>(`${this.apiUrl}/${id}`);
+  deleteDealer(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -1,73 +1,107 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DealerService } from '../../../services/dealer.service';
-import { Dealer } from '../../../models/dealer.model';
+import { first } from 'rxjs/operators';
+import { UpdateDealerDTO } from '../../../models/dealer.model';
 
 @Component({
   selector: 'app-add-dealer',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './add-dealer.component.html',
   styleUrls: ['./add-dealer.component.css']
 })
 export class AddDealerComponent implements OnInit {
-  
-  dealer: Dealer = {
-    dealerName: '',
-    contactPerson: '',
-    phone: '',
-    email: '',
-    address: '', // Stores the 'Location' data
-    status: 'Active'
-  };
-  
+  dealerForm!: FormGroup;
   isEditMode = false;
-  dealerId: string | null = null;
+  dealerId!: number;
+  submitted = false;
+  loading = false;
+  
+  // Property to hold existing dealer data for edit mode
+  existingDealer: any;
 
   constructor(
+    private formBuilder: FormBuilder,
     private dealerService: DealerService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.dealerId = this.route.snapshot.paramMap.get('id');
-    if (this.dealerId) {
-      this.isEditMode = true;
-      this.loadDealerData(this.dealerId);
+    this.dealerId = this.route.snapshot.params['id'];
+    this.isEditMode = !!this.dealerId;
+
+    // Initialize Form
+    this.dealerForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      address: [''],
+      city: [''],
+      mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      emailId: ['', [Validators.email]],
+      isActive: [true] // Default to true
+    });
+
+    // If Edit Mode, fetch data
+    if (this.isEditMode) {
+      this.dealerService.getDealerById(this.dealerId)
+        .pipe(first())
+        .subscribe(x => {
+          this.existingDealer = x;
+          this.dealerForm.patchValue(x);
+        });
     }
   }
 
-  loadDealerData(id: string) {
-    this.dealerService.getDealerById(id).subscribe({
-      next: (data) => {
-        this.dealer = data;
-        // Default to 'Active' if status is missing or undefined
-        if (!this.dealer.status) this.dealer.status = 'Active'; 
-      },
-      error: (err) => console.error('Error loading dealer', err)
-    });
-  }
+  get f() { return this.dealerForm.controls; }
 
   onSubmit() {
-    if (this.isEditMode && this.dealerId) {
-      this.dealerService.updateDealer(this.dealerId, this.dealer).subscribe({
-        next: () => {
-          alert('Dealer updated successfully');
-          this.router.navigate(['/vehicle/dealers']);
-        },
-        error: (err) => alert('Error updating dealer')
-      });
-    } else {
-      this.dealerService.addDealer(this.dealer).subscribe({
-        next: () => {
-          alert('Dealer added successfully');
-          this.router.navigate(['/vehicle/dealers']);
-        },
-        error: (err) => alert('Error adding dealer')
-      });
+    this.submitted = true;
+
+    if (this.dealerForm.invalid) {
+      return;
     }
+
+    this.loading = true;
+    if (this.isEditMode) {
+      this.updateDealer();
+    } else {
+      this.createDealer();
+    }
+  }
+
+  private createDealer() {
+    this.dealerService.createDealer(this.dealerForm.value)
+      .subscribe({
+        next: () => {
+          alert('Dealer added successfully!');
+          this.router.navigate(['/vehicle/dealers']);
+        },
+        error: error => {
+          console.error(error);
+          this.loading = false;
+          alert('Error creating dealer');
+        }
+      });
+  }
+
+  private updateDealer() {
+    // Merge id and form values into UpdateDealerDTO
+    const updatedDealer: UpdateDealerDTO = { 
+      ...this.dealerForm.value, 
+      id: Number(this.dealerId) 
+    };
+
+    this.dealerService.updateDealer(this.dealerId, updatedDealer)
+      .subscribe({
+        next: () => {
+          alert('Dealer updated successfully!');
+          this.router.navigate(['/vehicle/dealers']);
+        },
+        error: error => {
+          console.error(error);
+          this.loading = false;
+          alert('Error updating dealer');
+        }
+      });
   }
 }
