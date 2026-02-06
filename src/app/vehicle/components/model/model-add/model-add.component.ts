@@ -65,8 +65,8 @@ export class ModelAddComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error("Failed to load brands:", error);
-        this.toastr.error("Failed to load brands");
+        console.error("Failed to load model:", error);
+        this.toastr.error("Failed to load models", "Error");
       },
     });
   }
@@ -103,7 +103,7 @@ export class ModelAddComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
-        this.toastr.error("Failed to load model details");
+        this.toastr.error("Failed to load model details", "Error");
         this.router.navigate(["/vehicle/models"]);
       },
     });

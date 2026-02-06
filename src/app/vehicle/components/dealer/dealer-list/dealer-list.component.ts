@@ -30,7 +30,7 @@ export class DealerListComponent implements OnInit {
       error: (err) => {
         console.error('Error fetching dealers', err);
         this.loading = false;
-        this.toastr.error('Failed to load dealers');
+        this.toastr.error('Failed to load dealers', "Error");
       }
     });
   }
@@ -39,7 +39,7 @@ export class DealerListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this dealer?')) {
       this.dealerService.deleteDealer(id).subscribe({
         next: () => {
-          this.toastr.success('Dealer deleted successfully!');
+          this.toastr.error('Dealer deleted successfully!', 'Delete');
           this.loadDealers(); // Refresh list after delete
         },
         error: (err) => {

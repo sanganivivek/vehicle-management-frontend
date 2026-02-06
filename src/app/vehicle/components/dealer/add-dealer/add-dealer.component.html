@@ -72,10 +72,10 @@
           </div>
 
           <div class="btn-row">
-            <button type="button" class="btn btn-cancel">
+            <button type="button" class="btn btn-cancel" routerLink="/dealers">
               Cancel
             </button>
-            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="loading" routerLink="/dealers">
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="loading">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>

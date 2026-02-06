@@ -4,6 +4,7 @@ import { VehicleService } from '../../vehicle.service';
 import { VehicleMaster } from '../../models/vehicle.model';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-compliance-report',
@@ -18,7 +19,8 @@ export class ComplianceReportComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class ComplianceReportComponent implements OnInit {
         this.loadingService.hide();
       },
       error: (err) => {
+        this.toastr.error("Failed to load compliance report", "Error");
         console.error('Error loading report', err);
         this.loadingService.hide();
       }

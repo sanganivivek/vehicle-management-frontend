@@ -2,10 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { VehicleService } from "../../../vehicle.service";
 import { ToastrService } from "ngx-toastr";
-import {
-  VehicleListDTO,
-  Brand,
-} from "../../../models/vehicle.model";
+import { VehicleListDTO, Brand } from "../../../models/vehicle.model";
 import { LoadingService } from "../../../../shared/services/loading.service";
 
 const STATUS_AVAILABLE = 0;
@@ -29,9 +26,9 @@ export class VehicleListComponent implements OnInit {
   totalPages = 1;
   totalRecords = 0;
   pagesArray: number[] = [];
-  
+
   // This variable holds the current status filter (can be string from URL or number from dropdown)
-  selectedStatus: any = ""; 
+  selectedStatus: any = "";
 
   statusOptions = [
     { name: "Available", value: 0 },
@@ -44,7 +41,7 @@ export class VehicleListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute, // Added ActivatedRoute
     private toastr: ToastrService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
@@ -53,19 +50,19 @@ export class VehicleListComponent implements OnInit {
 
     // LISTEN for query params from Dashboard or URL changes
     this.route.queryParams.subscribe((params) => {
-      const statusParam = params['status'];
-      
+      const statusParam = params["status"];
+
       if (statusParam) {
         // If coming from dashboard (e.g., ?status=available)
         // We need to map 'available' string to the numeric value your API expects
         this.selectedStatus = this.mapStatusStringToNumber(statusParam);
       } else {
-        // If no param, we might want to keep existing or reset. 
+        // If no param, we might want to keep existing or reset.
         // Usually, if we navigate here freshly, we might want to show all.
         // If you want to persist manual filters, check if selectedStatus is already set.
         // For now, let's assume if no param, we show 'All' (empty string).
         if (!this.selectedStatus && this.selectedStatus !== 0) {
-             this.selectedStatus = "";
+          this.selectedStatus = "";
         }
       }
 
@@ -79,11 +76,16 @@ export class VehicleListComponent implements OnInit {
    */
   mapStatusStringToNumber(status: string): number | string {
     switch (status.toLowerCase()) {
-      case 'available': return 0;
-      case 'rented': return 1;
-      case 'maintenance': return 2;
-      case 'all': return ""; // "All" means no filter
-      default: return "";
+      case "available":
+        return 0;
+      case "rented":
+        return 1;
+      case "maintenance":
+        return 2;
+      case "all":
+        return ""; // "All" means no filter
+      default:
+        return "";
     }
   }
 
@@ -95,9 +97,10 @@ export class VehicleListComponent implements OnInit {
       search: this.searchTerm || undefined,
       // Status logic: check if it's a number (0 is falsy, so check for null/undefined explicitly if needed)
       // or if it's a non-empty string.
-      status: (this.selectedStatus !== "" && this.selectedStatus !== null) 
-              ? parseInt(this.selectedStatus) 
-              : undefined,
+      status:
+        this.selectedStatus !== "" && this.selectedStatus !== null
+          ? parseInt(this.selectedStatus)
+          : undefined,
       sortBy: this.sortColumn,
       sortOrder: this.sortOrder,
       page: this.currentPage,
@@ -114,7 +117,8 @@ export class VehicleListComponent implements OnInit {
         this.loadingService.hide();
       },
       error: (error: any) => {
-        console.error("Failed to load vehicles:", error);
+        this.toastr.error("Failed to load vehicles", "Error");
+        console.error("Error loading vehicles:", error);
         this.vehicles = [];
         this.totalRecords = 0;
         this.totalPages = 1;
@@ -135,7 +139,7 @@ export class VehicleListComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error("Failed to load brands:", error);
+        this.toastr.error("Failed to load brands", "Error");
         this.brandId = [];
       },
     });
@@ -225,18 +229,18 @@ export class VehicleListComponent implements OnInit {
         const updateData = { ...vehicle, isActive: !currentStatus };
         this.vehicleService.updateVehicle(vehicleId, updateData).subscribe({
           next: () => {
-             this.loadVehicles();
-             this.loadingService.hide();
+            this.loadVehicles();
+            this.loadingService.hide();
           },
           error: () => {
-             alert("Failed to update status");
-             this.loadingService.hide();
+            alert("Failed to update status");
+            this.loadingService.hide();
           },
         });
       },
       error: () => {
-         alert("Failed to get vehicle details");
-         this.loadingService.hide();
+        alert("Failed to get vehicle details");
+        this.loadingService.hide();
       },
     });
   }
@@ -254,19 +258,27 @@ export class VehicleListComponent implements OnInit {
 
   getStatusText(status: number): string {
     switch (status) {
-      case STATUS_AVAILABLE: return "Available";
-      case STATUS_ON_ROAD: return "Rented";
-      case STATUS_MAINTENANCE: return "In Maintenance";
-      default: return "Unknown";
+      case STATUS_AVAILABLE:
+        return "Available";
+      case STATUS_ON_ROAD:
+        return "Rented";
+      case STATUS_MAINTENANCE:
+        return "In Maintenance";
+      default:
+        return "Unknown";
     }
   }
 
   getStatusClass(status: number): string {
     switch (status) {
-      case STATUS_AVAILABLE: return "badge bg-success";
-      case STATUS_ON_ROAD: return "badge bg-info text-white";
-      case STATUS_MAINTENANCE: return "badge bg-danger";
-      default: return "badge bg-secondary";
+      case STATUS_AVAILABLE:
+        return "badge bg-success";
+      case STATUS_ON_ROAD:
+        return "badge bg-info text-white";
+      case STATUS_MAINTENANCE:
+        return "badge bg-danger";
+      default:
+        return "badge bg-secondary";
     }
   }
 
@@ -292,8 +304,8 @@ export class VehicleListComponent implements OnInit {
           });
       },
       error: () => {
-         this.toastr.error("Failed to fetch details");
-         this.loadingService.hide();
+        this.toastr.error("Failed to fetch details");
+        this.loadingService.hide();
       },
     });
   }

@@ -1,45 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DealerService } from '../../../services/dealer.service';
-import { Dealer } from '../../../models/dealer.model';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+// Adjust these paths if necessary to match your project structure
+import { DealerService } from "src/app/vehicle/services/dealer.service";
+import { Dealer } from "src/app/vehicle/models/dealer.model";
 
 @Component({
-  selector: 'app-edit-dealer',
-  templateUrl: './edit-dealer.component.html',
-  styleUrls: ['./edit-dealer.component.css']
+  selector: "app-edit-dealer",
+  templateUrl: "./edit-dealer.component.html",
+  styleUrls: ["./edit-dealer.component.css"],
 })
 export class EditDealerComponent implements OnInit {
   editDealerForm!: FormGroup;
   dealerId!: number;
   loading = false;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
     private dealerService: DealerService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService, // Injected correctly
+  ) {}
 
   ngOnInit(): void {
-    this.dealerId = Number(this.route.snapshot.paramMap.get('id'));
+    // 1. Get ID from URL
+    const idParam = this.route.snapshot.paramMap.get("id");
+    this.dealerId = idParam ? Number(idParam) : 0;
+
+    // 2. Initialize Form
     this.initForm();
-    this.loadDealer();
+
+    // 3. Load Data if ID exists
+    if (this.dealerId) {
+      this.loadDealer();
+    } else {
+      this.toastr.error("Invalid Dealer ID", "Error");
+      this.router.navigate(["/dealer"]);
+    }
+  }
+
+  // Helper for easy access to form controls in HTML (e.g., *ngIf="f['name'].errors")
+  get f() {
+    return this.editDealerForm.controls;
   }
 
   initForm(): void {
-    // Use same field names as add-dealer component
     this.editDealerForm = this.fb.group({
-      name: ['', Validators.required],
-      contactPerson: [''],
-      contactNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      email: ['', [Validators.email]],
-      gstNo: [''],
-      city: [''],
-      address: [''],
-      status: ['Active', Validators.required]
+      name: ["", Validators.required],
+      contactPerson: [""],
+      contactNo: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
+      email: ["", [Validators.email]],
+      gstNo: [""],
+      city: [""],
+      address: [""],
+      status: ["Active", Validators.required],
     });
   }
 
@@ -51,35 +68,49 @@ export class EditDealerComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error fetching dealer details', err);
+        console.error("Error fetching dealer details", err);
         this.loading = false;
-        this.toastr.error('Error loading dealer details');
-      }
+        this.toastr.error("Failed to load dealer details.", "Error");
+        this.router.navigate(["/dealer"]); // Redirect if load fails
+      },
     });
   }
 
   onSubmit(): void {
-    if (this.editDealerForm.valid) {
-      this.loading = true;
-      const updatedDealer = {
-        ...this.editDealerForm.value,
-        id: this.dealerId
-      };
+    this.submitted = true;
 
-      this.dealerService.updateDealer(this.dealerId, updatedDealer).subscribe({
-        next: () => {
-          this.toastr.success('Dealer updated successfully!');
-          this.router.navigate(['/dealers']);
-        },
-        error: (err) => {
-          console.error('Error updating dealer', err);
-          this.loading = false;
-          this.toastr.error('Error updating dealer');
-        }
-      });
-    } else {
-      this.toastr.error('Please fill all required fields correctly', 'Validation Error');
+    // 1. Check Validity
+    if (this.editDealerForm.invalid) {
+      this.toastr.warning(
+        "Please fill in all required fields.",
+        "Validation Error",
+      );
       this.editDealerForm.markAllAsTouched();
+      return;
     }
+
+    this.loading = true;
+
+    // 2. Prepare Data
+    const updatedDealer = {
+      ...this.editDealerForm.value,
+      id: this.dealerId,
+    };
+
+    // 3. Call Service
+    this.dealerService.updateDealer(this.dealerId, updatedDealer).subscribe({
+      next: () => {
+        // SUCCESS
+        this.toastr.info("Dealer updated successfully!", "Update");
+        this.router.navigate(["/dealers"]); // Navigate back to list
+      },
+      error: (err) => {
+        // ERROR
+        console.error("Error updating dealer", err);
+        this.loading = false;
+        const msg = err.error?.message || err.message || "Unknown error";
+        this.toastr.error("Error updating dealer: " + msg, "Error");
+      },
+    });
   }
 }

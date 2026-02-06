@@ -13,6 +13,7 @@ import { ModelService } from "../../../services/model.service";
 import { Brand, Model, CreateVehicleDTO } from "../../../models/vehicle.model";
 import { Observable, of } from "rxjs";
 import { map, catchError, debounceTime, switchMap } from "rxjs/operators";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-vehicle-add",
@@ -49,6 +50,7 @@ export class VehicleAddComponent implements OnInit {
     private brandService: BrandService,
     private modelService: ModelService,
     private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -147,7 +149,7 @@ export class VehicleAddComponent implements OnInit {
       },
       error: (error) => {
         console.error("Failed to load brands:", error);
-        this.errorMessage = "Failed to load brands. Please try again.";
+        this.toastr.error("Failed to load brands", "Error");
       },
     });
   }
@@ -162,7 +164,7 @@ export class VehicleAddComponent implements OnInit {
       error: (error) => {
         console.error("Failed to load models:", error);
         this.models = [];
-        this.errorMessage = "Failed to load models. Please try again.";
+        this.toastr.error("Failed to load models", "Error");
       },
     });
   }

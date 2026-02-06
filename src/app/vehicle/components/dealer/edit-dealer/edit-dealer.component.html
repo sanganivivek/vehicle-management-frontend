@@ -75,11 +75,11 @@
           </div>
 
           <div class="btn-row">
-            <button type="button" class="btn btn-cancel">
+            <button type="button" class="btn btn-cancel" routerLink="/dealers">
               Cancel
             </button>
             <button type="submit" class="btn btn-submit" (click)="onSubmit()"
-              [disabled]="editDealerForm.invalid || loading" routerLink="/dealers">
+              [disabled]="editDealerForm.invalid || loading">
               {{ loading ? "Updating..." : "Update Dealer" }}
             </button>
           </div>

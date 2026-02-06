@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DealerService } from '../../../services/dealer.service';
-import { first } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DealerService } from "src/app/vehicle/services/dealer.service";
+import { first } from "rxjs/operators";
+import { ToastrService } from "ngx-toastr"; // Imported correctly
 
 @Component({
-  selector: 'app-add-dealer',
-  templateUrl: './add-dealer.component.html',
-  styleUrls: ['./add-dealer.component.css']
+  selector: "app-add-dealer",
+  templateUrl: "./add-dealer.component.html",
+  styleUrls: ["./add-dealer.component.css"],
 })
 export class AddDealerComponent implements OnInit {
   dealerForm!: FormGroup;
@@ -22,46 +22,64 @@ export class AddDealerComponent implements OnInit {
     private dealerService: DealerService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService, // Injected ToastrService
+  ) {}
 
   ngOnInit(): void {
-    this.dealerId = this.route.snapshot.params['id'];
+    // Check for ID in the URL to determine Edit Mode
+    const idParam = this.route.snapshot.params["id"];
+    this.dealerId = idParam ? Number(idParam) : 0;
     this.isEditMode = !!this.dealerId;
 
-    // Initialize Form with correct field names matching backend
+    // Initialize Form
     this.dealerForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      contactPerson: [''],
-      contactNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      email: ['', [Validators.email]],
-      gstNo: [''],
-      city: [''],
-      address: [''],
-      status: ['Active', Validators.required] // Dropdown: Active/Inactive
+      name: ["", Validators.required],
+      contactPerson: ["", Validators.required],
+      contactNo: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
+      email: ["", [Validators.email,]],
+      gstNo: ["", [Validators.required, Validators.pattern(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$/)]],
+      city: ["",  Validators.required],
+      address: ["", Validators.required],
+      status: ["Active", Validators.required], // Default to Active
     });
 
-    // If Edit Mode, fetch data
+    // If Edit Mode, fetch existing data and patch the form
     if (this.isEditMode) {
-      this.dealerService.getDealerById(this.dealerId)
+      this.dealerService
+        .getDealerById(this.dealerId)
         .pipe(first())
-        .subscribe(x => {
-          this.dealerForm.patchValue(x);
+        .subscribe({
+          next: (data) => {
+            this.dealerForm.patchValue(data);
+          },
+          error: (err) => {
+            this.toastr.error("Failed to load dealer details.", "Error");
+            this.router.navigate(["/dealers"]);
+          },
         });
     }
   }
 
-  get f() { return this.dealerForm.controls; }
+  // Helper getter for easy access to form fields in HTML
+  get f() {
+    return this.dealerForm.controls;
+  }
 
   onSubmit(): void {
     this.submitted = true;
 
+    // Stop here if form is invalid
     if (this.dealerForm.invalid) {
-      this.toastr.error('Please fill all required fields correctly', 'Validation Error');
+      this.toastr.warning(
+        "Please fill all required fields correctly",
+        "Validation Error",
+      );
+      this.dealerForm.markAllAsTouched();
       return;
     }
 
     this.loading = true;
+
     if (this.isEditMode) {
       this.updateDealer();
     } else {
@@ -70,37 +88,39 @@ export class AddDealerComponent implements OnInit {
   }
 
   private createDealer() {
-    this.dealerService.createDealer(this.dealerForm.value)
-      .subscribe({
-        next: () => {
-          this.toastr.success('Dealer created successfully!');
-          this.router.navigate(['/vehicle/dealers']);
-        },
-        error: error => {
-          console.error(error);
-          this.loading = false;
-          this.toastr.error('Error creating dealer: ' + (error.error?.message || error.message));
-        }
-      });
+    this.dealerService.createDealer(this.dealerForm.value).subscribe({
+      next: () => {
+        this.toastr.success("Dealer created successfully!", "Success");
+        this.router.navigate(["/dealers"]); // Navigate to list
+      },
+      error: (error) => {
+        console.error(error);
+        this.loading = false;
+        // specific error message or fallback
+        const msg = error.error?.message || error.message || "Unknown error";
+        this.toastr.error("Error creating dealer: " + msg, "Error");
+      },
+    });
   }
 
   private updateDealer() {
+    // Ensure the ID is included in the payload if backend requires it
     const updatedDealer = {
       ...this.dealerForm.value,
-      id: Number(this.dealerId)
+      id: this.dealerId,
     };
 
-    this.dealerService.updateDealer(this.dealerId, updatedDealer)
-      .subscribe({
-        next: () => {
-          this.toastr.success('Dealer updated successfully!');
-          this.router.navigate(['/dealers']);
-        },
-        error: error => {
-          console.error(error);
-          this.loading = false;
-          this.toastr.error('Error updating dealer: ' + (error.error?.message || error.message));
-        }
-      });
+    this.dealerService.updateDealer(this.dealerId, updatedDealer).subscribe({
+      next: () => {
+        this.toastr.success("Dealer updated successfully!", "Success");
+        this.router.navigate(["/dealers"]); // Navigate to list
+      },
+      error: (error) => {
+        console.error(error);
+        this.loading = false;
+        const msg = error.error?.message || error.message || "Unknown error";
+        this.toastr.error("Error updating dealer: " + msg, "Error");
+      },
+    });
   }
 }

@@ -42,7 +42,7 @@ export class BrandListComponent implements OnInit {
       error: (err) => {
         console.error("Error loading brands", err);
         this.brands = []; // Clear list on error
-        this.toastr.error("Failed to load brands");
+        this.toastr.error("Failed to load brands", "Error");
         this.loading = false;
       }
     });

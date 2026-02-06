@@ -56,7 +56,7 @@ export class ModelListComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
-        this.toastr.error("Failed to load models");
+        this.toastr.error("Failed to load models", "Error");
       },
     });
   }

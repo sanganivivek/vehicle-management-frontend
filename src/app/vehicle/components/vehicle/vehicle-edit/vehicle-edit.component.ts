@@ -225,7 +225,7 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleService.updateVehicle(this.vehicleId, vehicleData).subscribe({
       next: (response) => {
         this.saving = false;
-        this.toastr.success("Vehicle updated successfully", "Success");
+        this.toastr.info("Vehicle updated successfully", "Update");
         this.router.navigate(["/vehicle"]); // Fixed route
       },
       error: (err) => {

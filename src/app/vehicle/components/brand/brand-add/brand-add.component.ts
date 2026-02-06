@@ -63,7 +63,7 @@ export class BrandAddComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.loading = false;
-        this.toastr.error("Failed to load brand data");
+        this.toastr.error("Failed to load brand data", "Error");
       }
     });
   }
