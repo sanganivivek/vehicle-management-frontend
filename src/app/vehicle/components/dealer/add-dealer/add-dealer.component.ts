@@ -29,7 +29,7 @@ export class AddDealerComponent implements OnInit {
 
     // Initialize Form with correct field names matching backend
     this.dealerForm = this.formBuilder.group({
-      dealerName: ['', Validators.required],
+      name: ['', Validators.required],
       contactPerson: [''],
       contactNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       email: ['', [Validators.email]],

@@ -1,83 +1,86 @@
-<div class="container mt-4">
-  <div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-      <h3 class="mb-0">{{ isEditMode ? 'Edit Dealer' : 'Add New Dealer' }}</h3>
-    </div>
-    <div class="card-body">
-      <form [formGroup]="dealerForm" (ngSubmit)="onSubmit()">
-        
-        <div class="mb-3">
-          <label class="form-label">Dealer Name <span class="text-danger">*</span></label>
-          <input type="text" formControlName="dealerName" class="form-control" 
-                 [ngClass]="{ 'is-invalid': submitted && f['dealerName'].errors }" />
-          <div *ngIf="submitted && f['dealerName'].errors" class="invalid-feedback">
-            <div *ngIf="f['dealerName'].errors['required']">Dealer Name is required</div>
-          </div>
-        </div>
+<div class="vehicle-page-bg">
+  <div class="form-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <h3 class="form-title">{{ isEditMode ? 'Edit' : 'Add New' }} Dealer</h3>
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label">Contact Person</label>
-          <input type="text" formControlName="contactPerson" class="form-control" />
-        </div>
+      <div class="form-body">
+        <form [formGroup]="dealerForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Dealer Name *</label>
+              <input type="text" class="form-control form-input" formControlName="name"
+                placeholder="Enter dealer name" />
+              <div class="form-error" *ngIf="(submitted || f['name'].touched) && f['name'].errors">
+                <span *ngIf="f['name'].errors['required']">Dealer Name is required</span>
+              </div>
+            </div>
 
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Contact Number <span class="text-danger">*</span></label>
-            <input type="text" formControlName="contactNo" class="form-control" 
-                   [ngClass]="{ 'is-invalid': submitted && f['contactNo'].errors }" placeholder="10 digit number" />
-            <div *ngIf="submitted && f['contactNo'].errors" class="invalid-feedback">
-              <div *ngIf="f['contactNo'].errors['required']">Contact Number is required</div>
-              <div *ngIf="f['contactNo'].errors['pattern']">Enter a valid 10-digit number</div>
+            <div class="form-group">
+              <label class="form-label">Contact Person</label>
+              <input type="text" class="form-control form-input" formControlName="contactPerson"
+                placeholder="Enter contact person" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contact Number *</label>
+              <input type="text" class="form-control form-input" formControlName="contactNo"
+                placeholder="10 digit number" />
+              <div class="form-error" *ngIf="(submitted || f['contactNo'].touched) && f['contactNo'].errors">
+                <span *ngIf="f['contactNo'].errors['required']">Contact Number is required</span>
+                <span *ngIf="f['contactNo'].errors['pattern']">Enter a valid 10-digit number</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control form-input" formControlName="email"
+                placeholder="Enter email address" />
+              <div class="form-error" *ngIf="(submitted || f['email'].touched) && f['email'].errors">
+                <span *ngIf="f['email'].errors['email']">Enter a valid email address</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">GST Number</label>
+              <input type="text" class="form-control form-input" formControlName="gstNo"
+                placeholder="Enter GST number" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input type="text" class="form-control form-input" formControlName="city" placeholder="Enter city" />
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">Address</label>
+              <textarea class="form-control form-input" formControlName="address" rows="2"
+                placeholder="Enter address"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Status *</label>
+              <select class="form-control form-input" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <div class="form-error" *ngIf="(submitted || f['status'].touched) && f['status'].errors">
+                <span *ngIf="f['status'].errors['required']">Status is required</span>
+              </div>
             </div>
           </div>
 
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" formControlName="email" class="form-control" 
-                   [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
-            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-              <div *ngIf="f['email'].errors['email']">Enter a valid email address</div>
-            </div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-cancel" routerLink="/dealers">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="loading">
+              {{ loading ? "Saving..." : "Save" }}
+            </button>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">GST Number</label>
-            <input type="text" formControlName="gstNo" class="form-control" />
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="form-label">City</label>
-            <input type="text" formControlName="city" class="form-control" />
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Address</label>
-          <textarea formControlName="address" class="form-control" rows="2"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Status <span class="text-danger">*</span></label>
-          <select formControlName="status" class="form-select"
-                  [ngClass]="{ 'is-invalid': submitted && f['status'].errors }">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-          <div *ngIf="submitted && f['status'].errors" class="invalid-feedback">
-            <div *ngIf="f['status'].errors['required']">Status is required</div>
-          </div>
-        </div>
-
-        <div class="mt-4">
-          <button type="submit" [disabled]="loading" class="btn btn-primary me-2">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-            Save
-          </button>
-          <a routerLink="/vehicle/dealers" class="btn btn-secondary">Cancel</a>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>

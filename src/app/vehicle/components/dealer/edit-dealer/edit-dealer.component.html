@@ -1,73 +1,90 @@
-<div class="container mt-4">
-  <div class="card shadow">
-    <div class="card-header bg-primary text-white">
-      <h3>Edit Dealer</h3>
-    </div>
-    <div class="card-body">
-      <form [formGroup]="editDealerForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label for="dealerName" class="form-label">Dealer Name <span class="text-danger">*</span></label>
-          <input type="text" id="dealerName" class="form-control" formControlName="dealerName"
-            [ngClass]="{'is-invalid': editDealerForm.get('dealerName')?.invalid && editDealerForm.get('dealerName')?.touched}">
-          <div class="invalid-feedback">Dealer Name is required.</div>
-        </div>
+<div class="vehicle-page-bg">
+  <div class="form-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <h3 class="form-title">Edit Dealer</h3>
+      </div>
 
-        <div class="mb-3">
-          <label for="contactPerson" class="form-label">Contact Person</label>
-          <input type="text" id="contactPerson" class="form-control" formControlName="contactPerson">
-        </div>
+      <div class="form-body">
+        <form [formGroup]="editDealerForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Dealer Name *</label>
+              <input type="text" class="form-control form-input" formControlName="name"
+                placeholder="Enter dealer name" />
+              <div class="form-error"
+                *ngIf="editDealerForm.get('name')?.invalid && editDealerForm.get('name')?.touched">
+                <span>Dealer Name is required</span>
+              </div>
+            </div>
 
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="contactNo" class="form-label">Contact Number <span class="text-danger">*</span></label>
-            <input type="text" id="contactNo" class="form-control" formControlName="contactNo"
-              [ngClass]="{'is-invalid': editDealerForm.get('contactNo')?.invalid && editDealerForm.get('contactNo')?.touched}">
-            <div class="invalid-feedback">Enter a valid 10-digit contact number.</div>
+            <div class="form-group">
+              <label class="form-label">Contact Person</label>
+              <input type="text" class="form-control form-input" formControlName="contactPerson"
+                placeholder="Enter contact person" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contact Number *</label>
+              <input type="text" class="form-control form-input" formControlName="contactNo"
+                placeholder="10 digit number" />
+              <div class="form-error"
+                *ngIf="editDealerForm.get('contactNo')?.invalid && editDealerForm.get('contactNo')?.touched">
+                <span>Enter a valid 10-digit contact number</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control form-input" formControlName="email"
+                placeholder="Enter email address" />
+              <div class="form-error"
+                *ngIf="editDealerForm.get('email')?.invalid && editDealerForm.get('email')?.touched">
+                <span>Enter a valid email address</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">GST Number</label>
+              <input type="text" class="form-control form-input" formControlName="gstNo"
+                placeholder="Enter GST number" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input type="text" class="form-control form-input" formControlName="city" placeholder="Enter city" />
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">Address</label>
+              <textarea class="form-control form-input" formControlName="address" rows="2"
+                placeholder="Enter address"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Status *</label>
+              <select class="form-control form-input" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <div class="form-error"
+                *ngIf="editDealerForm.get('status')?.invalid && editDealerForm.get('status')?.touched">
+                <span>Status is required</span>
+              </div>
+            </div>
           </div>
 
-          <div class="col-md-6 mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" class="form-control" formControlName="email"
-              [ngClass]="{'is-invalid': editDealerForm.get('email')?.invalid && editDealerForm.get('email')?.touched}">
-            <div class="invalid-feedback">Enter a valid email address.</div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-cancel" routerLink="/dealers">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()"
+              [disabled]="editDealerForm.invalid || loading">
+              {{ loading ? "Updating..." : "Update Dealer" }}
+            </button>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="gstNo" class="form-label">GST Number</label>
-            <input type="text" id="gstNo" class="form-control" formControlName="gstNo">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="city" class="form-label">City</label>
-            <input type="text" id="city" class="form-control" formControlName="city">
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="address" class="form-label">Address</label>
-          <textarea id="address" class="form-control" formControlName="address" rows="2"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-          <select id="status" class="form-select" formControlName="status"
-            [ngClass]="{'is-invalid': editDealerForm.get('status')?.invalid && editDealerForm.get('status')?.touched}">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-          <div class="invalid-feedback">Status is required.</div>
-        </div>
-
-        <div class="d-flex justify-content-end">
-          <button type="button" class="btn btn-secondary me-2" routerLink="/vehicle/dealers">Cancel</button>
-          <button type="submit" class="btn btn-success" [disabled]="editDealerForm.invalid || loading">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-            Update Dealer
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>

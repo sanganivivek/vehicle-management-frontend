@@ -30,7 +30,7 @@ export class EditDealerComponent implements OnInit {
   initForm(): void {
     // Use same field names as add-dealer component
     this.editDealerForm = this.fb.group({
-      dealerName: ['', Validators.required],
+      name: ['', Validators.required],
       contactPerson: [''],
       contactNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       email: ['', [Validators.email]],

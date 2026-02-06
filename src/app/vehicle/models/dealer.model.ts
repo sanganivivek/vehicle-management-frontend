@@ -1,6 +1,6 @@
 export interface Dealer {
   id: number;
-  dealerName: string;
+  name: string;
   contactPerson: string;
   contactNo: string;
   email: string;
@@ -12,7 +12,7 @@ export interface Dealer {
 }
 
 export interface CreateDealerDTO {
-  dealerName: string;
+  name: string;
   contactPerson: string;
   contactNo: string;
   email: string;

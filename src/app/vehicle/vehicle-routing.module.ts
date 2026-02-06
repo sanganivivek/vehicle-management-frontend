@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: "reports", component: ComplianceReportComponent },
   { path: "dealers", component: DealerListComponent },
   { path: "dealers/add", component: AddDealerComponent },
-  { path: 'edit/:id', component: EditDealerComponent },
+  { path: "dealers/edit/:id", component: EditDealerComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
