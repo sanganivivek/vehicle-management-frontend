@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DealerService } from '../../../services/dealer.service';
 import { first } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-dealer',
@@ -20,7 +21,8 @@ export class AddDealerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dealerService: DealerService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -51,10 +53,11 @@ export class AddDealerComponent implements OnInit {
 
   get f() { return this.dealerForm.controls; }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.dealerForm.invalid) {
+      this.toastr.error('Please fill all required fields correctly', 'Validation Error');
       return;
     }
 
@@ -70,13 +73,13 @@ export class AddDealerComponent implements OnInit {
     this.dealerService.createDealer(this.dealerForm.value)
       .subscribe({
         next: () => {
-          alert('Dealer added successfully!');
+          this.toastr.success('Dealer created successfully!');
           this.router.navigate(['/vehicle/dealers']);
         },
         error: error => {
           console.error(error);
           this.loading = false;
-          alert('Error creating dealer: ' + (error.error?.message || error.message));
+          this.toastr.error('Error creating dealer: ' + (error.error?.message || error.message));
         }
       });
   }
@@ -90,13 +93,13 @@ export class AddDealerComponent implements OnInit {
     this.dealerService.updateDealer(this.dealerId, updatedDealer)
       .subscribe({
         next: () => {
-          alert('Dealer updated successfully!');
-          this.router.navigate(['/vehicle/dealers']);
+          this.toastr.success('Dealer updated successfully!');
+          this.router.navigate(['/dealers']);
         },
         error: error => {
           console.error(error);
           this.loading = false;
-          alert('Error updating dealer: ' + (error.error?.message || error.message));
+          this.toastr.error('Error updating dealer: ' + (error.error?.message || error.message));
         }
       });
   }

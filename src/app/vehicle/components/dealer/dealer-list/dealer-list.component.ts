@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DealerService } from '../../../services/dealer.service';
 import { Dealer } from '../../../models/dealer.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dealer-list',
@@ -11,7 +12,9 @@ export class DealerListComponent implements OnInit {
   dealers: Dealer[] = [];
   loading = false;
 
-  constructor(private dealerService: DealerService) { }
+  constructor(private dealerService: DealerService
+    , private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadDealers();
@@ -27,6 +30,7 @@ export class DealerListComponent implements OnInit {
       error: (err) => {
         console.error('Error fetching dealers', err);
         this.loading = false;
+        this.toastr.error('Failed to load dealers');
       }
     });
   }
@@ -35,11 +39,12 @@ export class DealerListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this dealer?')) {
       this.dealerService.deleteDealer(id).subscribe({
         next: () => {
+          this.toastr.success('Dealer deleted successfully!');
           this.loadDealers(); // Refresh list after delete
         },
         error: (err) => {
           console.error('Error deleting dealer', err);
-          alert('Error deleting dealer: ' + (err.error?.message || err.message));
+          this.toastr.error('Error deleting dealer: ' + (err.error?.message || err.message));
         }
       });
     }

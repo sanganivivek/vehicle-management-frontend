@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DealerService } from '../../../services/dealer.service';
 import { Dealer } from '../../../models/dealer.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-dealer',
@@ -18,7 +19,8 @@ export class EditDealerComponent implements OnInit {
     private fb: FormBuilder,
     private dealerService: DealerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +53,7 @@ export class EditDealerComponent implements OnInit {
       error: (err) => {
         console.error('Error fetching dealer details', err);
         this.loading = false;
-        alert('Error loading dealer details');
+        this.toastr.error('Error loading dealer details');
       }
     });
   }
@@ -66,16 +68,17 @@ export class EditDealerComponent implements OnInit {
 
       this.dealerService.updateDealer(this.dealerId, updatedDealer).subscribe({
         next: () => {
-          alert('Dealer updated successfully!');
-          this.router.navigate(['/vehicle/dealers']);
+          this.toastr.success('Dealer updated successfully!');
+          this.router.navigate(['/dealers']);
         },
         error: (err) => {
           console.error('Error updating dealer', err);
           this.loading = false;
-          alert('Error updating dealer: ' + (err.error?.message || err.message));
+          this.toastr.error('Error updating dealer');
         }
       });
     } else {
+      this.toastr.error('Please fill all required fields correctly', 'Validation Error');
       this.editDealerForm.markAllAsTouched();
     }
   }
