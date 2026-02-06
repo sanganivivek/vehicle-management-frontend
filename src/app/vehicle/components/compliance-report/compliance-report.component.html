@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Vehicle Status & Compliance Report</h2>
+  <h2>Vehicle Status</h2>
 
   <table class="simple-table">
     <thead>
@@ -32,9 +32,54 @@
         </td>
 
         <td>
-          <button class="btn-icon" (click)="editVehicle(v.vehicleId)"><i class="bi bi-pencil"></i></button>
+          <button class="btn-icon" (click)="editVehicle(v.vehicleId)">
+            <i class="bi bi-pencil"></i>
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
+  <!-- <h2>Compliance Report</h2> -->
+
+  <!-- <div class="table-responsive">
+    <table class="modern-table alert-table">
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Document Type</th>
+          <th>Status</th>
+          <th>Expiry Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody> -->
+        <!-- <tr *ngFor="let issue of complianceIssues">
+          <td class="fw-bold">{{ issue.regNo }}</td>
+          <td>{{ issue.docType }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="issue.isExpired ? 'bg-expired' : 'bg-warning'"
+            >
+              {{ issue.isExpired ? "EXPIRED" : "Expiring Soon" }}
+            </span>
+          </td>
+          <td class="text-danger fw-bold">
+            {{ issue.expiryDate | date: "dd MMM yyyy" }}
+          </td>
+          <td>
+            <button class="btn-renew" (click)="editVehicle(issue.vehicleId)">
+              Renew Now
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="complianceIssues.length === 0">
+          <td colspan="5" class="text-center py-4 text-success">
+            <i class="bi bi-check-circle-fill"></i> All vehicles are compliant.
+          </td>
+        </tr> -->
+      <!-- </tbody>
+    </table>
+  </div> -->
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { VehicleService } from "../../../vehicle.service";
+import { VehicleService } from "../../../services/vehicle.service";
 import { ToastrService } from "ngx-toastr";
 import { VehicleListDTO, Brand } from "../../../models/vehicle.model";
 import { LoadingService } from "../../../../shared/services/loading.service";

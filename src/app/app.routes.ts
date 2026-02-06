@@ -3,6 +3,8 @@ export const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("./vehicle/vehicle.module").then((m) => m.VehicleModule),
+      import("./vehicle/components/vehicle/vehicle.module").then(
+        (m) => m.VehicleModule,
+      ),
   },
 ];

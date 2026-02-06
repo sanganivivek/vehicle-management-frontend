@@ -8,8 +8,8 @@ import {
   Brand,
   Model,
   CreateVehicleDTO,
-} from "./models/vehicle.model";
-import { environment } from "../../environments/environment";
+} from "./../models/vehicle.model";
+import { environment } from "../../../environments/environment";
 export interface VehicleResponse {
   totalCount: number;
   page: number;

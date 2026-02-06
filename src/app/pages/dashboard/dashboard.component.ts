@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
-import { VehicleService, DashboardData } from "src/app/vehicle/vehicle.service";
+import { VehicleService, DashboardData } from "src/app/vehicle/services/vehicle.service";
 import { DashboardService } from "./dashboard.service";
 import { RecentActivity } from "./dashboard.model";
 import { LoadingService } from "src/app/shared/services/loading.service";

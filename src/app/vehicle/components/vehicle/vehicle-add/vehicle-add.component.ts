@@ -7,7 +7,7 @@ import {
   ValidationErrors,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { VehicleService } from "../../../vehicle.service";
+import { VehicleService } from "../../../services/vehicle.service";
 import { BrandService } from "../../../services/brand.service";
 import { ModelService } from "../../../services/model.service";
 import { Brand, Model, CreateVehicleDTO } from "../../../models/vehicle.model";

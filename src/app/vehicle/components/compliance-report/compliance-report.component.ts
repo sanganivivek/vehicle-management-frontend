@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VehicleService } from '../../vehicle.service';
+import { VehicleService } from '../../services/vehicle.service';
 import { VehicleMaster } from '../../models/vehicle.model';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { Router } from '@angular/router';
