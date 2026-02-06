@@ -75,7 +75,7 @@
             <button type="button" class="btn btn-cancel" routerLink="/dealers">
               Cancel
             </button>
-            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="loading">
+            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="loading" routerLink="/dealers">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>

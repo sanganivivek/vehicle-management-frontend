@@ -37,7 +37,10 @@ export class DealerListComponent implements OnInit {
         next: () => {
           this.loadDealers(); // Refresh list after delete
         },
-        error: (err) => console.error('Error deleting dealer', err)
+        error: (err) => {
+          console.error('Error deleting dealer', err);
+          alert('Error deleting dealer: ' + (err.error?.message || err.message));
+        }
       });
     }
   }

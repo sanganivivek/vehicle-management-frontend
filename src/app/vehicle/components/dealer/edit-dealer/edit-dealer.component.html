@@ -79,7 +79,7 @@
               Cancel
             </button>
             <button type="submit" class="btn btn-submit" (click)="onSubmit()"
-              [disabled]="editDealerForm.invalid || loading">
+              [disabled]="editDealerForm.invalid || loading" routerLink="/dealers">
               {{ loading ? "Updating..." : "Update Dealer" }}
             </button>
           </div>
