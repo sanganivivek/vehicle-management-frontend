@@ -15,7 +15,11 @@ import { ModelListComponent } from "../model/model-list/model-list.component";
 import { DealerListComponent } from "../dealer/list-dealer/dealer-list.component";
 import { AddDealerComponent } from "../dealer/add-dealer/add-dealer.component";
 import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component";
+import { ListCustomerComponent } from "../customer/list-customer/list-customer.component";
+import { CustomerAddComponent } from "../customer/add-customer/add-customer.component";
+import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.component";
 import { BookingRoutingModule } from "../booking/booking-routing.module";
+
 const routes: Routes = [
   { path: "", component: DashboardComponent },
   { path: "dashboard", component: DashboardComponent },
@@ -32,14 +36,18 @@ const routes: Routes = [
   { path: "dealers", component: DealerListComponent },
   { path: "dealers/add", component: AddDealerComponent },
   { path: "dealers/edit/:id", component: EditDealerComponent },
+  { path: "customers", component: ListCustomerComponent },
+  { path: "customers/add", component: CustomerAddComponent },
+  { path: "customers/edit/:id", component: CustomerEditComponent },
   {
     path: "booking",
     loadChildren: () =>
       import("../booking/booking.module").then((m) => m.BookingModule),
   },
+
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class VehicleRoutingModule {}
+export class VehicleRoutingModule { }
