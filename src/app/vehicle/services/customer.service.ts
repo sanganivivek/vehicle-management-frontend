@@ -4,18 +4,18 @@ import { Observable, of } from 'rxjs';
 import { Customer, CreateCustomerDTO, UpdateCustomerDTO } from '../models/customer.model';
 import { environment } from '../../../environments/environment';
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CustomerService {
   private apiUrl = `${environment.apiUrl}/Customer`;
 
   constructor(private http: HttpClient) { }
 
-  getAllCustomer(): Observable<Customer[]> {
+  getAllCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.apiUrl);
   }
 
-  getCustomerById(id: number): Observable<Customer> {
+  getCustomerById(id: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/${id}`);
   }
 
@@ -23,11 +23,11 @@ export class CustomerService {
     return this.http.post<Customer>(this.apiUrl, Customer);
   }
 
-  updateCustomer(id: number, Customer: UpdateCustomerDTO): Observable<Customer> {
+  updateCustomer(id: string, Customer: UpdateCustomerDTO): Observable<Customer> {
     return this.http.put<Customer>(`${this.apiUrl}/${id}`, Customer);
   }
 
-  deleteCustomer(id: number): Observable<void> {
+  deleteCustomer(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 

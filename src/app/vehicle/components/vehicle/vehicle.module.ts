@@ -17,6 +17,7 @@ import { ModelListComponent } from "../model/model-list/model-list.component";
 import { DealerListComponent } from "../dealer/list-dealer/dealer-list.component";
 import { AddDealerComponent } from "../dealer/add-dealer/add-dealer.component";
 import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component";
+import { ListCustomerComponent } from "../customer/list-customer/list-customer.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component
     DealerListComponent,
     AddDealerComponent,
     EditDealerComponent,
+    ListCustomerComponent,
   ],
   imports: [
     CommonModule,
@@ -43,4 +45,4 @@ import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component
     DashboardComponent,
   ],
 })
-export class VehicleModule {}
+export class VehicleModule { }
