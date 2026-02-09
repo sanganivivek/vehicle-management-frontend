@@ -2,7 +2,7 @@
   <div class="vehicle-container">
     <div class="header-section">
       <h2 class="title">Customer Management</h2>
-      <button class="custom-add-btn" routerLink="customers/add">
+      <button class="custom-add-btn" routerLink="/customers/add">
         + Add Customer
       </button>
     </div>
@@ -14,6 +14,7 @@
             <th>Customer Name</th>
             <th>Email</th>
             <th>Contact No</th>
+            <th>Gender</th>
             <th>Date of Birth</th>
             <th>City</th>
             <th>Address</th>
@@ -26,6 +27,7 @@
             <td class="fw-bold">{{ customer.name }}</td>
             <td>{{ customer.email || '-' }}</td>
             <td>{{ customer.phone }}</td>
+            <td>{{ customer.gender || '-' }}</td>
             <td>{{ customer.dateOfBirth || '-' }}</td>
             <td>{{ customer.city || '-' }}</td>
             <td class="text-truncate" style="max-width: 150px;" title="{{customer.address}}">

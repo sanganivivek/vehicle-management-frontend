@@ -18,6 +18,9 @@ import { DealerListComponent } from "../dealer/list-dealer/dealer-list.component
 import { AddDealerComponent } from "../dealer/add-dealer/add-dealer.component";
 import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component";
 import { ListCustomerComponent } from "../customer/list-customer/list-customer.component";
+import { AddCustomerComponent } from "../customer/add-customer/add-customer.component";
+import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.component";
+
 
 @NgModule({
   declarations: [
@@ -43,6 +46,8 @@ import { ListCustomerComponent } from "../customer/list-customer/list-customer.c
     ModelEditComponent,
     ComplianceReportComponent,
     DashboardComponent,
+    AddCustomerComponent,
+    CustomerEditComponent,
   ],
 })
 export class VehicleModule { }
