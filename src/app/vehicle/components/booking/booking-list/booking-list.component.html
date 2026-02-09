@@ -1,6 +1,6 @@
 <div class="vehicle-page-bg">
   <div class="vehicle-container mt-4">
-    
+
     <div class="header-section d-flex justify-content-between align-items-center mb-4">
       <h2 class="title mb-0">Booking List</h2>
 
@@ -10,13 +10,8 @@
     </div>
 
     <div class="filter-row d-flex gap-3 mb-4">
-      <input 
-        type="text" 
-        class="form-control search-box" 
-        placeholder="Search by Customer or Reg No..."
-        [(ngModel)]="searchTerm" 
-        (input)="onSearch()" 
-      />
+      <input type="text" class="form-control search-box" placeholder="Search by Customer or Reg No..."
+        [(ngModel)]="searchTerm" (input)="onSearch()" />
 
       <select class="form-select status-dropdown" [(ngModel)]="selectedStatus" (change)="onStatusFilter()">
         <option value="">All Status</option>
@@ -42,11 +37,9 @@
             <th (click)="sort('amount')" class="sortable cursor-pointer">
               Amount <i [class]="getSortIcon('amount')"></i>
             </th>
-            
-            <th class="cursor-pointer" style="min-width: 140px;">
+            <th class="cursor-pointer">
               Rental Period
             </th>
-
             <th (click)="sort('createdAt')" class="sortable cursor-pointer">
               Created At <i [class]="getSortIcon('createdAt')"></i>
             </th>
@@ -58,37 +51,37 @@
             <th>Action</th>
           </tr>
         </thead>
-        
+
         <tbody>
           <tr *ngFor="let booking of bookings">
             <td class="fw-bold">#{{ booking.bookingId }}</td>
-            
+
             <td>{{ booking.customerName }}</td>
-            
+
             <td>
               <div class="fw-bold">{{ booking.vehicleRegNo }}</div>
               <small class="text-muted">{{ booking.vehicleName }}</small>
             </td>
-            
+
             <td>{{ booking.amount | currency:'INR' }}</td>
 
-            <td class="align-middle">
+            <td>
               <div class="rental-timeline">
-                <div class="timeline-item start">
+                <div class="timeline-item">
                   <div class="icon-box start-icon">
-                    <i class="bi bi-arrow-right-circle-fill"></i>
+                    <i class="bi bi-arrow-right-short"></i>
                   </div>
                   <div class="date-info">
                     <span class="label">From</span>
                     <span class="value">{{ booking.startDate | date:'mediumDate' }}</span>
                   </div>
                 </div>
-                
+
                 <div class="timeline-connector"></div>
 
-                <div class="timeline-item end">
+                <div class="timeline-item">
                   <div class="icon-box end-icon">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="bi bi-check-lg"></i>
                   </div>
                   <div class="date-info">
                     <span class="label">To</span>
@@ -113,31 +106,33 @@
                 {{ booking.paymentStatus }}
               </span>
             </td>
-            
+
             <td class="text-center">
               <span class="status-badge" [ngClass]="{
-                'bg-success text-white': booking.status === 1, 
-                'bg-warning text-dark': booking.status === 0, 
-                'bg-danger text-white': booking.status === 2
+                'badge-soft-warning': booking.status === 0, 
+                'badge-soft-primary': booking.status === 1, 
+                'badge-soft-success': booking.status === 2,
+                'badge-soft-danger': booking.status === 3
               }">
                 {{ getStatusName(booking.status) }}
               </span>
             </td>
-            
+
             <td>
               <div class="d-flex align-items-center gap-3">
                 <div class="action-icons d-flex gap-2 border-start ps-3">
                   <button class="btn btn-sm btn-outline-primary" (click)="editBooking(booking.bookingId)" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button class="btn btn-sm btn-outline-danger" (click)="deleteBooking(booking.bookingId)" title="Delete">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteBooking(booking.bookingId)"
+                    title="Delete">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
               </div>
             </td>
           </tr>
-          
+
           <tr *ngIf="bookings.length === 0">
             <td colspan="10" class="empty-state">
               <i class="bi bi-inbox fs-1 d-block mb-2"></i>
@@ -150,21 +145,22 @@
 
     <div class="pagination-container" *ngIf="totalRecords > 0">
       <div class="pagination-info">
-        Showing {{ (currentPage - 1) * pageSize + 1 }} - 
-        {{ getMathMin(currentPage * pageSize, totalRecords) }} 
+        Showing {{ (currentPage - 1) * pageSize + 1 }} -
+        {{ getMathMin(currentPage * pageSize, totalRecords) }}
         of {{ totalRecords }} records
       </div>
-      
+
       <nav class="pagination-wrapper">
         <ul class="custom-pagination">
           <li class="page-item" [class.disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
             <span class="page-link">‹ Prev</span>
           </li>
-          
-          <li class="page-item number" *ngFor="let page of pagesArray" [class.active]="page === currentPage" (click)="onPageChange(page)">
+
+          <li class="page-item number" *ngFor="let page of pagesArray" [class.active]="page === currentPage"
+            (click)="onPageChange(page)">
             <span class="page-link">{{ page }}</span>
           </li>
-          
+
           <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
             <span class="page-link">Next ›</span>
           </li>
