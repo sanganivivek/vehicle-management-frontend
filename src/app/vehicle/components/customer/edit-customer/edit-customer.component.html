@@ -1,1 +1,112 @@
-<p>edit-customer works!</p>
+<div class="vehicle-page-bg">
+  <div class="form-wrapper">
+    <div class="form-card">
+      <div class="form-header">
+        <h3 class="form-title">Edit Customer</h3>
+      </div>
+
+      <div class="form-body">
+        <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label class="form-label">Customer Name *</label>
+              <input type="text" class="form-control form-input" formControlName="name"
+                placeholder="Enter customer name" />
+              <div class="form-error"
+                *ngIf="customerForm.get('name')?.invalid && (customerForm.get('name')?.touched || submitted)">
+                <span *ngIf="customerForm.get('name')?.errors?.['required']">Customer Name is required</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control form-input" formControlName="email"
+                placeholder="Enter email address" />
+              <div class="form-error"
+                *ngIf="customerForm.get('email')?.invalid && (customerForm.get('email')?.touched || submitted)">
+                <span *ngIf="customerForm.get('email')?.errors?.['required']">Email is required</span>
+                <span *ngIf="customerForm.get('email')?.errors?.['email']">Enter a valid email address</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Contact Number *</label>
+              <input type="text" class="form-control form-input" formControlName="phone"
+                placeholder="10 digit number" />
+              <div class="form-error"
+                *ngIf="customerForm.get('phone')?.invalid && (customerForm.get('phone')?.touched || submitted)">
+                <span *ngIf="customerForm.get('phone')?.errors?.['required']">Contact Number is required</span>
+                <span *ngIf="customerForm.get('phone')?.errors?.['pattern']">Enter a valid 10-digit number</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Gender *</label>
+              <select class="form-control form-input" formControlName="gender">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="form-error"
+                *ngIf="customerForm.get('gender')?.invalid && (customerForm.get('gender')?.touched || submitted)">
+                <span *ngIf="customerForm.get('gender')?.errors?.['required']">Gender is required</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Date of Birth *</label>
+              <input type="date" class="form-control form-input" formControlName="dateOfBirth" />
+              <div class="form-error"
+                *ngIf="customerForm.get('dateOfBirth')?.invalid && (customerForm.get('dateOfBirth')?.touched || submitted)">
+                <span *ngIf="customerForm.get('dateOfBirth')?.errors?.['required']">Date of Birth is required</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">City *</label>
+              <input type="text" class="form-control form-input" formControlName="city" placeholder="Enter city" />
+              <div class="form-error"
+                *ngIf="customerForm.get('city')?.invalid && (customerForm.get('city')?.touched || submitted)">
+                <span *ngIf="customerForm.get('city')?.errors?.['required']">City is required</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Status *</label>
+              <select class="form-control form-input" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <div class="form-error"
+                *ngIf="customerForm.get('status')?.invalid && (customerForm.get('status')?.touched || submitted)">
+                <span *ngIf="customerForm.get('status')?.errors?.['required']">Status is required</span>
+              </div>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">Address</label>
+              <textarea class="form-control form-input" formControlName="address" rows="2"
+                placeholder="Enter address"></textarea>
+              <div class="form-error"
+                *ngIf="customerForm.get('address')?.invalid && (customerForm.get('address')?.touched || submitted)">
+                <span *ngIf="customerForm.get('address')?.errors?.['required']">Address is required</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-cancel" routerLink="/customers">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-submit" [disabled]="loading">
+              {{ loading ? "Updating..." : "Update" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

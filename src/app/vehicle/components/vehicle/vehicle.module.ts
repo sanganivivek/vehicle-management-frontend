@@ -31,10 +31,10 @@ import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.c
     BrandListComponent,
     ModelAddComponent,
     ModelListComponent,
-    DealerListComponent,
     AddDealerComponent,
     EditDealerComponent,
     ListCustomerComponent,
+    CustomerEditComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +47,6 @@ import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.c
     ComplianceReportComponent,
     DashboardComponent,
     AddCustomerComponent,
-    CustomerEditComponent,
   ],
 })
 export class VehicleModule { }
