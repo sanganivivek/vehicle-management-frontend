@@ -122,11 +122,11 @@ export class BookingListComponent implements OnInit {
   }
 
   addBooking(): void {
-    this.router.navigate(['/vehicle/booking/add']);
+    this.router.navigate(['/booking/add']);
   }
 
   editBooking(id: string): void {
-    this.router.navigate(['/vehicle/booking/edit', id]);
+    this.router.navigate(['/booking/edit', id]);
   }
 
   deleteBooking(id: string): void {

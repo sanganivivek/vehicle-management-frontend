@@ -14,7 +14,7 @@ import { ComplianceReportComponent } from "../compliance-report/compliance-repor
 import { DashboardComponent } from "../../../pages/dashboard/dashboard.component";
 import { BrandListComponent } from "../brand/brand-list/brand-list.component";
 import { ModelListComponent } from "../model/model-list/model-list.component";
-import { DealerListComponent } from "../dealer/dealer-list/dealer-list.component";
+import { DealerListComponent } from "../dealer/list-dealer/dealer-list.component";
 import { AddDealerComponent } from "../dealer/add-dealer/add-dealer.component";
 import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component";
 

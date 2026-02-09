@@ -12,7 +12,7 @@ import { MainLayoutComponent } from "../../../layout/main-layout/main-layout.com
 import { DashboardComponent } from "../../../pages/dashboard/dashboard.component";
 import { BrandListComponent } from "../brand/brand-list/brand-list.component";
 import { ModelListComponent } from "../model/model-list/model-list.component";
-import { DealerListComponent } from "../dealer/dealer-list/dealer-list.component";
+import { DealerListComponent } from "../dealer/list-dealer/dealer-list.component";
 import { AddDealerComponent } from "../dealer/add-dealer/add-dealer.component";
 import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component";
 import { BookingRoutingModule } from "../booking/booking-routing.module";
@@ -32,9 +32,10 @@ const routes: Routes = [
   { path: "dealers", component: DealerListComponent },
   { path: "dealers/add", component: AddDealerComponent },
   { path: "dealers/edit/:id", component: EditDealerComponent },
- {
+  {
     path: "booking",
-    loadChildren: () => import('../booking/booking.module').then(m => m.BookingModule)
+    loadChildren: () =>
+      import("../booking/booking.module").then((m) => m.BookingModule),
   },
 ];
 @NgModule({

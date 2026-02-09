@@ -11,7 +11,7 @@
       </a>
     </li>
 
-     <li class="menu-item">
+    <li class="menu-item">
       <a routerLink="/booking" routerLinkActive="active">
         <span class="menu-icon">🎫</span>
         <span class="menu-text">Booking</span>
@@ -38,23 +38,64 @@
         <span class="menu-text">Administration</span>
       </a>
 
-      <ul class="dropdown-menu">
-        <li>
-          <a routerLink="/brands" routerLinkActive="active">
-            <span class="menu-icon">🏷️</span> Brand
-          </a>
-        </li>
-        <li>
-          <a routerLink="/models" routerLinkActive="active">
-            <span class="menu-icon">🚗</span> Model
-          </a>
-        </li>
-        <li>
-          <a routerLink="/dealers" routerLinkActive="active">
-            <span class="menu-icon">🏢</span> Dealer
-          </a>
-        </li>
-      </ul>
+      <div class="dropdown-menu mega-menu">
+        <div class="mega-row">
+          <!-- Column 1: Vehicle Data -->
+          <div class="mega-column">
+            <h6 class="column-header">Vehicle Data</h6>
+
+            <a routerLink="/brands" routerLinkActive="active" class="mega-item">
+              <div class="icon-circle bg-soft-blue">
+                <i class="bi bi-tag-fill"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Brand</span>
+                <span class="item-desc">Manage vehicle brands & Status</span>
+              </div>
+            </a>
+
+            <a routerLink="/models" routerLinkActive="active" class="mega-item">
+              <div class="icon-circle bg-soft-green">
+                <i class="bi bi-car-front-fill"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Model</span>
+                <span class="item-desc">Configure vehicle models & types</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Column 2: Stakeholders -->
+          <div class="mega-column">
+            <h6 class="column-header">Stakeholders</h6>
+
+            <a routerLink="/dealers" routerLinkActive="active" class="mega-item">
+              <div class="icon-circle bg-soft-orange">
+                <i class="bi bi-building-fill"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Dealer</span>
+                <span class="item-desc">Manage dealer network locations</span>
+              </div>
+            </a>
+
+            <a routerLink="/customers" routerLinkActive="active" class="mega-item">
+              <div class="icon-circle bg-soft-purple">
+                <i class="bi bi-people-fill"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Customers</span>
+                <span class="item-desc">View customer database & history</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- <div class="mega-footer">
+          <a href="javascript:void(0)">See all settings <i class="bi bi-chevron-right ms-1"
+              style="font-size: 10px;"></i></a>
+        </div> -->
+      </div>
     </li>
   </ul>
 </nav>
