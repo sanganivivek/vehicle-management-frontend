@@ -4,16 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '../../../../shared/services/loading.service';
-// import { BookingService } from '../../../services/booking.service'; // Ensure you have this service
+// import { BookingService } from '../../../services/booking.service';
 
-// Define DTO locally or move to models/booking.model.ts
 export interface BookingListDTO {
   bookingId: string;
   customerName: string;
   vehicleRegNo: string;
   vehicleName: string;
-  vehicleImage?: string; // Image URL property
-  bookingDate: string | Date;
+  amount: number;          // New Field
+  paymentMethod: string;   // New Field
+  paymentStatus: string;   // New Field
+  createdAt: string | Date; // Renamed from bookingDate for clarity
   startDate: string | Date;
   endDate: string | Date;
   status: number; // 0: Pending, 1: Confirmed/Active, 2: Completed/Cancelled
@@ -24,7 +25,7 @@ export interface BookingListDTO {
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './booking-list.component.html',
-  styleUrls: ['./booking-list.component.css'] // Note: fixed styleUrl -> styleUrls
+  styleUrls: ['./booking-list.component.css']
 })
 export class BookingListComponent implements OnInit {
   bookings: BookingListDTO[] = [];
@@ -37,7 +38,7 @@ export class BookingListComponent implements OnInit {
   totalRecords = 0;
   totalPages = 1;
   pagesArray: number[] = [];
-  sortColumn = 'bookingDate';
+  sortColumn = 'createdAt';
   sortOrder: 'asc' | 'desc' = 'desc';
 
   statusOptions = [
@@ -48,7 +49,7 @@ export class BookingListComponent implements OnInit {
   ];
 
   constructor(
-    // private bookingService: BookingService, // Uncomment when service is ready
+    // private bookingService: BookingService, 
     private router: Router,
     private toastr: ToastrService,
     private loadingService: LoadingService
@@ -70,54 +71,54 @@ export class BookingListComponent implements OnInit {
       pageSize: this.pageSize
     };
 
-    // MOCK DATA for display (Replace with this.bookingService.getBookings(queryParams)...)
-    // Simulating API response
+    // MOCK DATA: Updated to include new fields
     setTimeout(() => {
       this.bookings = [
         {
-          bookingId: '1',
+          bookingId: '1001',
           customerName: 'Vivek Sangani',
           vehicleRegNo: 'GJ-01-AB-1234',
           vehicleName: 'Toyota Fortuner',
-          vehicleImage: 'https://imgd.aeplcdn.com/370x208/n/cw/ec/44709/fortuner-exterior-right-front-three-quarter-20.jpeg',
-          bookingDate: new Date('2026-01-20'),
+          amount: 15000,
+          paymentMethod: 'Credit Card',
+          paymentStatus: 'Paid',
+          createdAt: new Date('2026-01-20'),
           startDate: new Date('2026-02-01'),
           endDate: new Date('2026-02-05'),
           status: 1
         },
         {
-          bookingId: '2',
+          bookingId: '1002',
           customerName: 'Rahul Sharma',
           vehicleRegNo: 'MH-12-XY-9876',
           vehicleName: 'Hyundai Creta',
-          vehicleImage: '', // Test empty image
-          bookingDate: new Date('2026-01-22'),
+          amount: 8500,
+          paymentMethod: 'UPI',
+          paymentStatus: 'Pending',
+          createdAt: new Date('2026-01-22'),
           startDate: new Date('2026-02-10'),
           endDate: new Date('2026-02-12'),
           status: 0
+        },
+        {
+          bookingId: '1003',
+          customerName: 'Amit Patel',
+          vehicleRegNo: 'GJ-05-ZZ-1111',
+          vehicleName: 'Maruti Swift',
+          amount: 3200,
+          paymentMethod: 'Cash',
+          paymentStatus: 'Paid',
+          createdAt: new Date('2026-01-25'),
+          startDate: new Date('2026-03-01'),
+          endDate: new Date('2026-03-02'),
+          status: 2
         }
       ];
-      this.totalRecords = 2;
+      this.totalRecords = 3;
       this.totalPages = 1;
       this.generatePagesArray();
       this.loadingService.hide();
     }, 500);
-
-    /* // REAL IMPLEMENTATION:
-    this.bookingService.getBookings(queryParams).subscribe({
-      next: (res: any) => {
-        this.bookings = res.data;
-        this.totalRecords = res.totalRecords;
-        this.totalPages = res.totalPages;
-        this.generatePagesArray();
-        this.loadingService.hide();
-      },
-      error: (err) => {
-        this.toastr.error('Failed to load bookings');
-        this.loadingService.hide();
-      }
-    });
-    */
   }
 
   addBooking(): void {
@@ -130,7 +131,6 @@ export class BookingListComponent implements OnInit {
 
   deleteBooking(id: string): void {
     if (confirm('Are you sure you want to delete this booking?')) {
-      // this.bookingService.deleteBooking(id).subscribe(...)
       this.toastr.success('Booking deleted successfully');
       this.loadBookings();
     }
