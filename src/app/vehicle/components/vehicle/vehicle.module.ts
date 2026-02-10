@@ -35,6 +35,7 @@ import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.c
     EditDealerComponent,
     ListCustomerComponent,
     CustomerEditComponent,
+    DealerListComponent,
   ],
   imports: [
     CommonModule,
