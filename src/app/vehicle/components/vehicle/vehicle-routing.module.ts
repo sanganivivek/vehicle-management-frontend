@@ -18,6 +18,7 @@ import { EditDealerComponent } from "../dealer/edit-dealer/edit-dealer.component
 import { ListCustomerComponent } from "../customer/list-customer/list-customer.component";
 import { AddCustomerComponent } from "../customer/add-customer/add-customer.component";
 import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.component";
+import { VehicleViewComponent } from "./vehicle-view/vehicle-view.component";
 import { BookingRoutingModule } from "../booking/booking-routing.module";
 
 const routes: Routes = [
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: "dealers/edit/:id", component: EditDealerComponent },
   { path: "customers", component: ListCustomerComponent },
   { path: "customers/add", component: AddCustomerComponent },
+  { path: 'view/:id', component: VehicleViewComponent },
   { path: "customers/edit/:id", component: CustomerEditComponent },
   {
     path: "booking",

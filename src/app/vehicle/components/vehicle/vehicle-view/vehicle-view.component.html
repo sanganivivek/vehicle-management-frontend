@@ -1,1 +1,107 @@
-<p>vehicle-view works!</p>
+<div class="view-container">
+  <div class="page-header">
+    <div class="title-section">
+      <button class="btn-back" (click)="goBack()">
+        <span>&larr;</span> Back
+      </button>
+      <h2>Vehicle Details</h2>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Fetching vehicle information...</p>
+  </div>
+
+  <div class="error-state" *ngIf="errorMessage && !isLoading">
+    <div class="error-card">
+      <p>{{ errorMessage }}</p>
+      <button class="btn-primary" (click)="goBack()">Go Back</button>
+    </div>
+  </div>
+
+  <div class="details-card" *ngIf="!isLoading && !errorMessage && vehicle">
+    <div class="card-header">
+      <div class="header-titles">
+        <h3>{{ vehicle.brandName || vehicle.brand }} {{ vehicle.modelName || vehicle.model }}</h3>
+        <p class="subtitle">{{ vehicle.vehicleName }}</p>
+      </div>
+      <span class="status-badge" [class.active]="vehicle.isActive" [class.inactive]="!vehicle.isActive">
+        {{ vehicle.isActive ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <div class="info-section">
+        <h4 class="section-title">General Information</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Registration No:</span>
+            <span class="value registration-plate">{{ vehicle.regNo | uppercase }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Chassis Number:</span>
+            <span class="value">{{ vehicle.chassisNumber }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Vehicle Type:</span>
+            <span class="value">{{ vehicle.vehicleType || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Color:</span>
+            <span class="value">{{ vehicle.vehicleColour || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Year of Manufacture:</span>
+            <span class="value">{{ vehicle.yearOfManufacture || vehicle.modelYear || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Seating Capacity:</span>
+            <span class="value">{{ vehicle.seatingCapacity || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="info-section">
+        <h4 class="section-title">Technical Details</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Fuel Type:</span>
+            <span class="value">{{ vehicle.fuelType || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Transmission:</span>
+            <span class="value">{{ vehicle.transmission || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="info-section">
+        <h4 class="section-title">Compliance & Documentation</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Insurance Policy No:</span>
+            <span class="value">{{ vehicle.insurancePolicyNumber || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Insurance Expiry:</span>
+            <span class="value">{{ vehicle.insurancePolicyExpiryDate ? (vehicle.insurancePolicyExpiryDate | date:'mediumDate') : 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">RC Expiry Date:</span>
+            <span class="value">{{ vehicle.rcExpiryDate ? (vehicle.rcExpiryDate | date:'mediumDate') : 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Fitness Cert Expiry:</span>
+            <span class="value">{{ vehicle.fitnessCertificateExpiryDate ? (vehicle.fitnessCertificateExpiryDate | date:'mediumDate') : 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
