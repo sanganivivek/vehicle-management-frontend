@@ -359,24 +359,6 @@
   transition: all 0.2s ease;
 }
 
-.btn-outline-primary {
-  color: #0d6efd;
-}
-
-.btn-outline-danger {
-  color: #dc3545;
-}
-
-.btn-outline-primary:hover {
-  background-color: #e7f1ff;
-  border-color: #b6d4fe;
-}
-
-.btn-outline-danger:hover {
-  background-color: #ffebe9;
-  border-color: #f1aeb5;
-}
-
 /* =========================================
    9. Empty State
    ========================================= */

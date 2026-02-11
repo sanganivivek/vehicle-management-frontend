@@ -77,12 +77,11 @@
             <td>{{ getFuelTypeName(vehicle.fuelType) }}</td>
             <td>{{ getTransmissionName(vehicle.transmission) }}</td>
             <td>{{ vehicle.seatingCapacity }}</td>
-            
+
             <td class="text-center">
               <div *ngIf="vehicle.vehicleColour; else noColor">
-                <i class="bi bi-car-front-fill car-icon" 
-                   [style.color]="vehicle.vehicleColour"
-                   [title]="vehicle.vehicleColour">
+                <i class="bi bi-car-front-fill car-icon" [style.color]="vehicle.vehicleColour"
+                  [title]="vehicle.vehicleColour">
                 </i>
               </div>
               <ng-template #noColor>
@@ -101,12 +100,19 @@
             <td>
               <div class="d-flex align-items-center gap-3">
                 <div class="action-icons d-flex gap-2 border-start ps-3">
-                  <button class="btn btn-sm btn-outline-primary" (click)="editVehicle(vehicle.vehicleId)">
+                  <button class="btn btn-sm btn-outline-success" >
+                    <i class="bi bi-eye"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-outline-primary" (click)="editVehicle(vehicle.vehicleId)" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)">
+
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)"
+                    title="Delete">
                     <i class="bi bi-trash"></i>
                   </button>
+
                 </div>
               </div>
             </td>

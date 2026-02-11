@@ -2,7 +2,7 @@ export interface Customer {
     id?: string;
     name: string;
     email: string;
-    phone: string;
+    contactNo: string;
     gender: string;
     dateOfBirth: Date | string;
     city: string;
@@ -13,7 +13,7 @@ export interface Customer {
 export interface CreateCustomerDTO {
     name: string;
     email: string;
-    phone: string;
+    contactNo: string;
     gender: string;
     dateOfBirth: Date | string;
     city: string;
@@ -22,5 +22,5 @@ export interface CreateCustomerDTO {
 }
 
 export interface UpdateCustomerDTO extends CreateCustomerDTO {
-    id: string;
+    id: number;
 }   

@@ -8,7 +8,7 @@
       <div class="form-body">
         <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
           <div class="form-grid">
-            
+
             <div class="form-group">
               <label class="form-label">Customer Name *</label>
               <input type="text" class="form-control form-input" formControlName="name"
@@ -30,11 +30,24 @@
 
             <div class="form-group">
               <label class="form-label">Contact Number *</label>
-              <input type="text" class="form-control form-input" formControlName="phone"
+              <input type="text" class="form-control form-input" formControlName="contactNo"
                 placeholder="10 digit number" />
-              <div class="form-error" *ngIf="(submitted || f['phone'].touched) && f['phone'].errors">
-                <span *ngIf="f['phone'].errors['required']">Contact Number is required</span>
-                <span *ngIf="f['phone'].errors['pattern']">Enter a valid 10-digit number</span>
+              <div class="form-error" *ngIf="(submitted || f['contactNo'].touched) && f['contactNo'].errors">
+                <span *ngIf="f['contactNo'].errors['required']">Contact Number is required</span>
+                <span *ngIf="f['contactNo'].errors['pattern']">Enter a valid 10-digit number</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Gender *</label>
+              <select class="form-control form-input" formControlName="gender">
+                <option value="" disabled>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="form-error" *ngIf="(submitted || f['gender'].touched) && f['gender'].errors">
+                <span *ngIf="f['gender'].errors['required']">Gender is required</span>
               </div>
             </div>
 
