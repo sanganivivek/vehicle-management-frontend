@@ -86,6 +86,7 @@ export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
   regNo: string;
+  dealerName?: string;
   chassisNumber: string;
   brandId: string;
   modelId: string;

@@ -335,12 +335,4 @@ export class VehicleListComponent implements OnInit {
   getVehicleTypeName(type: string | undefined): string {
     return type || "N/A";
   }
-
-  getFuelTypeName(type: string | undefined): string {
-    return type || "N/A";
-  }
-
-  getTransmissionName(type: string | undefined): string {
-    return type || "N/A";
-  }
 }

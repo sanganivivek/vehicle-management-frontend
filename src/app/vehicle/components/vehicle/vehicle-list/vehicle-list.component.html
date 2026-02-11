@@ -35,88 +35,51 @@
             <th (click)="sort('regNo')" class="sortable cursor-pointer">
               Registration No <i [class]="getSortIcon('regNo')"></i>
             </th>
-            <th (click)="sort('dealerName')" class="sortable cusrsor-pointer">
-              Dealer <i [class]="getSortIcon('dealerName')"></i>
+            <th (click)="sort('dealerName')" class="sortable cursor-pointer">
+              Dealer Name <i [class]="getSortIcon('dealerName')"></i>
             </th>
             <th (click)="sort('chassisNumber')" class="sortable cursor-pointer">
               Chassis No <i [class]="getSortIcon('chassisNumber')"></i>
             </th>
             <th (click)="sort('brandId')" class="sortable cursor-pointer">
-              Brand <i [class]="getSortIcon('brandId')"></i>
-            </th>
-            <th (click)="sort('modelId')" class="sortable cursor-pointer">
-              Model <i [class]="getSortIcon('modelId')"></i>
+              Brand - Model <i [class]="getSortIcon('brandId')"></i>
             </th>
             <th (click)="sort('vehicleType')" class="sortable cursor-pointer">
               Vehicle Type <i [class]="getSortIcon('vehicleType')"></i>
             </th>
-            <th (click)="sort('fuelType')" class="sortable cursor-pointer">
-              Fuel Type <i [class]="getSortIcon('fuelType')"></i>
-            </th>
-            <th (click)="sort('transmission')" class="sortable cursor-pointer">
-              Transmission <i [class]="getSortIcon('transmission')"></i>
-            </th>
-            <th (click)="sort('seatingCapacity')" class="sortable cursor-pointer">
-              Seating Capacity <i [class]="getSortIcon('seatingCapacity')"></i>
-            </th>
-            <th (click)="sort('vehicleColour')" class="sortable cursor-pointer text-center">
-              Color <i [class]="getSortIcon('vehicleColour')"></i>
-            </th>
             <th (click)="sort('yearOfManufacture')" class="sortable cursor-pointer">
-              Manufacture Year <i [class]="getSortIcon('yearOfManufacture')"></i>
+              Manufacture <i [class]="getSortIcon('yearOfManufacture')"></i>
             </th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Action</th>
           </tr>
         </thead>
 
         <tbody>
           <tr *ngFor="let vehicle of vehicles">
             <td class="fw-bold">{{ vehicle.regNo }}</td>
-            <td>{{ vehicle.dealerName }} </td>
+            <td>{{ vehicle.dealerName }}</td>
             <td>{{ vehicle.chassisNumber }}</td>
-            <td>{{ vehicle.brandName }}</td>
-            <td>{{ vehicle.modelName }}</td>
+            <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
             <td>{{ getVehicleTypeName(vehicle.vehicleType) }}</td>
-            <td>{{ getFuelTypeName(vehicle.fuelType) }}</td>
-            <td>{{ getTransmissionName(vehicle.transmission) }}</td>
-            <td>{{ vehicle.seatingCapacity }}</td>
-
-            <td class="text-center">
-              <div *ngIf="vehicle.vehicleColour; else noColor">
-                <i class="bi bi-car-front-fill car-icon" [style.color]="vehicle.vehicleColour"
-                  [title]="vehicle.vehicleColour">
-                </i>
-              </div>
-              <ng-template #noColor>
-                <span class="text-muted">-</span>
-              </ng-template>
-            </td>
-
             <td>{{ vehicle.yearOfManufacture }}</td>
-
             <td>
               <span [class]="getStatusClass(vehicle.currentStatus)">
                 {{ getStatusText(vehicle.currentStatus) }}
               </span>
             </td>
-
             <td>
               <div class="d-flex align-items-center gap-3">
                 <div class="action-icons d-flex gap-2 border-start ps-3">
                   <button class="btn btn-sm btn-outline-success" (click)="viewVehicle(vehicle.vehicleId)" title="View">
                     <i class="bi bi-eye"></i>
                   </button>
-
                   <button class="btn btn-sm btn-outline-primary" (click)="editVehicle(vehicle.vehicleId)" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                   </button>
-
-                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)"
-                    title="Delete">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)" title="Delete">
                     <i class="bi bi-trash"></i>
                   </button>
-
                 </div>
               </div>
             </td>
