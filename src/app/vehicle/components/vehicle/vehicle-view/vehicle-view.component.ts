@@ -24,12 +24,12 @@ export class VehicleViewComponent implements OnInit {
     private router: Router,
     private vehicleService: VehicleService,
     private DealerService: DealerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Assuming your route is configured like: 'vehicles/view/:id'
     const vehicleId = this.route.snapshot.paramMap.get('id');
-    
+
     if (vehicleId) {
       this.fetchVehicleDetails(vehicleId);
     } else {
@@ -43,6 +43,20 @@ export class VehicleViewComponent implements OnInit {
     this.vehicleService.getVehicleById(id).subscribe({
       next: (data: VehicleMaster) => {
         this.vehicle = data;
+
+        // Fetch Dealer Details if dealerId is present
+        const dealerId = data.dealerId || data.DealorId;
+        if (dealerId) {
+          this.DealerService.getDealerById(dealerId).subscribe({
+            next: (dealer: Dealer) => {
+              this.Dealer = dealer;
+            },
+            error: (err) => {
+              console.error('Error fetching dealer details', err);
+            }
+          });
+        }
+
         this.isLoading = false;
       },
       error: (error) => {

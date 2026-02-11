@@ -35,8 +35,8 @@
             <th (click)="sort('regNo')" class="sortable cursor-pointer">
               Registration No <i [class]="getSortIcon('regNo')"></i>
             </th>
-            <th (click)="sort('dealerName')" class="sortable cursor-pointer">
-              Dealer Name <i [class]="getSortIcon('dealerName')"></i>
+            <th (click)="sort('dealerId')" class="sortable cursor-pointer">
+              Dealer Name <i [class]="getSortIcon('dealerId')"></i>
             </th>
             <th (click)="sort('chassisNumber')" class="sortable cursor-pointer">
               Chassis No <i [class]="getSortIcon('chassisNumber')"></i>
@@ -58,7 +58,7 @@
         <tbody>
           <tr *ngFor="let vehicle of vehicles">
             <td class="fw-bold">{{ vehicle.regNo }}</td>
-            <td>{{ getDealerName(vehicle.dealerId || vehicle.DealorId) }}</td>
+            <td>{{ vehicle.dealerName || getDealerName(vehicle.dealerId || vehicle.dealorId || vehicle.DealorId || vehicle.DealerId) }}</td>
             <td>{{ vehicle.chassisNumber }}</td>
             <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
             <td>{{ getVehicleTypeName(vehicle.vehicleType) }}</td>

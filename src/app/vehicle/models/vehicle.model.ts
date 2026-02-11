@@ -60,6 +60,8 @@ export interface CreateBrandDTO {
 export interface VehicleMaster {
   vehicleId: string;
   regNo: string;
+  dealerId?: number; 
+  DealorId?: number;
   chassisNumber: string;
   modelYear?: number;
   yearOfManufacture?: number;
@@ -86,9 +88,15 @@ export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
   regNo: string;
-  dealerId?: number;     // ADD THIS: Wait for the ID from the backend
-  DealorId?: number;     // ADD THIS: Just in case your backend spells it with an 'o'
-  dealerName?: string;
+  
+  // Dealer Information (includes fallbacks for potential API naming inconsistencies)
+  dealerId?: number;     
+  DealerId?: number;     
+  dealorId?: number;     
+  DealorId?: number;     
+  dealerName?: string;   
+  
+  // Vehicle Details
   chassisNumber: string;
   brandId: string;
   modelId: string;
@@ -99,6 +107,8 @@ export interface VehicleListDTO {
   transmission?: string;
   seatingCapacity?: number;
   vehicleColour?: string;
+  
+  // Additional Info
   brand: string;
   model: string;
   modelYear?: number;
