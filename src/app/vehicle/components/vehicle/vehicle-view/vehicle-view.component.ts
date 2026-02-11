@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from '../../../services/vehicle.service';
 import { VehicleMaster } from '../../../models/vehicle.model';
+import { Dealer } from '../../../models/dealer.model';
+import { DealerService } from '../../../services/dealer.service';
 
 @Component({
   selector: 'app-vehicle-view',
@@ -13,13 +15,15 @@ import { VehicleMaster } from '../../../models/vehicle.model';
 })
 export class VehicleViewComponent implements OnInit {
   vehicle: VehicleMaster | null = null;
+  Dealer: Dealer | null = null;
   isLoading: boolean = true;
   errorMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private DealerService: DealerService
   ) {}
 
   ngOnInit(): void {

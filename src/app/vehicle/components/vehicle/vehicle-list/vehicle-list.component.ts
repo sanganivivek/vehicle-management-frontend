@@ -144,6 +144,16 @@ export class VehicleListComponent implements OnInit {
     });
   }
 
+  // Add this method at the bottom of the file
+  getDealerName(dealerId: number | undefined): string {
+    if (!dealerId) return "N/A";
+    
+    // Find the dealer in the array where the dealer.id matches the vehicle's dealerId
+    const dealer = this.dealers.find(d => d.id === dealerId);
+    
+    return dealer ? dealer.name : "Unknown Dealer";
+  }
+
 
   loadBrands(): void {
     this.vehicleService.getBrands().subscribe({

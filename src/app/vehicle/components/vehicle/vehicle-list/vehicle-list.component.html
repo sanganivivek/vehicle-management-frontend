@@ -58,7 +58,7 @@
         <tbody>
           <tr *ngFor="let vehicle of vehicles">
             <td class="fw-bold">{{ vehicle.regNo }}</td>
-            <td>{{ vehicle.dealerName }}</td>
+            <td>{{ getDealerName(vehicle.dealerId || vehicle.DealorId) }}</td>
             <td>{{ vehicle.chassisNumber }}</td>
             <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
             <td>{{ getVehicleTypeName(vehicle.vehicleType) }}</td>

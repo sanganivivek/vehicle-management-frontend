@@ -86,6 +86,8 @@ export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
   regNo: string;
+  dealerId?: number;     // ADD THIS: Wait for the ID from the backend
+  DealorId?: number;     // ADD THIS: Just in case your backend spells it with an 'o'
   dealerName?: string;
   chassisNumber: string;
   brandId: string;

@@ -79,6 +79,34 @@
       </div>
 
       <hr class="divider">
+      
+      <div class="info-section">
+        <h4 class="section-title">Dealer Details</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Dealer Name:</span>
+            <span class="value">{{ Dealer?.name || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Contact Person:</span>
+            <span class="value">{{ Dealer?.contactPerson || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Contact Number:</span>
+            <span class="value">{{ Dealer?.contactNo || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">City:</span>
+            <span class="value">{{ Dealer?.city || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Status:</span>
+            <span class="value">{{ Dealer?.status || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
 
       <div class="info-section">
         <h4 class="section-title">Compliance & Documentation</h4>
@@ -89,7 +117,8 @@
           </div>
           <div class="info-item">
             <span class="label">Insurance Expiry:</span>
-            <span class="value">{{ vehicle.insurancePolicyExpiryDate ? (vehicle.insurancePolicyExpiryDate | date:'mediumDate') : 'N/A' }}</span>
+            <span class="value">{{ vehicle.insurancePolicyExpiryDate ? (vehicle.insurancePolicyExpiryDate |
+              date:'mediumDate') : 'N/A' }}</span>
           </div>
           <div class="info-item">
             <span class="label">RC Expiry Date:</span>
@@ -97,7 +126,8 @@
           </div>
           <div class="info-item">
             <span class="label">Fitness Cert Expiry:</span>
-            <span class="value">{{ vehicle.fitnessCertificateExpiryDate ? (vehicle.fitnessCertificateExpiryDate | date:'mediumDate') : 'N/A' }}</span>
+            <span class="value">{{ vehicle.fitnessCertificateExpiryDate ? (vehicle.fitnessCertificateExpiryDate |
+              date:'mediumDate') : 'N/A' }}</span>
           </div>
         </div>
       </div>
