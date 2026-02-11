@@ -27,6 +27,7 @@ export interface Model {
 }
 export interface CreateVehicleDTO {
   regNo: string;
+  DealorId: Number;
   chassisNumber: string;
   brandId: string;
   modelId: string;

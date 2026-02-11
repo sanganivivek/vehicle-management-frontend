@@ -26,6 +26,7 @@ const routes: Routes = [
   { path: "dashboard", component: DashboardComponent },
   { path: "vehicle", component: VehicleListComponent },
   { path: "vehicle/add", component: VehicleAddComponent },
+  { path: "vehicle/view/:id", component: VehicleViewComponent },
   { path: "vehicle/edit/:id", component: VehicleEditComponent },
   { path: "brands", component: BrandListComponent },
   { path: "brands/add", component: BrandAddComponent },
@@ -39,7 +40,6 @@ const routes: Routes = [
   { path: "dealers/edit/:id", component: EditDealerComponent },
   { path: "customers", component: ListCustomerComponent },
   { path: "customers/add", component: AddCustomerComponent },
-  { path: 'view/:id', component: VehicleViewComponent },
   { path: "customers/edit/:id", component: CustomerEditComponent },
   {
     path: "booking",

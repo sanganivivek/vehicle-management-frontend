@@ -20,6 +20,19 @@
               </div>
             </div>
 
+            <div class="form-group">
+              <label class="form-label">Dealer *</label>
+              <select class="form-control form-input" formControlName="dealerId">
+                <option value="">Select Dealer</option>
+                <option *ngFor="let dealer of dealers" [value]="dealer.id">
+                  {{ dealer.name }}
+                </option>
+              </select>
+              <div class="form-error" *ngIf="(submitted || f['dealerId'].touched) && f['dealerId'].errors">
+                <span *ngIf="f['dealerId'].errors['required']">Dealer is required</span>
+              </div>
+            </div>
+
             <!-- Chassis Number -->
             <div class="form-group">
               <label class="form-label">Chassis Number *</label>

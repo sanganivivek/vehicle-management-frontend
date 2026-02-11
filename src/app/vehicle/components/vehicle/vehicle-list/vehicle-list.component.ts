@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { VehicleService } from "../../../services/vehicle.service";
+import { Dealer } from "../../../models/dealer.model";
+import { DealerService } from "../../../services/dealer.service";
 import { ToastrService } from "ngx-toastr";
 import { VehicleListDTO, Brand } from "../../../models/vehicle.model";
 import { LoadingService } from "../../../../shared/services/loading.service";
@@ -17,6 +19,7 @@ const STATUS_MAINTENANCE = 2;
 export class VehicleListComponent implements OnInit {
   vehicles: VehicleListDTO[] = [];
   brandId: Brand[] = [];
+  dealers: Dealer[] = [];
   searchTerm = "";
   selectedBrand = "";
   sortColumn = "regNo";
@@ -39,6 +42,7 @@ export class VehicleListComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
+    private dealerService: DealerService,
     private route: ActivatedRoute, // Added ActivatedRoute
     private toastr: ToastrService,
     private loadingService: LoadingService,
@@ -47,6 +51,7 @@ export class VehicleListComponent implements OnInit {
   ngOnInit(): void {
     // We load brands once
     this.loadBrands();
+    this.loadDealers();
 
     // LISTEN for query params from Dashboard or URL changes
     this.route.queryParams.subscribe((params) => {
@@ -126,6 +131,19 @@ export class VehicleListComponent implements OnInit {
       },
     });
   }
+
+  loadDealers(): void {
+    this.dealerService.getAllDealers().subscribe({
+      next: (response: any) => {
+        this.dealers = Array.isArray(response) ? response : response.data || [];
+      },
+      error: (error) => {
+        this.toastr.error("Failed to load dealers", "Error");
+        this.dealers = [];
+      },
+    });
+  }
+
 
   loadBrands(): void {
     this.vehicleService.getBrands().subscribe({

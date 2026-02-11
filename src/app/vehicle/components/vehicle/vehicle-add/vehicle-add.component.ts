@@ -10,7 +10,9 @@ import { Router } from "@angular/router";
 import { VehicleService } from "../../../services/vehicle.service";
 import { BrandService } from "../../../services/brand.service";
 import { ModelService } from "../../../services/model.service";
+import { DealerService } from "../../../services/dealer.service";
 import { Brand, Model, CreateVehicleDTO } from "../../../models/vehicle.model";
+import { Dealer } from "../../../models/dealer.model";
 import { Observable, of } from "rxjs";
 import { map, catchError, debounceTime, switchMap } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
@@ -26,6 +28,7 @@ export class VehicleAddComponent implements OnInit {
   loading = false;
   brands: Brand[] = [];
   models: Model[] = [];
+  dealers: Dealer[] = [];
   errorMessage = "";
 
   // Enum arrays for dropdowns
@@ -49,13 +52,15 @@ export class VehicleAddComponent implements OnInit {
     private vehicleService: VehicleService,
     private brandService: BrandService,
     private modelService: ModelService,
+    private dealerService: DealerService,
     private router: Router,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.loadBrands();
+    this.loadDealers();
     this.setupBrandChangeListener();
     this.setupManufactureYearListener();
   }
@@ -69,7 +74,7 @@ export class VehicleAddComponent implements OnInit {
           Validators.pattern(/^[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}$/),
         ],
       ],
-
+      dealerId: ["", Validators.required],
       chassisNumber: [
         "",
         [Validators.required, Validators.pattern(/^[A-Za-z0-9]{17}$/)],
@@ -133,6 +138,19 @@ export class VehicleAddComponent implements OnInit {
           }
         }
       });
+  }
+
+  loadDealers(): void {
+    this.dealerService.getAllDealers().subscribe({
+      next: (response: any) => {
+        // Adjust this depending on whether your API returns the array directly or inside a 'data' object
+        this.dealers = Array.isArray(response) ? response : response.data || [];
+      },
+      error: (error) => {
+        console.error("Failed to load dealers:", error);
+        this.toastr.error("Failed to load dealers", "Error");
+      },
+    });
   }
 
   loadBrands(): void {
@@ -202,10 +220,11 @@ export class VehicleAddComponent implements OnInit {
         // Display specific error message from backend
         if (error.error && error.error.message) {
           this.errorMessage = error.error.message;
-        } else if (error.error && typeof error.error === 'string') {
+        } else if (error.error && typeof error.error === "string") {
           this.errorMessage = error.error;
         } else {
-          this.errorMessage = "Failed to add vehicle. Please check all fields and try again.";
+          this.errorMessage =
+            "Failed to add vehicle. Please check all fields and try again.";
         }
       },
     });

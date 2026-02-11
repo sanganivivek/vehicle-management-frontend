@@ -2,7 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { VehicleService } from "../../../services/vehicle.service";
+import { DealerService } from "../../../services/dealer.service"; 
 import { Brand, Model } from "../../../models/vehicle.model";
+import { Dealer } from "../../../models/dealer.model";
 import { ToastrService } from "ngx-toastr";
 import { LoadingService } from "../../../../shared/services/loading.service";
 
@@ -19,6 +21,7 @@ export class VehicleEditComponent implements OnInit {
   submitted = false;
   brands: Brand[] = [];
   models: Model[] = [];
+  dealers: Dealer[] = [];
 
   // Enum arrays for dropdowns
   vehicleTypes = ['Hatchback', 'Sedan', 'SUV'];
@@ -40,6 +43,7 @@ export class VehicleEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private vehicleService: VehicleService,
+    private dealerService: DealerService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     private loadingService: LoadingService
@@ -50,6 +54,7 @@ export class VehicleEditComponent implements OnInit {
     this.vehicleForm = this.fb.group({
       // FIXED: Changed pattern to allow alphanumeric (standard vehicle numbers)
       regNo: ["", [Validators.required, Validators.pattern(/^[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}$/)]],
+      dealerId: ["", Validators.required],
       chassisNumber: ["", [Validators.required, Validators.pattern(/^[A-Za-z0-9]{17}$/)]],
       brandId: ["", Validators.required],
       modelId: ["", Validators.required],
@@ -99,6 +104,7 @@ export class VehicleEditComponent implements OnInit {
     });
 
     this.loadBrands();
+    this.loadDealers();
     if (this.vehicleId) {
       this.loadVehicle(this.vehicleId);
     }
@@ -121,6 +127,15 @@ export class VehicleEditComponent implements OnInit {
         }
       },
       error: (err) => console.error("Failed to load brands", err),
+    });
+  }
+
+  loadDealers() {
+    this.dealerService.getAllDealers().subscribe({
+      next: (response: any) => {
+        this.dealers = Array.isArray(response) ? response : (response.data || []);
+      },
+      error: (err) => console.error("Failed to load dealers", err),
     });
   }
 

@@ -50,6 +50,6 @@ export class VehicleViewComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/vehicles']); // Adjust this to match your vehicle list route
+    this.router.navigate(['/vehicle']); // Adjust this to match your vehicle list route
   }
 }
