@@ -1,116 +1,124 @@
-import { Component, OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { ModelService } from "../../../services/model.service";
-import { BrandService } from "../../../services/brand.service";
-import { ToastrService } from "ngx-toastr";
-import { Brand, CreateModelDTO } from "../../../models/vehicle.model";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModelService } from '../../../services/model.service';
+import { BrandService } from '../../../services/brand.service';
+import { ToastrService } from 'ngx-toastr'; // Assuming you use Toastr, or use your specific notification service
 
 @Component({
-    selector: "app-model-edit",
-    templateUrl: "./model-edit.component.html",
-    styleUrls: ["./model-edit.component.css"],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  selector: 'app-model-edit',
+  templateUrl: './model-edit.component.html',
+  styleUrls: ['./model-edit.component.css']
 })
 export class ModelEditComponent implements OnInit {
-    modelForm!: FormGroup;
-    submitted = false;
-    loading = false;
-    brands: Brand[] = [];
-    modelId!: string;
+  editModelForm!: FormGroup;
+  modelId!: number;
+  brands: any[] = []; // List of brands for the dropdown
+  loading = false;
+  submitting = false;
 
-    constructor(
-        private fb: FormBuilder,
-        private modelService: ModelService,
-        private brandService: BrandService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private toastr: ToastrService
-    ) { }
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private modelService: ModelService,
+    private brandService: BrandService,
+    private toastr: ToastrService
+  ) { }
 
-    ngOnInit(): void {
-        this.modelForm = this.fb.group({
-            brandId: ["", [Validators.required]],
-            modelCode: ["", [Validators.maxLength(50)]],
-            modelName: ["", [Validators.required, Validators.maxLength(50)]],
-            description: ["", [Validators.maxLength(500)]],
+  ngOnInit(): void {
+    // 1. Initialize Form
+    this.initForm();
+
+    // 2. Load Brands (for the dropdown)
+    this.loadBrands();
+
+    // 3. Get ID from URL and Load Model Data
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.modelId = +params['id'];
+        this.loadModelDetails(this.modelId);
+      } else {
+        this.toastr.error('Invalid Model ID');
+        this.router.navigate(['/models']);
+      }
+    });
+  }
+
+  // Initialize Reactive Form
+  private initForm(): void {
+    this.editModelForm = this.fb.group({
+      modelId: [null], // Hidden field
+      brandId: ['', [Validators.required]], // Select Brand
+      modelCode: ['', [Validators.required, Validators.maxLength(20)]],
+      modelName: ['', [Validators.required, Validators.maxLength(50)]],
+      description: ['', [Validators.maxLength(200)]]
+    });
+  }
+
+  // Fetch all brands for the dropdown
+  private loadBrands(): void {
+    this.brandService.getAllBrands().subscribe({
+      next: (data) => {
+        this.brands = data;
+      },
+      error: (err) => {
+        console.error('Failed to load brands', err);
+        this.toastr.error('Could not load brands list.');
+      }
+    });
+  }
+
+  // Fetch the specific model to edit
+  private loadModelDetails(id: number): void {
+    this.loading = true;
+    this.modelService.getModelById(id).subscribe({
+      next: (data) => {
+        this.loading = false;
+        // Patch values into the form
+        this.editModelForm.patchValue({
+          modelId: data.modelId,
+          brandId: data.brandId, // Ensure your API returns brandId
+          modelCode: data.modelCode,
+          modelName: data.modelName,
+          description: data.description
         });
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Error loading model', err);
+        this.toastr.error('Model not found or API error.');
+        this.router.navigate(['/models']);
+      }
+    });
+  }
 
-        this.modelId = this.route.snapshot.paramMap.get("id") || "";
-        if (this.modelId) {
-            this.loadBrands();
-        } else {
-            this.toastr.error("Invalid Model ID");
-            this.router.navigate(["/models"]);
-        }
+  // Submit Update
+  onSubmit(): void {
+    if (this.editModelForm.invalid) {
+      this.editModelForm.markAllAsTouched();
+      return;
     }
 
-    loadBrands(): void {
-        this.brandService.getBrands().subscribe({
-            next: (brands: Brand[]) => {
-                this.brands = brands;
-                this.loadModelData();
-            },
-            error: (error) => {
-                console.error("Failed to load models:", error);
-                this.toastr.error("Failed to load models", "Error");
-            },
-        });
-    }
+    this.submitting = true;
+    const modelData = this.editModelForm.value;
 
-    loadModelData() {
-        this.loading = true;
-        this.modelService.getModelById(this.modelId).subscribe({
-            next: (data) => {
-                this.modelForm.patchValue({
-                    brandId: data.brandId,
-                    modelCode: data.modelCode,
-                    modelName: data.modelName,
-                    description: data.description,
-                });
-                this.loading = false;
-            },
-            error: (err) => {
-                console.error(err);
-                this.loading = false;
-                this.toastr.error("Failed to load model details", "Error");
-                this.router.navigate(["/models"]);
-            },
-        });
-    }
+    this.modelService.updateModel(this.modelId, modelData).subscribe({
+      next: () => {
+        this.submitting = false;
+        this.toastr.success('Model updated successfully!');
+        this.router.navigate(['/models']);
+      },
+      error: (err) => {
+        this.submitting = false;
+        console.error('Update failed', err);
+        this.toastr.error('Failed to update model. Please try again.');
+      }
+    });
+  }
 
-    get f() {
-        return this.modelForm.controls;
-    }
-
-    onSubmit(): void {
-        this.submitted = true;
-        if (this.modelForm.invalid) return;
-
-        this.loading = true;
-        const modelData: CreateModelDTO = {
-            brandId: this.modelForm.value.brandId,
-            modelCode: this.modelForm.value.modelCode?.trim() || undefined,
-            name: this.modelForm.value.modelName.trim(),
-            description: this.modelForm.value.description?.trim() || undefined,
-        };
-
-        this.modelService.updateModel(this.modelId, modelData).subscribe({
-            next: () => {
-                this.toastr.success("Model Updated Successfully!");
-                this.router.navigate(["/models"]);
-            },
-            error: (err) => {
-                console.error(err);
-                this.toastr.error("An error occurred while updating the model.");
-                this.loading = false;
-            },
-        });
-    }
-
-    onCancel(): void {
-        this.router.navigate(["/models"]);
-    }
+  // Cancel Button Action
+  onCancel(): void {
+    this.router.navigate(['/models']);
+  }
 }

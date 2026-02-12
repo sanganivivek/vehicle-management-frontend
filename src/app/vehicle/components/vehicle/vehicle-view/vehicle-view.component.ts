@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { switchMap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from '../../../services/vehicle.service';
 import { VehicleMaster } from '../../../models/vehicle.model';
@@ -40,23 +42,36 @@ export class VehicleViewComponent implements OnInit {
 
   fetchVehicleDetails(id: string): void {
     this.isLoading = true;
-    this.vehicleService.getVehicleById(id).subscribe({
-      next: (data: VehicleMaster) => {
+
+    this.vehicleService.getVehicleById(id).pipe(
+      switchMap((data: any) => { // Cast to 'any' to avoid strict casing errors
         this.vehicle = data;
 
-        // Fetch Dealer Details if dealerId is present
-        const dealerId = data.dealerId || data.DealorId;
-        if (dealerId) {
-          this.DealerService.getDealerById(dealerId).subscribe({
-            next: (dealer: Dealer) => {
-              this.Dealer = dealer;
-            },
-            error: (err) => {
+        // Handle potential casing differences from the backend JSON (dealerId vs DealerId)
+        console.log('Vehicle Data Response:', data);
+        const targetDealerId = this.findDealerId(data);
+        console.log('Resolved Dealer ID:', targetDealerId);
+
+        if (targetDealerId) {
+          // Fetch dealer and catch any errors so it doesn't break the whole page
+          return this.DealerService.getDealerById(targetDealerId).pipe(
+            catchError((err) => {
               console.error('Error fetching dealer details', err);
-            }
-          });
+              return of(null);
+            })
+          );
         }
 
+        // If no dealer ID is tied to this vehicle, pass null to the next block
+        return of(null);
+      })
+    ).subscribe({
+      next: (dealer: Dealer | null) => {
+        if (dealer) {
+          this.Dealer = dealer;
+        }
+
+        // Turn off the loading spinner ONLY after the dealer fetching is complete
         this.isLoading = false;
       },
       error: (error) => {
@@ -65,6 +80,20 @@ export class VehicleViewComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private findDealerId(data: any): any {
+    const keys = Object.keys(data);
+    const targetKey = keys.find(key =>
+      key.toLowerCase() === 'dealerid' ||
+      key.toLowerCase() === 'dealorid' ||
+      key.toLowerCase() === 'dealer_id' // Just in case
+    );
+    if (targetKey) {
+      console.log('Found Dealer ID Key:', targetKey, 'Value:', data[targetKey]);
+      return data[targetKey];
+    }
+    return null;
   }
 
   goBack(): void {

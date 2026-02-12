@@ -25,10 +25,8 @@ export class ModelService {
       .get<Model[]>(`${this.apiUrl}/by-brand/${brandId}`)
       .pipe(catchError(this.handleError));
   }
-  getModelById(id: string): Observable<Model> {
-    return this.http
-      .get<Model>(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+  getModelById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
   addModel(model: CreateModelDTO): Observable<any> {
@@ -39,12 +37,8 @@ export class ModelService {
       .pipe(catchError(this.handleError));
   }
 
-  updateModel(id: string, model: CreateModelDTO): Observable<any> {
-    return this.http
-      .put(`${this.apiUrl}/${id}`, model, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .pipe(catchError(this.handleError));
+  updateModel(id: number, modelData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, modelData);
   }
 
   deleteModel(id: string): Observable<any> {

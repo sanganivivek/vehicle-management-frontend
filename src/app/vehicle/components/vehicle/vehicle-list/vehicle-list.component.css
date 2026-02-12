@@ -1,10 +1,8 @@
-
 .vehicle-page-bg {
   background: #f2f2f2;
   min-height: 100vh;
   padding: 20px;
 }
-
 
 .vehicle-container {
   background: #ffffff;
@@ -15,7 +13,6 @@
   max-width: 1400px;
   margin: auto;
 }
-
 
 .header-section {
   display: flex;
@@ -33,7 +30,6 @@
   border-radius: 8px;
   font-weight: 500;
 }
-
 
 .filter-row {
   display: flex;
@@ -63,14 +59,11 @@
   margin: 50px 0;
 }
 
-
 .table-wrapper {
   margin-top: 15px;
   width: 100%;
   overflow-x: auto;
-  
 }
-
 
 .custom-table {
   width: 100%;
@@ -106,13 +99,11 @@
   transition: 0.2s;
 }
 
-
 .sortable {
   cursor: pointer;
   user-select: none;
   font-weight: 600;
 }
-
 
 .status-badge {
   padding: 6px 14px;
@@ -131,23 +122,12 @@
   color: white;
 }
 
-
-.edit-btn,
-.delete-btn {
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-
 .no-data {
   text-align: center;
   padding: 28px 0;
   color: #777;
   font-size: 15px;
 }
-
 
 .pagination-wrapper {
   margin-top: 25px;
@@ -167,57 +147,43 @@
   color: #fff;
 }
 
-
+/* =========================================
+   Actions Column (Updated to match Booking List)
+   ========================================= */
 .action-icons {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 }
 
-
-.icon-btn {
-  background: #f1f3f5;
-  border: none;
-  padding: 8px 10px;
+/* Applies consistent styling to View (Success), 
+   Edit (Primary), and Delete (Danger) buttons 
+*/
+.btn-outline-primary,
+.btn-outline-danger,
+.btn-outline-success {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-  font-size: 16px;
+  border: 1px solid transparent;
+  /* Hide border until hover */
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
 }
 
-.icon-btn i {
-  pointer-events: none;
-}
-
-
-.icon-btn:hover {
-  background: #e2e6ea;
-}
-
-
-.edit-icon {
-  color: #0d6efd;
-}
-
-.edit-icon:hover {
-  background: rgba(0, 0, 0, 0.15);
-}
-
-
-.delete-icon {
-  color: #dc3545;
-}
-
-.delete-icon:hover {
-  background: rgba(220, 53, 69, 0.15);
-}
+/* =========================================
+   Pagination & Buttons
+   ========================================= */
 
 .pagination-wrapper {
   display: flex;
   justify-content: center;
   margin-top: 25px;
 }
-
 
 .custom-pagination {
   display: flex;
@@ -226,7 +192,6 @@
   padding: 0;
   margin: 0;
 }
-
 
 .custom-pagination .page-item {
   cursor: pointer;
@@ -237,7 +202,6 @@
   opacity: 0.5;
   pointer-events: none;
 }
-
 
 .custom-pagination .page-link {
   padding: 8px 14px;
@@ -250,12 +214,10 @@
   display: inline-block;
 }
 
-
 .custom-pagination .page-link:hover {
   background: #e7f1ff;
   border-color: #000000;
 }
-
 
 .custom-pagination .active .page-link {
   background: #2f2f2f;
@@ -264,12 +226,10 @@
   font-weight: 600;
 }
 
-
 .custom-pagination .number .page-link {
   min-width: 38px;
   text-align: center;
 }
-
 
 .custom-add-btn {
   background-color: #4a4a4a; 
@@ -285,13 +245,11 @@
   gap: 8px; 
 }
 
-
 .custom-add-btn:hover {
   background-color: #313131; 
   transform: translateY(-2px); 
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35); 
 }
-
 
 .custom-add-btn:active {
   transform: translateY(0);
@@ -303,20 +261,15 @@
   color: #adb5bd;
   font-size: 1rem;
   margin-top: 2rem;
-  
 }
 
-/* ... existing css ... */
-
 .car-icon {
-  font-size: 28px; /* Larger size for visibility */
-  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.4)); /* Shadow ensures white cars are visible on white background */
+  font-size: 28px;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.4));
   transition: transform 0.2s;
- background-size: cover;
+  background-size: cover;
 }
 
 .car-icon:hover {
-  transform: scale(1.2); /* Slight zoom effect on hover */
+  transform: scale(1.2);
 }
-
-/* ... existing css ... */

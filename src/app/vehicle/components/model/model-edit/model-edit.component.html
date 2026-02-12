@@ -1,70 +1,73 @@
 <div class="vehicle-page-bg">
-    <div class="form-wrapper">
-        <div class="form-card">
-            <div class="form-header">
-                <h3 class="form-title">Edit Model</h3>
-            </div>
-
-            <div class="form-body">
-                <form [formGroup]="modelForm">
-                    <div class="form-grid">
-                        <!-- Brand Dropdown -->
-                        <div class="form-group">
-                            <label class="form-label">Brand *</label>
-                            <select class="form-control form-input" formControlName="brandId">
-                                <option value="">Select Brand</option>
-                                <option *ngFor="let brand of brands" [value]="brand.brandId">
-                                    {{ brand.brandName }}
-                                </option>
-                            </select>
-                            <div class="form-error" *ngIf="(submitted || f['brandId'].touched) && f['brandId'].errors">
-                                <span *ngIf="f['brandId'].errors['required']">Brand is required</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Model Code</label>
-                            <input type="text" class="form-control form-input" formControlName="modelCode"
-                                placeholder="e.g. COR" />
-                            <div class="form-error"
-                                *ngIf="(submitted || f['modelCode'].touched) && f['modelCode'].errors">
-                                <span *ngIf="f['modelCode'].errors['maxlength']">Max 50 characters allowed</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Model Name *</label>
-                            <input type="text" class="form-control form-input" formControlName="modelName"
-                                placeholder="e.g. Corolla" />
-                            <div class="form-error"
-                                *ngIf="(submitted || f['modelName'].touched) && f['modelName'].errors">
-                                <span *ngIf="f['modelName'].errors['required']">Model Name is required</span>
-                                <span *ngIf="f['modelName'].errors['maxlength']">Max 50 characters allowed</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group" style="grid-column: span 2">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control form-input" formControlName="description" rows="3"
-                                placeholder="Enter description" style="height: auto"></textarea>
-                            <div class="form-error"
-                                *ngIf="(submitted || f['description'].touched) && f['description'].errors">
-                                <span *ngIf="f['description'].errors['maxlength']">Max 500 characters allowed</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-row">
-                        <button type="button" class="btn btn-cancel" (click)="onCancel()">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-submit" (click)="onSubmit()"
-                            [disabled]="modelForm.invalid || loading">
-                            {{ loading ? "Saving..." : "Save" }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+  <div class="vehicle-container">
+    <div class="header-section mb-4">
+      <h2 class="title">Edit Model</h2>
     </div>
+
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2 text-muted">Loading model details...</p>
+    </div>
+
+    <form *ngIf="!loading" [formGroup]="editModelForm" (ngSubmit)="onSubmit()">
+      
+      <div class="row g-3">
+        
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Brand <span class="text-danger">*</span></label>
+          <select class="form-select" formControlName="brandId" 
+                  [class.is-invalid]="editModelForm.get('brandId')?.invalid && editModelForm.get('brandId')?.touched">
+            <option value="">Select Brand</option>
+            <option *ngFor="let brand of brands" [value]="brand.brandId">
+              {{ brand.brandName }}
+            </option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a brand.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Model Code <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="modelCode" placeholder="Enter model code"
+                 [class.is-invalid]="editModelForm.get('modelCode')?.invalid && editModelForm.get('modelCode')?.touched" />
+          <div class="invalid-feedback">
+            Model code is required.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Model Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="modelName" placeholder="Enter model name"
+                 [class.is-invalid]="editModelForm.get('modelName')?.invalid && editModelForm.get('modelName')?.touched" />
+          <div class="invalid-feedback">
+            Model name is required.
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label fw-bold">Description</label>
+          <textarea class="form-control" formControlName="description" rows="3" placeholder="Enter description"
+                    [class.is-invalid]="editModelForm.get('description')?.invalid && editModelForm.get('description')?.touched"></textarea>
+          <div class="invalid-feedback">
+             Description is too long.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
+        <button type="button" class="btn btn-secondary px-4" (click)="onCancel()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary px-4" [disabled]="submitting || editModelForm.invalid">
+          <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+          {{ submitting ? 'Updating...' : 'Update Model' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>
