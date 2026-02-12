@@ -61,7 +61,7 @@
 }
 
 /* =========================================
-   3. Filters & Search (Standardized for consistency)
+   3. Filters & Search
    ========================================= */
 .filter-row {
   display: flex;
@@ -76,7 +76,7 @@
   padding-left: 14px;
   font-size: 15px;
   width: 100%;
-  max-width: 320px;
+  max-width: 400px;
   transition: all 0.2s ease;
 }
 
@@ -98,7 +98,8 @@
 .custom-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 8px; /* Floating row gap */
+  border-spacing: 0 8px;
+  /* Floating row gap */
 }
 
 .custom-table thead tr {
@@ -177,17 +178,7 @@
 }
 
 /* =========================================
-   6. Badges & Typography
-   ========================================= */
-.badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: 500;
-  font-size: 0.85rem;
-}
-
-/* =========================================
-   7. Pagination
+   6. Pagination
    ========================================= */
 .pagination-container {
   display: flex;
@@ -256,7 +247,7 @@
 
 /* Empty State */
 .empty-state {
-    text-align: center;
-    color: #6c757d;
-    padding: 20px;
+  text-align: center;
+  color: #6c757d;
+  padding: 20px;
 }

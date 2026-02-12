@@ -58,7 +58,8 @@
         <tbody>
           <tr *ngFor="let vehicle of vehicles">
             <td class="fw-bold">{{ vehicle.regNo }}</td>
-            <td>{{ vehicle.dealerName || getDealerName(vehicle.dealerId || vehicle.dealorId || vehicle.DealorId || vehicle.DealerId) }}</td>
+            <td>{{ vehicle.dealerName || getDealerName(vehicle.dealerId || vehicle.dealorId || vehicle.DealorId ||
+              vehicle.DealerId) }}</td>
             <td>{{ vehicle.chassisNumber }}</td>
             <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
             <td>{{ getVehicleTypeName(vehicle.vehicleType) }}</td>
@@ -77,7 +78,8 @@
                   <button class="btn btn-sm btn-outline-primary" (click)="editVehicle(vehicle.vehicleId)" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)" title="Delete">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteVehicle(vehicle.vehicleId)"
+                    title="Delete">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
@@ -97,21 +99,23 @@
 
     <div class="pagination-container" *ngIf="totalRecords > 0">
       <div class="pagination-info">
-        {{ getDisplayRange() }}
+        Showing {{ (currentPage - 1) * pageSize + 1 }} -
+        {{ getMathMin(currentPage * pageSize, totalRecords) }}
+        of {{ totalRecords }} records
       </div>
 
       <nav class="pagination-wrapper">
         <ul class="custom-pagination">
-          <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
+          <li class="page-item" [class.disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
             <span class="page-link">‹ Prev</span>
           </li>
 
-          <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
-            (click)="goToPage(p)">
-            <span class="page-link">{{ p }}</span>
+          <li class="page-item number" *ngFor="let page of pagesArray" [class.active]="page === currentPage"
+            (click)="onPageChange(page)">
+            <span class="page-link">{{ page }}</span>
           </li>
 
-          <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
+          <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
             <span class="page-link">Next ›</span>
           </li>
         </ul>

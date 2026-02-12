@@ -8,7 +8,7 @@
   background: #ffffff;
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
   width: 100%;
   max-width: 1400px;
   margin: auto;
@@ -85,7 +85,7 @@
 .custom-table tbody tr {
   background: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 }
 
 .custom-table tbody td {
@@ -179,15 +179,30 @@
    Pagination & Buttons
    ========================================= */
 
-.pagination-wrapper {
+/* =========================================
+   10. Pagination Layout
+   ========================================= */
+.pagination-container {
+  margin-top: 30px;
   display: flex;
-  justify-content: center;
-  margin-top: 25px;
+  justify-content: space-between;
+  /* Spread info and controls apart */
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #eaedf1;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pagination-info {
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .custom-pagination {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -199,56 +214,57 @@
 }
 
 .custom-pagination .page-item.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   pointer-events: none;
 }
 
 .custom-pagination .page-link {
   padding: 8px 14px;
-  border: 1px solid #d0d7de;
+  border: 1px solid #dee2e6;
   border-radius: 8px;
   background: #ffffff;
   font-size: 14px;
-  font-weight: 500;
-  transition: 0.2s;
-  display: inline-block;
+  font-weight: 600;
+  color: #495057;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  text-decoration: none;
 }
 
 .custom-pagination .page-link:hover {
-  background: #e7f1ff;
-  border-color: #000000;
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  color: #212529;
 }
 
-.custom-pagination .active .page-link {
-  background: #2f2f2f;
+.custom-pagination .page-item.active .page-link {
+  background: #212529;
   color: #ffffff;
-  border-color: #000000;
-  font-weight: 600;
-}
-
-.custom-pagination .number .page-link {
-  min-width: 38px;
-  text-align: center;
+  border-color: #212529;
+  box-shadow: 0 4px 8px rgba(33, 37, 41, 0.2);
 }
 
 .custom-add-btn {
-  background-color: #4a4a4a; 
+  background-color: #4a4a4a;
   color: white;
   border: none;
-  padding: 10px 24px; 
+  padding: 10px 24px;
   font-weight: 600;
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25); 
-  transition: all 0.3s ease; 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
-  gap: 8px; 
+  gap: 8px;
 }
 
 .custom-add-btn:hover {
-  background-color: #313131; 
-  transform: translateY(-2px); 
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35); 
+  background-color: #313131;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
 }
 
 .custom-add-btn:active {

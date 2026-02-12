@@ -200,29 +200,15 @@ export class VehicleListComponent implements OnInit {
     this.loadVehicles();
   }
 
-  generatePagesArray(): void {
-    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.loadVehicles();
-    }
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.loadVehicles();
-    }
-  }
-
-  goToPage(page: number): void {
+  onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.loadVehicles();
     }
+  }
+
+  generatePagesArray(): void {
+    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   addVehicle(): void {
@@ -278,14 +264,12 @@ export class VehicleListComponent implements OnInit {
   }
 
   getSortIcon(column: string): string {
-    if (this.sortColumn !== column) return "";
-    return this.sortOrder === "asc" ? "▲" : "▼";
+    if (this.sortColumn !== column) return "bi bi-arrow-down-up text-muted opacity-50";
+    return this.sortOrder === "asc" ? "bi bi-arrow-up-short" : "bi bi-arrow-down-short";
   }
 
-  getDisplayRange(): string {
-    const start = (this.currentPage - 1) * this.pageSize + 1;
-    const end = Math.min(this.currentPage * this.pageSize, this.totalRecords);
-    return `Showing ${start}-${end} of ${this.totalRecords} vehicles`;
+  getMathMin(a: number, b: number): number {
+    return Math.min(a, b);
   }
 
   getStatusText(status: number): string {
