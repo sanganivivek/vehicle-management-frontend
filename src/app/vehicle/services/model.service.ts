@@ -25,7 +25,7 @@ export class ModelService {
       .get<Model[]>(`${this.apiUrl}/by-brand/${brandId}`)
       .pipe(catchError(this.handleError));
   }
-  getModelById(id: number): Observable<any> {
+  getModelById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
@@ -37,7 +37,7 @@ export class ModelService {
       .pipe(catchError(this.handleError));
   }
 
-  updateModel(id: number, modelData: any): Observable<any> {
+  updateModel(id: string, modelData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, modelData);
   }
 

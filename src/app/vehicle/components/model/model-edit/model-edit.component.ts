@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr'; // Assuming you use Toastr, or use y
 })
 export class ModelEditComponent implements OnInit {
   editModelForm!: FormGroup;
-  modelId!: number;
+  modelId!: string;
   brands: any[] = []; // List of brands for the dropdown
   loading = false;
   submitting = false;
@@ -36,7 +36,7 @@ export class ModelEditComponent implements OnInit {
     // 3. Get ID from URL and Load Model Data
     this.route.params.subscribe(params => {
       if (params['id']) {
-        this.modelId = +params['id'];
+        this.modelId = params['id'];
         this.loadModelDetails(this.modelId);
       } else {
         this.toastr.error('Invalid Model ID');
@@ -58,11 +58,11 @@ export class ModelEditComponent implements OnInit {
 
   // Fetch all brands for the dropdown
   private loadBrands(): void {
-    this.brandService.getAllBrands().subscribe({
-      next: (data) => {
-        this.brands = data;
+    this.brandService.getBrands('', 1, 1000).subscribe({
+      next: (data: any) => {
+        this.brands = data.data || [];
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Failed to load brands', err);
         this.toastr.error('Could not load brands list.');
       }
@@ -70,7 +70,7 @@ export class ModelEditComponent implements OnInit {
   }
 
   // Fetch the specific model to edit
-  private loadModelDetails(id: number): void {
+  private loadModelDetails(id: string): void {
     this.loading = true;
     this.modelService.getModelById(id).subscribe({
       next: (data) => {

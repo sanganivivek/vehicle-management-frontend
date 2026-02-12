@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { VehicleService } from "../../../services/vehicle.service";
-import { DealerService } from "../../../services/dealer.service"; 
+import { DealerService } from "../../../services/dealer.service";
 import { Brand, Model } from "../../../models/vehicle.model";
 import { Dealer } from "../../../models/dealer.model";
 import { ToastrService } from "ngx-toastr";
@@ -157,6 +157,7 @@ export class VehicleEditComponent implements OnInit {
         // Use emitEvent: false to prevent triggering the brandId subscription which clears modelId
         this.vehicleForm.patchValue({
           regNo: vehicle.regNo.toString(),
+          dealerId: vehicle.dealerId || vehicle.DealorId, // Handle both cases
           chassisNumber: vehicle.chassisNumber,
           brandId: vehicle.brandId,
           modelId: vehicle.modelId,
@@ -232,6 +233,7 @@ export class VehicleEditComponent implements OnInit {
     const vehicleData = {
       ...formValue,
       vehicleId: this.vehicleId, // FIXED: Added vehicleId to payload
+      dealerId: parseInt(formValue.dealerId, 10), // Ensure it's a number
       yearOfManufacture: parseInt(formValue.yearOfManufacture, 10),
     };
 

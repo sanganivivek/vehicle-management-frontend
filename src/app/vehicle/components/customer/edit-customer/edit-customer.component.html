@@ -32,12 +32,11 @@
 
             <div class="form-group">
               <label class="form-label">Contact Number *</label>
-              <input type="text" class="form-control form-input" formControlName="phone"
+              <input type="text" class="form-control form-input" formControlName="contactNo"
                 placeholder="10 digit number" />
               <div class="form-error"
-                *ngIf="customerForm.get('phone')?.invalid && (customerForm.get('phone')?.touched || submitted)">
-                <span *ngIf="customerForm.get('phone')?.errors?.['required']">Contact Number is required</span>
-                <span *ngIf="customerForm.get('phone')?.errors?.['pattern']">Enter a valid 10-digit number</span>
+                *ngIf="customerForm.get('contactNo')?.invalid && (customerForm.get('contactNo')?.touched)">
+                <span>Enter a valid 10-digit contact number</span>
               </div>
             </div>
 

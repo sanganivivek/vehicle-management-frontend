@@ -60,7 +60,7 @@ export interface CreateBrandDTO {
 export interface VehicleMaster {
   vehicleId: string;
   regNo: string;
-  dealerId?: number; 
+  dealerId?: number;
   DealorId?: number;
   chassisNumber: string;
   modelYear?: number;
@@ -88,14 +88,14 @@ export interface VehicleListDTO {
   vehicleId: string;
   vehicleName: string;
   regNo: string;
-  
+
   // Dealer Information (includes fallbacks for potential API naming inconsistencies)
-  dealerId?: number;     
-  DealerId?: number;     
-  dealorId?: number;     
-  DealorId?: number;     
-  dealerName?: string;   
-  
+  dealerId?: number;
+  DealerId?: number;
+  dealorId?: number;
+  DealorId?: number;
+  dealerName?: string;
+
   // Vehicle Details
   chassisNumber: string;
   brandId: string;
@@ -107,7 +107,7 @@ export interface VehicleListDTO {
   transmission?: string;
   seatingCapacity?: number;
   vehicleColour?: string;
-  
+
   // Additional Info
   brand: string;
   model: string;
@@ -141,6 +141,7 @@ export interface UpdateVehicleDTO {
   seatingCapacity: number;
   vehicleColour?: string;
   yearOfManufacture: number;
+  dealerId: number;
   engineNumber?: string;
   insurancePolicyNumber?: string;
   insurancePolicyExpiryDate?: Date | string;

@@ -35,6 +35,7 @@ import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.c
     EditDealerComponent,
     ListCustomerComponent,
     CustomerEditComponent,
+    ModelEditComponent,
     DealerListComponent,
   ],
   imports: [
@@ -44,10 +45,9 @@ import { CustomerEditComponent } from "../customer/edit-customer/edit-customer.c
     HttpClientModule,
     VehicleRoutingModule,
     BrandEditComponent,
-    ModelEditComponent,
     ComplianceReportComponent,
     DashboardComponent,
-    AddCustomerComponent,
+    AddCustomerComponent
   ],
 })
 export class VehicleModule { }

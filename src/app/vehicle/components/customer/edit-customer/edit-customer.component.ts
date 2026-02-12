@@ -47,7 +47,7 @@ export class CustomerEditComponent implements OnInit {
     this.customerForm = this.fb.group({
       name: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
-      phone: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
+      contactNo: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
       gender: ["", Validators.required],
       dateOfBirth: ["", Validators.required],
       city: ["", Validators.required],
