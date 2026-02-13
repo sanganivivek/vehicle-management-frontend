@@ -1,1 +1,161 @@
-<p>add-booking works!</p>
+<div class="vehicle-page-bg">
+    <div class="vehicle-container mt-4">
+        <!-- Header -->
+        <div class="header-section d-flex justify-content-between align-items-center mb-4">
+            <h2 class="title mb-0">Add New Booking</h2>
+            <button class="btn btn-outline-secondary custom-back-btn" (click)="onCancel()">
+                <i class="bi bi-arrow-left me-2"></i> Back
+            </button>
+        </div>
+
+        <!-- Booking Form -->
+        <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
+
+            <div class="row g-4">
+                <!-- Section 1: Rental Details -->
+                <div class="col-12">
+                    <div class="form-card p-4">
+                        <h5 class="section-title mb-4"><i class="bi bi-calendar-range me-2"></i>Rental Details</h5>
+
+                        <div class="row g-4">
+                            <!-- Start Date & End Date Row -->
+                            <div class="col-md-6">
+                                <label class="form-label">Start Date <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                    <input type="date" class="form-control custom-input" formControlName="startDate"
+                                        [class.is-invalid]="f['startDate'].invalid && f['startDate'].touched">
+                                </div>
+                                <div class="invalid-feedback d-block"
+                                    *ngIf="f['startDate'].invalid && f['startDate'].touched">
+                                    <span *ngIf="f['startDate'].errors?.['required']">Start Date is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">End Date <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                    <input type="date" class="form-control custom-input" formControlName="endDate"
+                                        [class.is-invalid]="f['endDate'].invalid && f['endDate'].touched">
+                                </div>
+                                <div class="invalid-feedback d-block"
+                                    *ngIf="f['endDate'].invalid && f['endDate'].touched">
+                                    <span *ngIf="f['endDate'].errors?.['required']">End Date is required</span>
+                                    <span *ngIf="f['endDate'].errors?.['invalidDate']">End Date must be after Start
+                                        Date</span>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Selection -->
+                            <div class="col-12">
+                                <label class="form-label">Select Vehicle <span class="text-danger">*</span></label>
+                                <select class="form-select custom-select" formControlName="vehicleId"
+                                    [class.is-invalid]="f['vehicleId'].invalid && f['vehicleId'].touched">
+                                    <option value="" disabled>Select a vehicle</option>
+                                    <option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicleId">
+                                        {{ vehicle.vehicleName || vehicle.brandName + ' ' + vehicle.modelName }} ({{
+                                        vehicle.regNo }})
+                                    </option>
+                                </select>
+                                <div class="text-end mt-1" *ngIf="dailyRate > 0">
+                                    <small class="text-muted fw-medium">Rate: {{ dailyRate | currency:'INR'
+                                        }}/day</small>
+                                </div>
+                                <div class="invalid-feedback d-block"
+                                    *ngIf="f['vehicleId'].errors?.['required'] && f['vehicleId'].touched">
+                                    Vehicle is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Customer & Payment -->
+                <div class="col-12">
+                    <div class="form-card p-4">
+                        <h5 class="section-title mb-4"><i class="bi bi-person-badge me-2"></i>Customer & Payment</h5>
+
+                        <div class="row g-4">
+                            <!-- Customer Selection -->
+                            <div class="col-12">
+                                <label class="form-label">Customer Name <span class="text-danger">*</span></label>
+                                <div class="d-flex gap-2">
+                                    <div class="input-group flex-grow-1">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <select class="form-select custom-select" formControlName="customerId"
+                                            [class.is-invalid]="f['customerId'].invalid && f['customerId'].touched">
+                                            <option value="" disabled>Select a customer</option>
+                                            <option *ngFor="let customer of customers" [value]="customer.id">
+                                                {{ customer.name }} ({{ customer.contactNo }})
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-icon"
+                                        (click)="openNewCustomerModal()" title="Add New Customer">
+                                        <i class="bi bi-person-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback d-block"
+                                    *ngIf="f['customerId'].invalid && f['customerId'].touched">
+                                    Customer is required
+                                </div>
+                            </div>
+
+                            <!-- Payment Method -->
+                            <div class="col-md-6">
+                                <label class="form-label">Payment Method <span class="text-danger">*</span></label>
+                                <select class="form-select custom-select" formControlName="paymentMethod">
+                                    <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Payment Status -->
+                            <div class="col-md-6">
+                                <label class="form-label">Payment Status <span class="text-danger">*</span></label>
+                                <select class="form-select custom-select" formControlName="paymentStatus">
+                                    <option *ngFor="let status of paymentStatuses" [value]="status">{{ status }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Booking Status -->
+                            <div class="col-12">
+                                <label class="form-label">Booking Status <span class="text-danger">*</span></label>
+                                <select class="form-select custom-select" formControlName="bookingStatus">
+                                    <option *ngFor="let status of bookingStatuses" [value]="status.value">{{ status.name
+                                        }}</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Calculation & Actions -->
+                <div class="col-12">
+                    <div class="summary-card p-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div class="total-section">
+                            <span class="total-label text-muted">Total Amount</span>
+                            <span class="total-value text-primary">{{ totalAmount | currency:'INR' }}</span>
+                            <small class="text-muted d-block mt-1" *ngIf="totalDays > 0">
+                                {{ totalDays }} Days &#64; {{ dailyRate | currency:'INR' }}/day
+                            </small>
+                        </div>
+
+                        <div class="action-buttons d-flex gap-3">
+                            <button type="button" class="btn btn-secondary custom-btn-lg"
+                                (click)="onCancel()">Cancel</button>
+                            <button type="submit" class="btn btn-primary custom-btn-lg"
+                                [disabled]="bookingForm.invalid || isLoading">
+                                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                                {{ isLoading ? 'Saving...' : 'Save Booking' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,295 @@
+/* =========================================
+   1. Base & Layout
+   ========================================= */
+.vehicle-page-bg {
+    min-height: 100vh;
+    padding: 40px 24px;
+    background-color: #f3f4f6;
+    /* Softer gray background */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.vehicle-container {
+    max-width: 900px;
+    /* Centered, focused width */
+    margin: 0 auto;
+}
+
+/* =========================================
+   2. Header & Navigation
+   ========================================= */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: -0.5px;
+}
+
+.custom-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.custom-back-btn:hover {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+    color: #1f2937;
+}
+
+/* =========================================
+   3. Form Cards
+   ========================================= */
+.form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    transition: box-shadow 0.2s ease;
+}
+
+.form-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 16px;
+    margin-bottom: 24px !important;
+    /* Override bootstrap mb-4 if needed */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    color: #6b7280;
+    font-size: 20px;
+}
+
+/* =========================================
+   4. Inputs & Controls
+   ========================================= */
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.custom-input,
+.custom-select {
+    height: 42px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    padding: 0 12px;
+    color: #1f2937;
+    background-color: #fff;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    width: 100%;
+}
+
+.custom-input:focus,
+.custom-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    /* Soft glow */
+    outline: none;
+}
+
+.input-group-text {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-right: none;
+    color: #6b7280;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.input-group .custom-input,
+.input-group .custom-select {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Validation */
+.is-invalid {
+    border-color: #ef4444 !important;
+}
+
+.invalid-feedback {
+    font-size: 12px;
+    color: #ef4444;
+    margin-top: 4px;
+}
+
+.text-danger {
+    color: #ef4444 !important;
+}
+
+/* =========================================
+   5. Buttons & Actions
+   ========================================= */
+.btn-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+    background: #eff6ff;
+    transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.custom-btn-lg {
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    min-width: 120px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Primary Button (Save) */
+.btn-primary {
+    background-color: #111827;
+    /* Dark/Black brand color */
+    border: 1px solid #111827;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #000000;
+    border-color: #000000;
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    background-color: #9ca3af;
+    border-color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Secondary Button (Cancel) */
+.btn-secondary {
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+}
+
+.btn-secondary:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+    color: #1f2937;
+}
+
+/* =========================================
+   6. Total Summary Section
+   ========================================= */
+.summary-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background-image: linear-gradient(to right, #f9fafb, #ffffff);
+}
+
+.total-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.total-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.total-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.text-primary {
+    color: #111827 !important;
+    /* Override default primary blue for total */
+}
+
+/* =========================================
+   7. Responsive
+   ========================================= */
+@media (max-width: 768px) {
+    .vehicle-page-bg {
+        padding: 16px;
+    }
+
+    .form-card,
+    .summary-card {
+        padding: 20px !important;
+    }
+
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .custom-back-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .summary-card {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .action-buttons {
+        width: 100%;
+    }
+
+    .custom-btn-lg {
+        flex: 1;
+    }
+}
