@@ -1,6 +1,5 @@
 <div class="vehicle-page-bg">
     <div class="vehicle-container mt-4">
-        <!-- Header -->
         <div class="header-section d-flex justify-content-between align-items-center mb-4">
             <h2 class="title mb-0">Add New Booking</h2>
             <button mat-stroked-button color="basic" class="custom-back-btn" (click)="onCancel()">
@@ -8,16 +7,13 @@
             </button>
         </div>
 
-        <!-- Material Stepper -->
         <div class="form-card stepper-container">
             <mat-stepper [linear]="true" #stepper>
 
-                <!-- Step 1: Rental Details -->
                 <mat-step [stepControl]="rentalForm" label="Rental Details">
                     <form [formGroup]="rentalForm" class="p-4">
                         <h5 class="section-title mb-4"><i class="bi bi-calendar-range me-2"></i>Rental Details</h5>
                         <div class="row g-4">
-                            <!-- Start Date -->
                             <div class="col-md-6">
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Start Date</mat-label>
@@ -29,7 +25,6 @@
                                 </mat-form-field>
                             </div>
 
-                            <!-- End Date -->
                             <div class="col-md-6">
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>End Date</mat-label>
@@ -43,7 +38,6 @@
                                 </mat-form-field>
                             </div>
 
-                            <!-- Vehicle Selection -->
                             <div class="col-12">
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Select Vehicle</mat-label>
@@ -68,12 +62,10 @@
                     </form>
                 </mat-step>
 
-                <!-- Step 2: Customer & Payment -->
                 <mat-step [stepControl]="customerForm" label="Customer & Payment">
                     <form [formGroup]="customerForm" class="p-4">
                         <h5 class="section-title mb-4"><i class="bi bi-person-badge me-2"></i>Customer & Payment</h5>
                         <div class="row g-4">
-                            <!-- Customer Selection -->
                             <div class="col-12">
                                 <div class="d-flex gap-2">
                                     <mat-form-field appearance="outline" class="w-100">
@@ -93,7 +85,6 @@
                                 </div>
                             </div>
 
-                            <!-- Payment Method -->
                             <div class="col-md-6">
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Payment Method</mat-label>
@@ -105,7 +96,6 @@
                                 </mat-form-field>
                             </div>
 
-                            <!-- Payment Status -->
                             <div class="col-md-6">
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Payment Status</mat-label>
@@ -117,7 +107,6 @@
                                 </mat-form-field>
                             </div>
 
-                            <!-- Booking Status -->
                             <div class="col-12">
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Booking Status</mat-label>
@@ -137,14 +126,12 @@
                     </form>
                 </mat-step>
 
-                <!-- Step 3: Review & Submit -->
                 <mat-step label="Review & Submit">
                     <div class="p-4">
                         <h5 class="section-title mb-4"><i class="bi bi-check-circle me-2"></i>Review Booking Details
                         </h5>
 
                         <div class="row g-4">
-                            <!-- Review Section: Rental -->
                             <div class="col-md-6">
                                 <div class="review-card p-3 border rounded bg-light h-100">
                                     <h6 class="text-secondary mb-3">Rental Info</h6>
@@ -156,7 +143,6 @@
                                 </div>
                             </div>
 
-                            <!-- Review Section: Customer -->
                             <div class="col-md-6">
                                 <div class="review-card p-3 border rounded bg-light h-100">
                                     <h6 class="text-secondary mb-3">Customer Info</h6>
@@ -168,7 +154,6 @@
                             </div>
                         </div>
 
-                        <!-- Total Calculation -->
                         <div
                             class="summary-card mt-4 p-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
                             <div class="total-section">
