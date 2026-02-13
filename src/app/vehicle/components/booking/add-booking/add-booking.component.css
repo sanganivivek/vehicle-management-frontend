@@ -1,11 +1,7 @@
-/* =========================================
-   1. Base & Layout
-   ========================================= */
 .vehicle-page-bg {
     min-height: 100vh;
     padding: 24px;
     background-color: #f3f4f6;
-    /* Softer gray background */
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -14,14 +10,12 @@
     margin: 0 auto;
 }
 
-/* =========================================
-   2. Header & Navigation
-   ========================================= */
 .header-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+    gap: 12px;
 }
 
 .title {
@@ -35,26 +29,23 @@
     font-weight: 500;
     color: #374151;
     border-color: #d1d5db;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-/* =========================================
-   3. Form Cards & Stepper
-   ========================================= */
 .form-card {
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border: 1px solid #e5e7eb;
     overflow: hidden;
-    /* To clip the stepper content */
 }
 
-/* Override Material Stepper Header to match branding */
 ::ng-deep .mat-step-header .mat-step-icon-selected,
 ::ng-deep .mat-step-header .mat-step-icon-state-done,
 ::ng-deep .mat-step-header .mat-step-icon-state-edit {
     background-color: #111827 !important;
-    /* Dark/Black brand color */
     color: #ffffff !important;
 }
 
@@ -80,9 +71,26 @@
     font-size: 20px;
 }
 
-/* =========================================
-   4. Review & Summary
-   ========================================= */
+.customer-select-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.customer-select-field {
+    flex: 1;
+}
+
+.add-customer-btn {
+    min-width: 148px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
 .review-card {
     background-color: #f9fafb;
     border: 1px solid #e5e7eb;
@@ -129,9 +137,6 @@
     line-height: 1.2;
 }
 
-/* =========================================
-   5. Buttons & Controls
-   ========================================= */
 .action-buttons {
     display: flex;
     gap: 12px;
@@ -144,14 +149,51 @@
     font-weight: 500;
 }
 
-/* Primary Button Override */
 .mat-flat-button.mat-primary {
     background-color: #111827 !important;
     color: #ffffff !important;
 }
 
-/* Helper for datepicker toggle alignment */
 ::ng-deep .mat-form-field-suffix {
     display: flex;
     align-items: center;
+}
+
+@media (max-width: 768px) {
+    .vehicle-page-bg {
+        padding: 16px;
+    }
+
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .customer-select-row {
+        flex-direction: column;
+    }
+
+    .customer-select-field,
+    .add-customer-btn {
+        width: 100%;
+    }
+
+    .stepper-nav-actions,
+    .action-buttons {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .stepper-nav-actions button,
+    .action-buttons button {
+        flex: 1;
+    }
+
+    .custom-btn-lg {
+        width: 100%;
+    }
 }
