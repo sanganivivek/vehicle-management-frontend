@@ -40,10 +40,7 @@ export class VehicleAddComponent implements OnInit {
     { value: 1, label: "Rented" },
     { value: 2, label: "Inmaintance" },
   ];
-  activeOptions = [
-    { value: true, label: "Yes" },
-    { value: false, label: "No" },
-  ];
+
 
   currentYear = new Date().getFullYear();
 
@@ -55,7 +52,7 @@ export class VehicleAddComponent implements OnInit {
     private dealerService: DealerService,
     private router: Router,
     private toastr: ToastrService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -102,7 +99,7 @@ export class VehicleAddComponent implements OnInit {
       insurancePolicyExpiryDate: ["", Validators.required],
       rcExpiryDate: ["", Validators.required],
       fitnessCertificateExpiryDate: ["", Validators.required],
-      isActive: [true, Validators.required],
+      isActive: [true],
       currentStatus: [0, Validators.required],
     });
   }

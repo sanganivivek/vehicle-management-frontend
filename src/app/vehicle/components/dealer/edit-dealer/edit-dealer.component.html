@@ -61,15 +61,13 @@
                 placeholder="Enter address"></textarea>
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Status *</label>
-              <select class="form-control form-input" formControlName="status">
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-              <div class="form-error"
-                *ngIf="editDealerForm.get('status')?.invalid && editDealerForm.get('status')?.touched">
-                <span>Status is required</span>
+            <!-- Is Active -->
+            <div class="form-group d-flex align-items-center gap-2">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" formControlName="isActive" id="isActiveCheck" />
+                <label class="form-check-label" for="isActiveCheck">
+                  Is Active?
+                </label>
               </div>
             </div>
           </div>

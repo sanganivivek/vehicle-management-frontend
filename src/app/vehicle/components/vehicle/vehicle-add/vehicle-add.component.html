@@ -246,18 +246,16 @@
             </div>
 
             <!-- Is Active -->
+            <!-- Is Active -->
             <div class="form-group">
-              <label class="form-label">Is Active *</label>
-              <select class="form-control form-input" formControlName="isActive">
-                <option *ngFor="let option of activeOptions" [ngValue]="option.value">
-                  {{ option.label }}
-                </option>
-              </select>
-              <div class="form-error" *ngIf="
-                  (submitted || f['isActive'].touched) &&
-                  f['isActive'].errors
-                ">
-                <span *ngIf="f['isActive'].errors['required']">Is Active is required</span>
+              <label class="form-label" style="visibility: hidden;">Is Active</label>
+              <div class="d-flex align-items-center" style="height: 44px;">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" formControlName="isActive" id="isActiveCheck" />
+                  <label class="form-check-label" for="isActiveCheck">
+                    Is Active?
+                  </label>
+                </div>
               </div>
             </div>
           </div>

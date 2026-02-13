@@ -51,6 +51,7 @@
               Manufacture <i [class]="getSortIcon('yearOfManufacture')"></i>
             </th>
             <th>Status</th>
+            <th>Active</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -64,12 +65,17 @@
             <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
             <td>{{ getVehicleTypeName(vehicle.vehicleType) }}</td>
             <td>{{ vehicle.yearOfManufacture }}</td>
-            <td>
+            <td class="text-center">
               <span [class]="getStatusClass(vehicle.currentStatus)">
                 {{ getStatusText(vehicle.currentStatus) }}
               </span>
             </td>
             <td>
+              <i [class]="vehicle.isActive ? 'bi bi-check-lg text-success fw-bold' : 'bi bi-x-lg text-danger fw-bold'"
+                class="fs-4"></i>
+            </td>
+
+            <td class="text-center">
               <div class="d-flex align-items-center gap-3">
                 <div class="action-icons d-flex gap-2 border-start ps-3">
                   <button class="btn btn-sm btn-outline-success" (click)="viewVehicle(vehicle.vehicleId)" title="View">

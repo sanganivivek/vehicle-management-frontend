@@ -23,7 +23,7 @@ export class EditDealerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService, // Injected correctly
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // 1. Get ID from URL
@@ -56,7 +56,8 @@ export class EditDealerComponent implements OnInit {
       gstNo: [""],
       city: [""],
       address: [""],
-      status: ["Active", Validators.required],
+
+      isActive: [true],
     });
   }
 
@@ -64,7 +65,10 @@ export class EditDealerComponent implements OnInit {
     this.loading = true;
     this.dealerService.getDealerById(this.dealerId).subscribe({
       next: (dealer: Dealer) => {
-        this.editDealerForm.patchValue(dealer);
+        this.editDealerForm.patchValue({
+          ...dealer,
+          isActive: dealer.status === "Active",
+        });
         this.loading = false;
       },
       error: (err) => {
@@ -92,8 +96,10 @@ export class EditDealerComponent implements OnInit {
     this.loading = true;
 
     // 2. Prepare Data
+    const formValue = this.editDealerForm.value;
     const updatedDealer = {
-      ...this.editDealerForm.value,
+      ...formValue,
+      status: formValue.isActive ? "Active" : "Inactive",
       id: this.dealerId,
     };
 

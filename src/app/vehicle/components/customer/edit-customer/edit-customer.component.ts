@@ -24,6 +24,8 @@ export class CustomerEditComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
+
+
   ngOnInit(): void {
     // 1. Get ID from URL
     const idParam = this.route.snapshot.paramMap.get("id");
@@ -52,7 +54,7 @@ export class CustomerEditComponent implements OnInit {
       dateOfBirth: ["", Validators.required],
       city: ["", Validators.required],
       address: ["", Validators.required],
-      status: ["Active", Validators.required],
+      isActive: [true],
     });
   }
 
@@ -69,7 +71,8 @@ export class CustomerEditComponent implements OnInit {
 
         this.customerForm.patchValue({
           ...customer,
-          dateOfBirth: formattedDate
+          dateOfBirth: formattedDate,
+          isActive: customer.status === "Active",
         });
         this.loading = false;
       },
@@ -96,8 +99,10 @@ export class CustomerEditComponent implements OnInit {
 
     this.loading = true;
 
+    const formValue = this.customerForm.value;
     const updatedCustomer = {
-      ...this.customerForm.value,
+      ...formValue,
+      status: formValue.isActive ? "Active" : "Inactive",
       id: this.customerId,
     };
 

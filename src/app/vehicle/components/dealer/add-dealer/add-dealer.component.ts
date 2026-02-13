@@ -23,7 +23,7 @@ export class AddDealerComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService, // Injected ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Check for ID in the URL to determine Edit Mode
@@ -38,9 +38,10 @@ export class AddDealerComponent implements OnInit {
       contactNo: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
       email: ["", [Validators.email,]],
       gstNo: ["", [Validators.required, Validators.pattern(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$/)]],
-      city: ["",  Validators.required],
+      city: ["", Validators.required],
       address: ["", Validators.required],
-      status: ["Active", Validators.required], // Default to Active
+
+      isActive: [true], // Default to True
     });
 
     // If Edit Mode, fetch existing data and patch the form
@@ -50,7 +51,10 @@ export class AddDealerComponent implements OnInit {
         .pipe(first())
         .subscribe({
           next: (data) => {
-            this.dealerForm.patchValue(data);
+            this.dealerForm.patchValue({
+              ...data,
+              isActive: data.status === "Active",
+            });
           },
           error: (err) => {
             this.toastr.error("Failed to load dealer details.", "Error");
@@ -88,7 +92,12 @@ export class AddDealerComponent implements OnInit {
   }
 
   private createDealer() {
-    this.dealerService.createDealer(this.dealerForm.value).subscribe({
+    const formValue = this.dealerForm.value;
+    const newDealer = {
+      ...formValue,
+      status: formValue.isActive ? "Active" : "Inactive",
+    };
+    this.dealerService.createDealer(newDealer).subscribe({
       next: () => {
         this.toastr.success("Dealer created successfully!", "Success");
         this.router.navigate(["/dealers"]); // Navigate to list
@@ -105,8 +114,10 @@ export class AddDealerComponent implements OnInit {
 
   private updateDealer() {
     // Ensure the ID is included in the payload if backend requires it
+    const formValue = this.dealerForm.value;
     const updatedDealer = {
-      ...this.dealerForm.value,
+      ...formValue,
+      status: formValue.isActive ? "Active" : "Inactive",
       id: this.dealerId,
     };
 

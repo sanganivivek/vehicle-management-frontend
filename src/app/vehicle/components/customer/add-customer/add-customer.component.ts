@@ -34,6 +34,8 @@ export class AddCustomerComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
 
+
+
   ngOnInit(): void {
     // Initialize form immediately to avoid "undefined" errors in template
     this.initForm();
@@ -57,7 +59,7 @@ export class AddCustomerComponent implements OnInit {
       gender: ["", Validators.required],
       city: ["", Validators.required],
       address: ["", Validators.required],
-      status: ["Active", Validators.required],
+      isActive: [true],
     });
   }
 
@@ -75,7 +77,10 @@ export class AddCustomerComponent implements OnInit {
               .toISOString()
               .split("T")[0];
           }
-          this.customerForm.patchValue(data);
+          this.customerForm.patchValue({
+            ...data,
+            isActive: data.status === "Active",
+          });
         },
         error: (err) => {
           this.toastr.error("Failed to load customer details.", "Error");
@@ -111,7 +116,12 @@ export class AddCustomerComponent implements OnInit {
   }
 
   private createCustomer(): void {
-    this.customerService.createCustomer(this.customerForm.value).subscribe({
+    const formValue = this.customerForm.value;
+    const newCustomer = {
+      ...formValue,
+      status: formValue.isActive ? "Active" : "Inactive",
+    };
+    this.customerService.createCustomer(newCustomer).subscribe({
       next: (data) => {
         this.toastr.success("Customer created successfully", "Success");
         this.router.navigate(["/customers"]);
@@ -125,8 +135,10 @@ export class AddCustomerComponent implements OnInit {
   private updateCustomer(): void {
     if (!this.customerId) return;
 
+    const formValue = this.customerForm.value;
     const updatedCustomer = {
-      ...this.customerForm.value,
+      ...formValue,
+      status: formValue.isActive ? "Active" : "Inactive",
       id: Number(this.customerId)
     };
 
