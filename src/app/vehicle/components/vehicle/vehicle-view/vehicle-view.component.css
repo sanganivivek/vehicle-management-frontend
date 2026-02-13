@@ -182,7 +182,20 @@ h2 {
 }
 
 .registration-plate {
-  background: #ffeb3b;
+  background: #fff495;
+  color: black;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 16px;
+  max-width: fit-content;
+}
+
+.rate-plate {
+  background: #c2ffb2;
   color: black;
   display: inline-block;
   padding: 4px 10px;

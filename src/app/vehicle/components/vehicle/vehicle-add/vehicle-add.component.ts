@@ -85,6 +85,7 @@ export class VehicleAddComponent implements OnInit {
         "",
         [Validators.required, Validators.min(1), Validators.max(50)],
       ],
+      oneDayRate: ["", [Validators.required, Validators.min(0)]],
       vehicleColour: [""],
       yearOfManufacture: [
         "",

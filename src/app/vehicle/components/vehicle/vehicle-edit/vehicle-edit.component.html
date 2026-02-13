@@ -143,6 +143,19 @@
               </div>
             </div>
 
+            <!-- One Day Rate -->
+            <div class="form-group">
+              <label class="form-label">One Day Rate *</label>
+              <input type="number" class="form-control form-input" formControlName="oneDayRate" min="0" />
+              <div class="form-error" *ngIf="
+                  (submitted || f['oneDayRate'].touched) &&
+                  f['oneDayRate'].errors
+                ">
+                <span *ngIf="f['oneDayRate'].errors['required']">One Day Rate is required</span>
+                <span *ngIf="f['oneDayRate'].errors['min']">Must be at least 0</span>
+              </div>
+            </div>
+
             <!-- Vehicle Colour -->
             <div class="form-group">
               <label class="form-label">Vehicle Colour</label>

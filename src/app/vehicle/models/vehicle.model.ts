@@ -8,6 +8,7 @@ export interface Vehicle {
   FuelType?: string; //petrol, diesel, electric
   Transmission?: string; //automatic, manual
   seatingCapacity?: number;
+  oneDayRate?: number;
 }
 export interface Brand {
   brandId: string;
@@ -35,6 +36,7 @@ export interface CreateVehicleDTO {
   fuelType: string;
   transmission: string;
   seatingCapacity: number;
+  oneDayRate: number;
   vehicleColour?: string;
   yearOfManufacture: number;
   engineNumber?: string;
@@ -78,6 +80,7 @@ export interface VehicleMaster {
   fuelType?: string;
   transmission?: string;
   seatingCapacity?: number;
+  oneDayRate?: number;
   vehicleColour?: string;
   insurancePolicyNumber?: string; // Was insurancePolicyNo
   insurancePolicyExpiryDate?: Date | string; // Was insuranceExpiry
@@ -106,6 +109,7 @@ export interface VehicleListDTO {
   fuelType?: string;
   transmission?: string;
   seatingCapacity?: number;
+  oneDayRate?: number;
   vehicleColour?: string;
 
   // Additional Info
@@ -139,6 +143,7 @@ export interface UpdateVehicleDTO {
   fuelType: string;
   transmission: string;
   seatingCapacity: number;
+  oneDayRate: number;
   vehicleColour?: string;
   yearOfManufacture: number;
   dealerId: number;

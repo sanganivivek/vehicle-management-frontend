@@ -50,6 +50,9 @@
             <th (click)="sort('yearOfManufacture')" class="sortable cursor-pointer">
               Manufacture <i [class]="getSortIcon('yearOfManufacture')"></i>
             </th>
+            <th (click)="sort('oneDayRate')" class="sortable cursor-pointer">
+              Rate/Day <i [class]="getSortIcon('oneDayRate')"></i>
+            </th>
             <th>Status</th>
             <th>Active</th>
             <th>Action</th>
@@ -65,6 +68,7 @@
             <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
             <td>{{ getVehicleTypeName(vehicle.vehicleType) }}</td>
             <td>{{ vehicle.yearOfManufacture }}</td>
+            <td>{{ vehicle.oneDayRate | currency:'INR' }}</td>
             <td class="text-center">
               <span [class]="getStatusClass(vehicle.currentStatus)">
                 {{ getStatusText(vehicle.currentStatus) }}

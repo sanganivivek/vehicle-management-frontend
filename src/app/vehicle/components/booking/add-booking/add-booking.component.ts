@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-add-booking',
@@ -37,7 +38,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatExpansionModule
   ],
   templateUrl: './add-booking.component.html',
   styleUrls: ['./add-booking.component.css'],
@@ -179,9 +181,13 @@ export class AddBookingComponent implements OnInit {
   }
 
   // Getters for template access to selected values
-  get selectedVehicleName(): string {
+  get selectedVehicle(): VehicleMaster | undefined {
     const vehicleId = this.rentalForm.get('vehicleId')?.value;
-    const vehicle = this.vehicles.find(v => v.vehicleId === vehicleId);
+    return this.vehicles.find(v => v.vehicleId === vehicleId);
+  }
+
+  get selectedVehicleName(): string {
+    const vehicle = this.selectedVehicle;
     return vehicle ? `${vehicle.brandName} ${vehicle.modelName} (${vehicle.regNo})` : '';
   }
 
@@ -233,6 +239,6 @@ export class AddBookingComponent implements OnInit {
   }
 
   openNewCustomerModal(): void {
-    this.toastr.info('Customer creation modal would open here.');
+    this.router.navigate(['/customers/add'], { queryParams: { returnUrl: '/vehicle/booking/add' } });
   }
 }
