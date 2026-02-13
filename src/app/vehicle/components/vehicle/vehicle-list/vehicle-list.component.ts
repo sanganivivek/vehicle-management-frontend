@@ -22,6 +22,7 @@ export class VehicleListComponent implements OnInit {
   dealers: Dealer[] = [];
   searchTerm = "";
   selectedBrand = "";
+  selectedDealer = "";
   sortColumn = "regNo";
   sortOrder: "asc" | "desc" = "asc";
   currentPage = 1;
@@ -100,6 +101,7 @@ export class VehicleListComponent implements OnInit {
     const queryParams: any = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
+      dealerId: this.selectedDealer ? parseInt(this.selectedDealer) : undefined,
       // Status logic: check if it's a number (0 is falsy, so check for null/undefined explicitly if needed)
       // or if it's a non-empty string.
       status:
@@ -112,12 +114,39 @@ export class VehicleListComponent implements OnInit {
       pageSize: this.pageSize,
     };
 
+    // CLIENT-SIDE FILTERING STRATEGY:
+    // If a dealer is selected, we fetch a larger page size to ensure we get enough records
+    // and then filter them manually because the backend filter seems unreliable.
+    if (this.selectedDealer) {
+      queryParams.pageSize = 1000; // Fetch substantially more records
+      queryParams.page = 1; // Always start at page 1 for this strategy
+    }
+
     this.vehicleService.getVehicles(queryParams).subscribe({
       next: (response: any) => {
-        // console.log("Vehicles loaded successfully:", response);
-        this.vehicles = response.data || [];
-        this.totalRecords = response.totalRecords || 0;
-        this.totalPages = response.totalPages || 1;
+        let fetchedVehicles = response.data || [];
+
+        // Apply Client-Side Filter if Dealer is selected
+        if (this.selectedDealer) {
+          const dealerIdNum = parseInt(this.selectedDealer);
+          fetchedVehicles = fetchedVehicles.filter((v: any) =>
+            v.dealerId == dealerIdNum ||
+            v.DealerId == dealerIdNum ||
+            v.dealorId == dealerIdNum ||
+            v.DealorId == dealerIdNum
+          );
+
+          // Update pagination info for the filtered set (treating it as one page for now)
+          this.vehicles = fetchedVehicles;
+          this.totalRecords = fetchedVehicles.length;
+          this.totalPages = 1;
+        } else {
+          // Normal behavior
+          this.vehicles = fetchedVehicles;
+          this.totalRecords = response.totalRecords || 0;
+          this.totalPages = response.totalPages || 1;
+        }
+
         this.generatePagesArray();
         this.loadingService.hide();
       },
@@ -182,6 +211,12 @@ export class VehicleListComponent implements OnInit {
     this.currentPage = 1;
     this.loadVehicles();
   }
+
+  onDealerFilter(): void {
+    this.currentPage = 1;
+    this.loadVehicles();
+  }
+
 
   onStatusFilter(): void {
     this.currentPage = 1;

@@ -51,6 +51,10 @@ export class VehicleService {
     }
     if (queryParams.dealerId) {
       params = params.set("dealerId", queryParams.dealerId.toString());
+      // Also send PascalCase as some backend endpoints might expect it
+      params = params.set("DealerId", queryParams.dealerId.toString());
+      // Keep old typo version just in case it was working before
+      params = params.set("DealorId", queryParams.dealerId.toString());
     }
     return this.http
       .get<VehicleResponse>(this.apiUrl, { params })

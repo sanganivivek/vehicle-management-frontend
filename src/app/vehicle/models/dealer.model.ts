@@ -9,6 +9,8 @@ export interface Dealer {
   address: string;
   status: string;
   createdDate?: string;
+  dealerId?: number; // Optional alias for id
+  dealerName?: string; // Optional alias for name
 }
 
 export interface CreateDealerDTO {

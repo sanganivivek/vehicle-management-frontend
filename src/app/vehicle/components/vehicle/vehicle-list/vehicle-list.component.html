@@ -12,6 +12,13 @@
       <input type="text" class="form-control search-box" placeholder="Search by Reg No or Name..."
         [(ngModel)]="searchTerm" (input)="onSearch()" />
 
+      <select class="form-select brand-dropdown" [(ngModel)]="selectedDealer" (change)="onDealerFilter()">
+        <option value="">All Dealers</option>
+        <option *ngFor="let d of dealers" [value]="d.id || d.dealerId">
+          {{ d.name || d.dealerName }}
+        </option>
+      </select>
+
       <select class="form-select brand-dropdown" [(ngModel)]="selectedBrand" (change)="onBrandFilter()">
         <option value="">All Brands</option>
         <option *ngFor="let brand of brandId" [value]="brand.brandName">
@@ -44,7 +51,7 @@
             <th (click)="sort('brandId')" class="sortable cursor-pointer">
               Brand - Model <i [class]="getSortIcon('brandId')"></i>
             </th>
-            
+
             <th (click)="sort('yearOfManufacture')" class="sortable cursor-pointer">
               Manufacture <i [class]="getSortIcon('yearOfManufacture')"></i>
             </th>
@@ -64,7 +71,7 @@
               vehicle.DealerId) }}</td>
             <td>{{ vehicle.chassisNumber }}</td>
             <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
-            
+
             <td>{{ vehicle.yearOfManufacture }}</td>
             <td>{{ vehicle.oneDayRate | currency:'INR' }}</td>
             <td class="text-center">

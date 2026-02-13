@@ -138,9 +138,19 @@ export class AddBookingComponent implements OnInit {
     this.isLoading = true;
     this.vehicles = []; // Clear existing vehicles while loading
 
-    this.vehicleService.getVehicles(queryParams).subscribe({
+   this.vehicleService.getVehicles(queryParams).subscribe({
       next: (response) => {
-        this.vehicles = response.data || [];
+        let fetchedVehicles = response.data || [];
+
+        // FIX: Manually filter vehicles by dealerId to ensure correctness
+        // We check both 'dealerId' and 'DealorId' due to inconsistencies in the models
+        if (dealerId) {
+          fetchedVehicles = fetchedVehicles.filter(v => 
+            (v.dealerId == dealerId) || (v.DealorId == dealerId)
+          );
+        }
+
+        this.vehicles = fetchedVehicles;
         this.isLoading = false;
       },
       error: (err) => {
