@@ -12,17 +12,40 @@ import { VehicleService } from '../../../services/vehicle.service';
 import { CustomerService } from '../../../services/customer.service';
 import { VehicleMaster } from '../../../models/vehicle.model';
 import { Customer } from '../../../models/customer.model';
-// import { BookingService } from '../../../services/booking.service'; // Assuming this exists or will differ
+
+// Angular Material Imports
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-booking',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
   templateUrl: './add-booking.component.html',
   styleUrls: ['./add-booking.component.css'],
 })
 export class AddBookingComponent implements OnInit {
-  bookingForm: FormGroup;
+  rentalForm: FormGroup;
+  customerForm: FormGroup;
+
   vehicles: VehicleMaster[] = [];
   customers: Customer[] = [];
   isLoading = false;
@@ -50,10 +73,15 @@ export class AddBookingComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    this.bookingForm = this.fb.group({
+    // Step 1: Rental Details
+    this.rentalForm = this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       vehicleId: ['', Validators.required],
+    });
+
+    // Step 2: Customer & Payment
+    this.customerForm = this.fb.group({
       customerId: ['', Validators.required],
       paymentMethod: ['Cash', Validators.required], // Default to Cash
       paymentStatus: ['Pending', Validators.required], // Default to Pending
@@ -66,9 +94,9 @@ export class AddBookingComponent implements OnInit {
     this.loadCustomers();
 
     // Subscribe to value changes for calculations
-    this.bookingForm.get('startDate')?.valueChanges.subscribe(() => this.calculateTotal());
-    this.bookingForm.get('endDate')?.valueChanges.subscribe(() => this.calculateTotal());
-    this.bookingForm.get('vehicleId')?.valueChanges.subscribe(() => {
+    this.rentalForm.get('startDate')?.valueChanges.subscribe(() => this.calculateTotal());
+    this.rentalForm.get('endDate')?.valueChanges.subscribe(() => this.calculateTotal());
+    this.rentalForm.get('vehicleId')?.valueChanges.subscribe(() => {
       this.updateDailyRate();
       this.calculateTotal();
     });
@@ -100,10 +128,9 @@ export class AddBookingComponent implements OnInit {
   }
 
   updateDailyRate(): void {
-    const vehicleId = this.bookingForm.get('vehicleId')?.value;
+    const vehicleId = this.rentalForm.get('vehicleId')?.value;
     if (vehicleId) {
       // MOCK LOGIC: Generate a consistent random rate based on vehicle ID or type
-      // Since the backend model doesn't have a rate, we'll simulate it.
       // In a real app, this would come from the vehicle details.
       const vehicle = this.vehicles.find(v => v.vehicleId === vehicleId);
       if (vehicle) {
@@ -117,8 +144,8 @@ export class AddBookingComponent implements OnInit {
   }
 
   calculateTotal(): void {
-    const start = this.bookingForm.get('startDate')?.value;
-    const end = this.bookingForm.get('endDate')?.value;
+    const start = this.rentalForm.get('startDate')?.value;
+    const end = this.rentalForm.get('endDate')?.value;
 
     if (start && end && this.dailyRate > 0) {
       const startDate = new Date(start);
@@ -126,20 +153,22 @@ export class AddBookingComponent implements OnInit {
 
       // Calculate difference in time
       const timeDiff = endDate.getTime() - startDate.getTime();
-      // Calculate difference in days. Add 1 to include the start day if needed, or keeping it as nights.
-      // Usually car rentals count 24h periods. Let's assume standard day diff.
-      // If start equals end, it's 1 day minimum.
       const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
       this.totalDays = diffDays > 0 ? diffDays : 1; // Minimum 1 day
 
       // Validation: End date cannot be before start date
       if (diffDays < 0) {
-        this.bookingForm.get('endDate')?.setErrors({ invalidDate: true });
+        this.rentalForm.get('endDate')?.setErrors({ invalidDate: true });
         this.totalAmount = 0;
         this.totalDays = 0;
       } else {
-        this.bookingForm.get('endDate')?.setErrors(null);
+        // If the only error was invalidDate, clear it. 
+        // We need to be careful not to clear required error if field is empty, 
+        // but here 'end' has value so required is satisfied.
+        if (this.rentalForm.get('endDate')?.hasError('invalidDate')) {
+          this.rentalForm.get('endDate')?.setErrors(null);
+        }
         this.totalAmount = this.totalDays * this.dailyRate;
       }
 
@@ -149,15 +178,38 @@ export class AddBookingComponent implements OnInit {
     }
   }
 
+  // Getters for template access to selected values
+  get selectedVehicleName(): string {
+    const vehicleId = this.rentalForm.get('vehicleId')?.value;
+    const vehicle = this.vehicles.find(v => v.vehicleId === vehicleId);
+    return vehicle ? `${vehicle.brandName} ${vehicle.modelName} (${vehicle.regNo})` : '';
+  }
+
+  get selectedCustomerName(): string {
+    const customerId = this.customerForm.get('customerId')?.value;
+    const customer = this.customers.find(c => c.id === customerId);
+    return customer ? `${customer.name} (${customer.contactNo})` : '';
+  }
+
+  // Helper getters for forms
+  get r() { return this.rentalForm.controls; }
+  get c() { return this.customerForm.controls; }
+
   onSubmit(): void {
-    if (this.bookingForm.invalid) {
-      this.bookingForm.markAllAsTouched();
+    if (this.rentalForm.invalid || this.customerForm.invalid) {
+      this.rentalForm.markAllAsTouched();
+      this.customerForm.markAllAsTouched();
       this.toastr.error('Please fill all required fields correctly.');
       return;
     }
 
     this.isLoading = true;
-    const formValues = this.bookingForm.value;
+
+    // Combine form values
+    const formValues = {
+      ...this.rentalForm.value,
+      ...this.customerForm.value
+    };
 
     // MOCK SUBMISSION
     const mockBookingData = {
@@ -180,15 +232,7 @@ export class AddBookingComponent implements OnInit {
     this.router.navigate(['/vehicle/booking']);
   }
 
-  // Helper for template access
-  get f() { return this.bookingForm.controls; }
-
-  // Customer Modal Logic (Simple placeholder for now)
   openNewCustomerModal(): void {
-    // In a real implementation, this would open a modal component.
-    // For this task, we'll just log it or show a toast.
     this.toastr.info('Customer creation modal would open here.');
-    // Alternatively, navigate to customer add page?
-    // this.router.navigate(['/vehicle/customer/add']);
   }
 }
