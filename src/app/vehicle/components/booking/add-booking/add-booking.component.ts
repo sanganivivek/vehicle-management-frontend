@@ -224,12 +224,12 @@ export class AddBookingComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
       this.toastr.success('Booking created successfully!');
-      this.router.navigate(['/vehicle/booking']); // Redirect to booking list
+      this.router.navigate(['/booking']); // Redirect to booking list
     }, 1000);
   }
 
   onCancel(): void {
-    this.router.navigate(['/vehicle/booking']);
+    this.router.navigate(['/booking']);
   }
 
   openNewCustomerModal(): void {
