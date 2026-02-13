@@ -44,9 +44,7 @@
             <th (click)="sort('brandId')" class="sortable cursor-pointer">
               Brand - Model <i [class]="getSortIcon('brandId')"></i>
             </th>
-            <th (click)="sort('vehicleType')" class="sortable cursor-pointer">
-              Vehicle Type <i [class]="getSortIcon('vehicleType')"></i>
-            </th>
+            
             <th (click)="sort('yearOfManufacture')" class="sortable cursor-pointer">
               Manufacture <i [class]="getSortIcon('yearOfManufacture')"></i>
             </th>
@@ -66,7 +64,7 @@
               vehicle.DealerId) }}</td>
             <td>{{ vehicle.chassisNumber }}</td>
             <td>{{ vehicle.brandName }} - {{ vehicle.modelName }}</td>
-            <td>{{ getVehicleTypeName(vehicle.vehicleType) }}</td>
+            
             <td>{{ vehicle.yearOfManufacture }}</td>
             <td>{{ vehicle.oneDayRate | currency:'INR' }}</td>
             <td class="text-center">

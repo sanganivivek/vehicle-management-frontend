@@ -49,6 +49,9 @@ export class VehicleService {
     if (queryParams.status !== undefined && queryParams.status !== null) {
       params = params.set("status", queryParams.status.toString());
     }
+    if (queryParams.dealerId) {
+      params = params.set("dealerId", queryParams.dealerId.toString());
+    }
     return this.http
       .get<VehicleResponse>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));

@@ -10,8 +10,10 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from '../../../services/vehicle.service';
 import { CustomerService } from '../../../services/customer.service';
-import { VehicleMaster } from '../../../models/vehicle.model';
+import { VehicleMaster, VehicleQueryParams } from '../../../models/vehicle.model';
 import { Customer } from '../../../models/customer.model';
+import { Dealer } from '../../../models/dealer.model';
+import { DealerService } from '../../../services/dealer.service';
 
 // Angular Material Imports
 import { MatStepperModule } from '@angular/material/stepper';
@@ -50,6 +52,7 @@ export class AddBookingComponent implements OnInit {
 
   vehicles: VehicleMaster[] = [];
   customers: Customer[] = [];
+  dealers: Dealer[] = [];
   isLoading = false;
   showCustomerModal = false;
 
@@ -72,6 +75,7 @@ export class AddBookingComponent implements OnInit {
     private fb: FormBuilder,
     private vehicleService: VehicleService,
     private customerService: CustomerService,
+    private dealerService: DealerService,
     private router: Router,
     private toastr: ToastrService
   ) {
@@ -79,7 +83,8 @@ export class AddBookingComponent implements OnInit {
     this.rentalForm = this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      vehicleId: ['', Validators.required],
+      dealerId: ['', Validators.required],
+      vehicleId: [{ value: '', disabled: true }, Validators.required],
     });
 
     // Step 2: Customer & Payment
@@ -92,7 +97,7 @@ export class AddBookingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadVehicles();
+    this.loadDealers();
     this.loadCustomers();
 
     // Subscribe to value changes for calculations
@@ -102,17 +107,58 @@ export class AddBookingComponent implements OnInit {
       this.updateDailyRate();
       this.calculateTotal();
     });
+
+    this.rentalForm.get('dealerId')?.valueChanges.subscribe((dealerId) => {
+      if (dealerId) {
+        this.rentalForm.get('vehicleId')?.enable();
+        this.rentalForm.get('vehicleId')?.setValue(''); // Reset vehicle selection
+        this.rentalForm.get('vehicleId')?.markAsUntouched();
+        this.loadVehicles(dealerId);
+      } else {
+        this.rentalForm.get('vehicleId')?.disable();
+        this.rentalForm.get('vehicleId')?.setValue('');
+        this.vehicles = [];
+      }
+    });
   }
 
-  loadVehicles(): void {
+  loadVehicles(dealerId?: number): void {
     // Only fetch active vehicles for booking
-    this.vehicleService.getVehicles({ isActive: true }).subscribe({
+    // Fetch a large page size to ensure all vehicles for the dealer are shown in dropdown
+    const queryParams: VehicleQueryParams = {
+      isActive: true,
+      pageSize: 100,
+      page: 1
+    };
+
+    if (dealerId) {
+      queryParams.dealerId = dealerId;
+    }
+
+    this.isLoading = true;
+    this.vehicles = []; // Clear existing vehicles while loading
+
+    this.vehicleService.getVehicles(queryParams).subscribe({
       next: (response) => {
         this.vehicles = response.data || [];
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error loading vehicles', err);
         this.toastr.error('Failed to load vehicles');
+        this.isLoading = false;
+      },
+    });
+  }
+
+  loadDealers(): void {
+    this.dealerService.getAllDealers().subscribe({
+      next: (data) => {
+        this.dealers = data;
+      },
+      error: (err) => {
+        console.error('Error loading dealers', err);
+        this.toastr.error('Failed to load dealers');
       },
     });
   }
@@ -195,6 +241,11 @@ export class AddBookingComponent implements OnInit {
     const customerId = this.customerForm.get('customerId')?.value;
     const customer = this.customers.find(c => c.id === customerId);
     return customer ? `${customer.name} (${customer.contactNo})` : '';
+  }
+
+  get selectedDealer(): Dealer | undefined {
+    const dealerId = this.rentalForm.get('dealerId')?.value;
+    return this.dealers.find(d => d.id === dealerId);
   }
 
   // Helper getters for forms

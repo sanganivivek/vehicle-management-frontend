@@ -132,6 +132,7 @@ export interface VehicleQueryParams {
   sortBy?: string;
   sortOrder?: string;
   status?: number;
+  dealerId?: number;
 }
 export interface UpdateVehicleDTO {
   vehicleId: string;
