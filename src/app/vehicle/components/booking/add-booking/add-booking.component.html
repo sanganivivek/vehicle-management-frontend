@@ -7,150 +7,170 @@
             </button>
         </div>
 
-        <div class="form-card stepper-container">
-            <mat-stepper [linear]="true" #stepper>
+        <div class="form-card stepper-container p-0 overflow-hidden">
+            <mat-stepper [linear]="true" #stepper class="bg-transparent">
 
                 <mat-step [stepControl]="rentalForm" label="Rental Details">
                     <form [formGroup]="rentalForm" class="p-4">
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="step-icon-circle me-3">
-                                <mat-icon>directions_car</mat-icon>
-                            </div>
-                            <div>
-                                <h5 class="mb-1 fw-bold">Select Rental Details</h5>
-                                <p class="text-muted mb-0 small">Choose the vehicle and duration for the booking.</p>
-                            </div>
-                        </div>
 
-                        <div class="row g-4">
-                            <!-- Dealer Selection -->
-                            <div class="col-12">
-                                <mat-form-field appearance="outline" class="w-100 custom-select-field">
-                                    <mat-label>Select Dealer</mat-label>
-                                    <mat-select formControlName="dealerId" required placeholder="Choose a dealer...">
-                                        <mat-select-trigger>
-                                            <div class="d-flex align-items-center gap-2" *ngIf="selectedDealer">
-                                                <mat-icon class="small-icon text-muted">store</mat-icon>
-                                                <span>{{ selectedDealer.name }}</span>
-                                            </div>
-                                        </mat-select-trigger>
-                                        <mat-option *ngFor="let dealer of dealers" [value]="dealer.id">
-                                            <div class="d-flex flex-column py-2">
-                                                <span class="fw-bold">{{ dealer.name }}</span>
-                                                <small class="text-muted">{{ dealer.city }}</small>
-                                            </div>
-                                        </mat-option>
-                                    </mat-select>
-                                    <mat-error *ngIf="r['dealerId'].hasError('required')">Dealer is
-                                        required</mat-error>
-                                </mat-form-field>
-                            </div>
-
-                            <!-- Vehicle Selection & Preview -->
-                            <div class="col-12">
-                                <mat-form-field appearance="outline" class="w-100 custom-select-field">
-                                    <mat-label>Select Vehicle</mat-label>
-                                    <mat-select formControlName="vehicleId" required placeholder="Choose a vehicle...">
-                                        <mat-select-trigger>
-                                            <div class="d-flex align-items-center gap-2" *ngIf="selectedVehicle">
-                                                <mat-icon class="small-icon text-muted">directions_car</mat-icon>
-                                                <span>{{ selectedVehicle.brandName }} {{
-                                                    selectedVehicle.modelName }}</span>
-                                                <span class="badge-reg">{{ selectedVehicle.regNo }}</span>
-                                            </div>
-                                        </mat-select-trigger>
-                                        <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicleId">
-                                            <div class="d-flex flex-column py-2">
-                                                <span class="fw-bold">{{ vehicle.brandName }} {{ vehicle.modelName
-                                                    }}</span>
-                                                <small class="text-muted">{{ vehicle.regNo }}</small>
-                                            </div>
-                                        </mat-option>
-                                    </mat-select>
-                                    <mat-error *ngIf="r['vehicleId'].hasError('required')">Vehicle is
-                                        required</mat-error>
-                                </mat-form-field>
-
-                                <!-- Vehicle Preview Card (Only visible when selected) -->
-                                <div class="vehicle-preview-card mt-3" *ngIf="selectedVehicle"
-                                    [class.show]="selectedVehicle">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="vehicle-img-placeholder">
-                                            <mat-icon>directions_car</mat-icon>
-                                        </div>
-                                        <div class="grow">
-                                            <h6 class="mb-1 fw-bold text-dark">{{ selectedVehicle.brandName }} {{
-                                                selectedVehicle.modelName }}</h6>
-                                            <div class="d-flex gap-3 text-muted small">
-                                                <span><i class="bi bi-hash me-1"></i>{{ selectedVehicle.regNo }}</span>
-                                                <span><i class="bi bi-fuel-pump me-1"></i>{{ selectedVehicle.fuelType
-                                                    || 'Petrol' }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="text-end" *ngIf="dailyRate > 0">
-                                            <div class="price-tag">
-                                                <span class="currency">₹</span>
-                                                <span class="amount">{{ dailyRate }}</span>
-                                                <span class="unit">/day</span>
-                                            </div>
-                                        </div>
+                        <div class="review-card mb-4">
+                            <div class="card-header-custom">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="icon-circle-sm bg-primary-subtle text-primary d-flex align-items-center justify-content-center rounded-circle"
+                                        style="width: 32px; height: 32px;">
+                                        <mat-icon
+                                            style="font-size: 20px; width: 20px; height: 20px;">directions_car</mat-icon>
                                     </div>
+                                    <h6 class="mb-0 fw-bold text-dark">Vehicle & Schedule</h6>
                                 </div>
                             </div>
 
-                            <!-- Date Selection -->
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Start Date</mat-label>
-                                    <input matInput [matDatepicker]="startPicker" formControlName="startDate" required
-                                        placeholder="Select start date">
-                                    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #startPicker></mat-datepicker>
-                                    <mat-error *ngIf="r['startDate'].hasError('required')">Start Date is
-                                        required</mat-error>
-                                </mat-form-field>
-                            </div>
+                            <div class="card-body-custom pt-4">
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        <label class="form-label text-muted small fw-bold text-uppercase mb-2">Pickup
+                                            Location</label>
+                                        <mat-form-field appearance="outline" class="w-100 custom-select-field">
+                                            <mat-label>Select Dealer</mat-label>
+                                            <mat-select formControlName="dealerId" required
+                                                placeholder="Choose a dealer...">
+                                                <mat-select-trigger>
+                                                    <div class="d-flex align-items-center gap-2" *ngIf="selectedDealer">
+                                                        <mat-icon class="small-icon text-muted">store</mat-icon>
+                                                        <span>{{ selectedDealer.name }}</span>
+                                                    </div>
+                                                </mat-select-trigger>
+                                                <mat-option *ngFor="let dealer of dealers" [value]="dealer.id">
+                                                    <div class="d-flex flex-column py-2">
+                                                        <span class="fw-bold">{{ dealer.name }}</span>
+                                                        <small class="text-muted"> ({{ dealer.city }})</small>
+                                                    </div>
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="r['dealerId'].hasError('required')">Dealer is
+                                                required</mat-error>
+                                        </mat-form-field>
+                                    </div>
 
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>End Date</mat-label>
-                                    <input matInput [matDatepicker]="endPicker" formControlName="endDate" required
-                                        [min]="rentalForm.get('startDate')?.value" placeholder="Select end date">
-                                    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #endPicker></mat-datepicker>
-                                    <mat-error *ngIf="r['endDate'].hasError('required')">End Date is
-                                        required</mat-error>
-                                    <mat-error *ngIf="r['endDate'].hasError('invalidDate')">End Date must be after Start
-                                        Date</mat-error>
-                                </mat-form-field>
+                                    <div class="col-12">
+                                        <label class="form-label text-muted small fw-bold text-uppercase mb-2">Vehicle
+                                            Configuration</label>
+                                        <mat-form-field appearance="outline" class="w-100 custom-select-field">
+                                            <mat-label>Select Vehicle</mat-label>
+                                            <mat-select formControlName="vehicleId" required
+                                                placeholder="Choose a vehicle...">
+                                                <mat-select-trigger>
+                                                    <div class="d-flex align-items-center gap-2"
+                                                        *ngIf="selectedVehicle">
+                                                        <mat-icon
+                                                            class="small-icon text-muted">directions_car</mat-icon>
+                                                        <span>{{ selectedVehicle.brandName }} {{
+                                                            selectedVehicle.modelName }}</span>
+                                                        <span class="badge-reg">{{ selectedVehicle.regNo }}</span>
+                                                    </div>
+                                                </mat-select-trigger>
+                                                <mat-option *ngFor="let vehicle of vehicles"
+                                                    [value]="vehicle.vehicleId">
+                                                    <div class="d-flex flex-column py-2">
+                                                        <span class="fw-bold">{{ vehicle.brandName }} {{
+                                                            vehicle.modelName }}</span>
+                                                        <small class="text-muted"> ({{ vehicle.regNo }})</small>
+                                                    </div>
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="r['vehicleId'].hasError('required')">Vehicle is
+                                                required</mat-error>
+                                        </mat-form-field>
+
+                                        <div class="vehicle-preview-card mt-3 bg-white border shadow-sm"
+                                            *ngIf="selectedVehicle" [class.show]="selectedVehicle">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="vehicle-img-placeholder bg-light text-secondary">
+                                                    <mat-icon>directions_car</mat-icon>
+                                                </div>
+                                                <div class="grow">
+                                                    <h6 class="mb-1 fw-bold text-dark">{{ selectedVehicle.brandName }}
+                                                        {{ selectedVehicle.modelName }}</h6>
+                                                    <div class="d-flex gap-3 text-muted small align-items-center">
+                                                        <span class="d-flex align-items-center gap-1">
+                                                            <mat-icon class="icon-xs">tag</mat-icon>
+                                                            {{ selectedVehicle.regNo }}
+                                                        </span>
+                                                        <span class="d-flex align-items-center gap-1">
+                                                            <mat-icon class="icon-xs">local_gas_station</mat-icon>
+                                                            {{ selectedVehicle.fuelType || 'Petrol' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-end" *ngIf="dailyRate > 0">
+                                                    <div class="price-tag">
+                                                        <span class="currency">₹</span>
+                                                        <span class="amount">{{ dailyRate }}</span>
+                                                        <span class="unit">/day</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold text-uppercase mb-2">Start
+                                            Date</label>
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>Select Date</mat-label>
+                                            <input matInput [matDatepicker]="startPicker" formControlName="startDate"
+                                                required>
+                                            <mat-datepicker-toggle matSuffix
+                                                [for]="startPicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #startPicker></mat-datepicker>
+                                            <mat-error *ngIf="r['startDate'].hasError('required')">Start Date is
+                                                required</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold text-uppercase mb-2">End
+                                            Date</label>
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>Select Date</mat-label>
+                                            <input matInput [matDatepicker]="endPicker" formControlName="endDate"
+                                                required [min]="rentalForm.get('startDate')?.value">
+                                            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #endPicker></mat-datepicker>
+                                            <mat-error *ngIf="r['endDate'].hasError('required')">End Date is
+                                                required</mat-error>
+                                            <mat-error *ngIf="r['endDate'].hasError('invalidDate')">End Date must be
+                                                after Start Date</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Duration Summary Banner -->
-                        <div class="duration-banner mt-4" *ngIf="totalDays > 0 && selectedVehicle">
-                            <div class="d-flex justify-content-between align-items-center">
+                        <div class="summary-card mt-0" *ngIf="totalDays > 0 && selectedVehicle">
+                            <div class="summary-content py-3">
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="icon-box bg-white text-primary rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-                                        style="width: 40px; height: 40px;">
+                                    <div class="icon-box bg-white text-primary rounded-circle d-flex align-items-center justify-content-center shadow-sm border"
+                                        style="width: 48px; height: 48px;">
                                         <mat-icon>schedule</mat-icon>
                                     </div>
                                     <div>
-                                        <small class="text-uppercase text-muted fw-bold"
-                                            style="font-size: 11px; letter-spacing: 0.5px;">Duration</small>
-                                        <div class="fw-bold text-dark">{{ totalDays }} Days</div>
+                                        <small class="text-uppercase text-muted fw-bold" style="font-size: 11px;">Total
+                                            Duration</small>
+                                        <div class="fw-bold text-dark fs-5">{{ totalDays }} Days</div>
                                     </div>
                                 </div>
-                                <div class="text-end">
-                                    <small class="text-uppercase text-muted fw-bold"
-                                        style="font-size: 11px; letter-spacing: 0.5px;">Estimated Cost</small>
-                                    <div class="fw-bold text-primary fs-5">{{ totalAmount | currency:'INR' }}</div>
+                                <div class="text-end border-start ps-4">
+                                    <small class="text-uppercase text-muted fw-bold" style="font-size: 11px;">Estimated
+                                        Total</small>
+                                    <div class="fw-bold text-primary fs-4">{{ totalAmount | currency:'INR' }}</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end mt-4">
+                        <div class="d-flex justify-content-end mt-4 pt-2">
                             <button mat-flat-button color="primary" matStepperNext [disabled]="rentalForm.invalid"
-                                class="px-4 py-2" style="border-radius: 8px;">
+                                class="custom-btn-xl px-5">
                                 Next Step <mat-icon class="ms-2 icon-sm">arrow_forward</mat-icon>
                             </button>
                         </div>
@@ -159,25 +179,15 @@
 
                 <mat-step [stepControl]="customerForm" label="Customer & Payment">
                     <form [formGroup]="customerForm" class="p-4">
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="step-icon-circle me-3">
-                                <mat-icon>person</mat-icon>
-                            </div>
-                            <div>
-                                <h5 class="mb-1 fw-bold">Customer & Payment</h5>
-                                <p class="text-muted mb-0 small">Select customer and configure payment details.</p>
-                            </div>
-                        </div>
 
-                        <!-- Rental Context Banner -->
-                        <div class="context-banner rounded-3 mb-4" *ngIf="selectedVehicle">
+                        <div class="context-banner rounded-3 mb-4 border" *ngIf="selectedVehicle">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="vehicle-img-placeholder" style="width: 48px; height: 48px;">
-                                    <mat-icon>directions_car</mat-icon>
+                                <div class="vehicle-img-placeholder"
+                                    style="width: 42px; height: 42px; font-size: 20px;">
+                                    <mat-icon
+                                        style="font-size: 20px; width: 20px; height: 20px;">directions_car</mat-icon>
                                 </div>
                                 <div class="d-flex flex-column">
-                                    <small class="text-uppercase text-muted fw-bold" style="font-size: 10px;">Booking
-                                        For</small>
                                     <span class="fw-bold text-dark">{{ selectedVehicle.brandName }} {{
                                         selectedVehicle.modelName }}</span>
                                     <small class="text-muted">{{ totalDays }} Days • {{ totalAmount | currency:'INR'
@@ -185,114 +195,150 @@
                                 </div>
                             </div>
                             <button mat-button class="small-edit-btn text-primary" matStepperPrevious>
-                                Edit Rental
+                                Change Vehicle
                             </button>
                         </div>
 
                         <div class="row g-4">
-                            <div class="col-12">
-                                <label class="form-label text-muted small fw-bold text-uppercase mb-2">Customer
-                                    Details</label>
-                                <div class="d-flex gap-3 align-items-start">
-                                    <mat-form-field appearance="outline" class="w-100 custom-select-field">
-                                        <mat-label>Select Customer</mat-label>
-                                        <mat-select formControlName="customerId" required
-                                            placeholder="Search or select customer...">
-                                            <mat-select-trigger>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <mat-icon class="small-icon text-muted">account_circle</mat-icon>
-                                                    <span>{{ selectedCustomerName }}</span>
-                                                </div>
-                                            </mat-select-trigger>
-                                            <mat-option *ngFor="let customer of customers" [value]="customer.id">
-                                                <div class="customer-card-option py-2">
-                                                    <div class="customer-avatar-small">
-                                                        {{ customer.name.charAt(0).toUpperCase() }}
-                                                    </div>
-                                                    <div class="d-flex flex-column">
-                                                        <span class="fw-bold">{{ customer.name }}</span>
-                                                        <small class="text-muted">{{ customer.contactNo }}</small>
-                                                    </div>
-                                                </div>
-                                            </mat-option>
-                                        </mat-select>
-                                        <mat-error *ngIf="c['customerId'].hasError('required')">Customer is
-                                            required</mat-error>
-                                    </mat-form-field>
-
-                                    <button mat-stroked-button color="primary" class="h-100 mt-1 d-flex flex-column"
-                                        style="height: 56px; min-width: 56px; border-radius: 8px;"
-                                        (click)="openNewCustomerModal()" matTooltip="Add New Customer">
-                                        <mat-icon class="m-0">person_add</mat-icon>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="col-12 mt-4">
-                                <label class="form-label text-muted small fw-bold text-uppercase mb-3">Payment
-                                    Details</label>
-                                <div class="p-3 bg-light rounded-3 border border-light">
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label small text-muted mb-2">Payment Method</label>
-                                            <mat-form-field appearance="outline" class="w-100 bg-white">
-                                                <mat-label>Method</mat-label>
-                                                <mat-select formControlName="paymentMethod" required>
-                                                    <mat-option *ngFor="let method of paymentMethods" [value]="method">
+                            <div class="col-md-6">
+                                <div class="review-card h-100">
+                                    <div class="card-header-custom">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <mat-icon class="text-primary">account_circle</mat-icon>
+                                            <h6 class="mb-0">Customer Details</h6>
+                                        </div>
+                                    </div>
+                                    <div class="card-body-custom">
+                                        <div class="d-flex gap-2 mb-3">
+                                            <mat-form-field appearance="outline" class="w-100 custom-select-field">
+                                                <mat-label>Select Customer</mat-label>
+                                                <mat-select formControlName="customerId" required
+                                                    placeholder="Search customer...">
+                                                    <mat-select-trigger>
                                                         <div class="d-flex align-items-center gap-2">
-                                                            <mat-icon class="icon-sm text-secondary">payments</mat-icon>
-                                                            {{ method }}
+                                                            <span>{{ selectedCustomerName }}</span>
+                                                        </div>
+                                                    </mat-select-trigger>
+                                                    <mat-option *ngFor="let customer of customers"
+                                                        [value]="customer.id">
+                                                        <div class="customer-card-option py-2">
+                                                            <div class="customer-avatar-small">
+                                                                {{ customer.name.charAt(0).toUpperCase() }}
+                                                            </div>
+                                                            <div class="d-flex flex-column">
+                                                                <span class="fw-bold">{{ customer.name }}</span>
+                                                                <small class="text-muted">  ({{ customer.contactNo
+                                                                    }})</small>
+                                                            </div>
                                                         </div>
                                                     </mat-option>
                                                 </mat-select>
+                                                <mat-error
+                                                    *ngIf="c['customerId'].hasError('required')">Required</mat-error>
                                             </mat-form-field>
+
+                                            <button mat-stroked-button color="primary"
+                                                style="height: 56px; min-width: 56px;" (click)="openNewCustomerModal()"
+                                                matTooltip="Add New Customer">
+                                                <mat-icon class="m-0">person_add</mat-icon>
+                                            </button>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label class="form-label small text-muted mb-2">Payment Status</label>
-                                            <mat-form-field appearance="outline" class="w-100 bg-white">
-                                                <mat-label>Status</mat-label>
-                                                <mat-select formControlName="paymentStatus" required>
-                                                    <mat-option *ngFor="let status of paymentStatuses" [value]="status">
-                                                        <span class="status-badge" [class.success]="status === 'Paid'"
-                                                            [class.pending]="status === 'Pending'"
-                                                            [class.failed]="status === 'Failed'">
-                                                            {{ status }}
-                                                        </span>
-                                                    </mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
+                                        <div class="p-3 bg-light rounded border text-center text-muted small"
+                                            *ngIf="!c['customerId'].value">
+                                            Select a customer to view details here.
+                                        </div>
+                                        <div class="d-flex align-items-center gap-3 p-3 bg-light rounded border"
+                                            *ngIf="c['customerId'].value">
+                                            <div class="customer-avatar-small bg-white border">
+                                                {{ selectedCustomerName.charAt(0) || 'U' }}
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold text-dark">{{ selectedCustomerName }}</div>
+                                                <div class="small text-muted">Customer Selected</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Booking Status (Hidden or less prominent if default is Pending) -->
-                            <div class="col-12">
-                                <mat-expansion-panel class="mat-elevation-z0 border">
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title class="text-muted small">
-                                            Advanced Options
-                                        </mat-panel-title>
-                                    </mat-expansion-panel-header>
-                                    <div class="pt-2">
-                                        <mat-form-field appearance="outline" class="w-100">
-                                            <mat-label>Initial Booking Status</mat-label>
-                                            <mat-select formControlName="bookingStatus" required>
-                                                <mat-option *ngFor="let status of bookingStatuses"
-                                                    [value]="status.value">
-                                                    {{ status.name }}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                            <div class="col-md-6">
+                                <div class="review-card h-100">
+                                    <div class="card-header-custom">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <mat-icon class="text-success">payments</mat-icon>
+                                            <h6 class="mb-0">Payment & Status</h6>
+                                        </div>
                                     </div>
-                                </mat-expansion-panel>
+                                    <div class="card-body-custom">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <mat-form-field appearance="outline" class="w-100 bg-white">
+                                                    <mat-label>Payment Method</mat-label>
+                                                    <mat-select formControlName="paymentMethod" required>
+                                                        <mat-option *ngFor="let method of paymentMethods"
+                                                            [value]="method">
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <mat-icon
+                                                                    class="icon-sm text-secondary"></mat-icon>
+                                                                {{ method }}
+                                                            </div>
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <mat-form-field appearance="outline" class="w-100 bg-white">
+                                                    <mat-label>Payment Status</mat-label>
+                                                    <mat-select formControlName="paymentStatus" required>
+                                                        <mat-option *ngFor="let status of paymentStatuses"
+                                                            [value]="status">
+                                                            <span class="status-badge"
+                                                                [class.success]="status === 'Paid'"
+                                                                [class.pending]="status === 'Pending'"
+                                                                [class.failed]="status === 'Failed'">
+                                                                {{ status }}
+                                                            </span>
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <mat-accordion>
+                                                    <mat-expansion-panel class="mat-elevation-z0 border bg-light">
+                                                        <mat-expansion-panel-header
+                                                            style="height: 40px; padding: 0 16px;">
+                                                            <mat-panel-title class="text-muted small">Advanced
+                                                                Status</mat-panel-title>
+                                                        </mat-expansion-panel-header>
+                                                        <div class="pt-3">
+                                                            <mat-form-field appearance="outline" class="w-100 mb-0">
+                                                                <mat-label>Booking Status</mat-label>
+                                                                <mat-select formControlName="bookingStatus" required>
+                                                                    <mat-option *ngFor="let status of bookingStatuses"
+                                                                        [value]="status.value">
+                                                                        {{ status.name }}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </mat-expansion-panel>
+                                                </mat-accordion>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between mt-4">
-                            <button mat-stroked-button matStepperPrevious>Back</button>
-                            <button mat-flat-button color="primary" matStepperNext>Next</button>
+                        <div class="d-flex justify-content-between mt-4 pt-2">
+                            <button mat-stroked-button matStepperPrevious class="px-4"
+                                style="height: 48px;">Back</button>
+                            <button mat-flat-button color="primary" matStepperNext class="custom-btn-xl px-5">
+                                Review & Submit
+                            </button>
                         </div>
                     </form>
                 </mat-step>
@@ -308,7 +354,6 @@
                         </div>
 
                         <div class="row g-4">
-                            <!-- Rental Information Card -->
                             <div class="col-md-6">
                                 <div class="review-card h-100">
                                     <div class="card-header-custom d-flex justify-content-between align-items-center">
@@ -345,7 +390,6 @@
                                 </div>
                             </div>
 
-                            <!-- Customer & Payment Card -->
                             <div class="col-md-6">
                                 <div class="review-card h-100">
                                     <div class="card-header-custom d-flex justify-content-between align-items-center">
@@ -384,7 +428,6 @@
                             </div>
                         </div>
 
-                        <!-- Total Amount Summary -->
                         <div class="summary-card">
                             <div class="summary-content">
                                 <div class="total-info">

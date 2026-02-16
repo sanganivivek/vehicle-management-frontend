@@ -5,7 +5,6 @@
     min-height: 100vh;
     padding: 24px;
     background-color: #f3f4f6;
-    /* Softer gray background */
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -28,7 +27,8 @@
     font-size: 28px;
     font-weight: 700;
     color: #111827;
-    letter-spacing: -0.5px;
+    letter-spacing: normal;
+    /* FIX: Removed tight spacing (-0.5px) */
 }
 
 .custom-back-btn {
@@ -46,7 +46,6 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border: 1px solid #e5e7eb;
     overflow: hidden;
-    /* To clip the stepper content */
 }
 
 /* Override Material Stepper Header to match branding */
@@ -54,7 +53,6 @@
 ::ng-deep .mat-step-header .mat-step-icon-state-done,
 ::ng-deep .mat-step-header .mat-step-icon-state-edit {
     background-color: #111827 !important;
-    /* Dark/Black brand color */
     color: #ffffff !important;
 }
 
@@ -83,9 +81,6 @@
 /* =========================================
    4. Review & Summary (Enhanced)
    ========================================= */
-/* =========================================
-   4. Review & Summary (Enhanced)
-   ========================================= */
 .review-header {
     margin-bottom: 32px !important;
 }
@@ -94,9 +89,7 @@
     width: 72px;
     height: 72px;
     background: #e0e7ff;
-    /* Light Indigo */
     color: #4338ca;
-    /* Indigo 700 */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -145,7 +138,9 @@
     font-weight: 600;
     color: #374151;
     font-size: 15px;
-    letter-spacing: 0.3px;
+    letter-spacing: normal;
+    /* FIX: Removed wide spacing */
+    margin-bottom: 0;
 }
 
 .card-body-custom {
@@ -173,17 +168,16 @@
 
 .detail-row .label {
     color: #64748b;
-    /* Gray 500 */
     font-size: 14px;
     font-weight: 500;
 }
 
 .detail-row .value {
     color: #0f172a;
-    /* Gray 900 */
     font-size: 15px;
     font-weight: 600;
     text-align: right;
+    letter-spacing: normal;
 }
 
 .detail-separator {
@@ -199,7 +193,8 @@
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: normal;
+    /* FIX: Reset spacing */
 }
 
 .status-badge.success {
@@ -238,7 +233,8 @@
 
 .total-info h2 {
     font-size: 36px;
-    letter-spacing: -1px;
+    letter-spacing: normal;
+    /* FIX: Reset negative spacing */
     margin-top: 8px;
     margin-bottom: 4px;
 }
@@ -277,9 +273,7 @@
     width: 48px;
     height: 48px;
     background: #eff6ff;
-    /* Light Blue */
     color: #2563eb;
-    /* Blue 600 */
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -355,9 +349,7 @@
 
 .duration-banner {
     background: #f0fdf4;
-    /* Green 50 */
     border: 1px dashed #bbf7d0;
-    /* Green 200 */
     border-radius: 12px;
     padding: 16px 20px;
 }
@@ -368,10 +360,32 @@
     font-size: 18px;
 }
 
+.icon-xs {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.vehicle-preview-card .grow {
+    flex-grow: 1;
+}
+
+.vehicle-preview-card h6 {
+    font-size: 15px;
+    margin-bottom: 4px !important;
+}
+
 /* Custom Select Field Tweaks */
 ::ng-deep .custom-select-field .mat-select-value {
     color: #111827;
     font-weight: 500;
+}
+
+/* FIX: Force normal spacing for Dropdowns */
+::ng-deep .mat-select-value,
+::ng-deep .mat-option-text {
+    letter-spacing: normal !important;
 }
 
 /* Context Banner for Step 2 */
@@ -403,7 +417,7 @@
     font-weight: 600;
 }
 
-/* Payment Toggle Group (Alternative to simple select) */
+/* Payment Toggle Group */
 .payment-method-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
