@@ -1,0 +1,466 @@
+/* =========================================
+   1. Base & Layout
+   ========================================= */
+.vehicle-page-bg {
+    min-height: 100vh;
+    padding: 24px;
+    background-color: #f3f4f6;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.vehicle-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* =========================================
+   2. Header & Navigation
+   ========================================= */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: normal;
+    /* FIX: Removed tight spacing (-0.5px) */
+}
+
+.custom-back-btn {
+    font-weight: 500;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+/* =========================================
+   3. Form Cards & Stepper
+   ========================================= */
+.form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+/* Override Material Stepper Header to match branding */
+::ng-deep .mat-step-header .mat-step-icon-selected,
+::ng-deep .mat-step-header .mat-step-icon-state-done,
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+}
+
+::ng-deep .mat-step-header .mat-step-label.mat-step-label-active {
+    color: #111827 !important;
+    font-weight: 600;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 16px;
+    margin-bottom: 24px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    color: #4b5563;
+    font-size: 20px;
+}
+
+/* =========================================
+   4. Review & Summary (Enhanced)
+   ========================================= */
+.review-header {
+    margin-bottom: 32px !important;
+}
+
+.review-header .icon-circle {
+    width: 72px;
+    height: 72px;
+    background: #e0e7ff;
+    color: #4338ca;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px auto;
+}
+
+.review-header .icon-circle mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+}
+
+.review-header h4 {
+    font-size: 24px;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.review-card {
+    background: #ffffff;
+    border: 1px solid #eaecf0;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header-custom {
+    background: #f9fafb;
+    padding: 20px 24px;
+    border-bottom: 1px solid #eaecf0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-header-custom mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.card-header-custom h6 {
+    font-weight: 600;
+    color: #374151;
+    font-size: 15px;
+    letter-spacing: normal;
+    /* FIX: Removed wide spacing */
+    margin-bottom: 0;
+}
+
+.card-body-custom {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+}
+
+.detail-row:first-child {
+    padding-top: 0;
+}
+
+.detail-row:last-child {
+    padding-bottom: 0;
+}
+
+.detail-row .label {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.detail-row .value {
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: right;
+    letter-spacing: normal;
+}
+
+.detail-separator {
+    height: 1px;
+    background-color: #f1f5f9;
+    margin: 8px 0;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: normal;
+    /* FIX: Reset spacing */
+}
+
+.status-badge.success {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.failed {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Summary Card */
+.summary-card {
+    margin-top: 32px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+    border: 1px solid #eaecf0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.summary-content {
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.total-info h2 {
+    font-size: 36px;
+    letter-spacing: normal;
+    /* FIX: Reset negative spacing */
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 16px;
+}
+
+.custom-btn-xl {
+    height: 56px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 0 40px;
+    box-shadow: 0 10px 15px -3px rgba(17, 24, 39, 0.1), 0 4px 6px -2px rgba(17, 24, 39, 0.05);
+}
+
+/* Primary Button Override */
+.mat-flat-button.mat-primary {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+}
+
+/* Helper for datepicker toggle alignment */
+::ng-deep .mat-form-field-suffix {
+    display: flex;
+    align-items: center;
+}
+
+/* =========================================
+   5. New UI Elements (Vehicle Preview, etc.)
+   ========================================= */
+
+.step-icon-circle {
+    width: 48px;
+    height: 48px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-icon-circle mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+.vehicle-preview-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: slideDown 0.3s forwards;
+}
+
+@keyframes slideDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.vehicle-img-placeholder {
+    width: 56px;
+    height: 56px;
+    background: #e0e7ff;
+    color: #4f46e5;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price-tag {
+    display: flex;
+    align-items: baseline;
+    color: #111827;
+}
+
+.price-tag .currency {
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 2px;
+}
+
+.price-tag .amount {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.price-tag .unit {
+    font-size: 12px;
+    color: #6b7280;
+    margin-left: 2px;
+}
+
+.badge-reg {
+    background: #e5e7eb;
+    color: #374151;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.duration-banner {
+    background: #f0fdf4;
+    border: 1px dashed #bbf7d0;
+    border-radius: 12px;
+    padding: 16px 20px;
+}
+
+.icon-sm {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+}
+
+.icon-xs {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.vehicle-preview-card .grow {
+    flex-grow: 1;
+}
+
+.vehicle-preview-card h6 {
+    font-size: 15px;
+    margin-bottom: 4px !important;
+}
+
+/* Custom Select Field Tweaks */
+::ng-deep .custom-select-field .mat-select-value {
+    color: #111827;
+    font-weight: 500;
+}
+
+/* FIX: Force normal spacing for Dropdowns */
+::ng-deep .mat-select-value,
+::ng-deep .mat-option-text {
+    letter-spacing: normal !important;
+}
+
+/* Context Banner for Step 2 */
+.context-banner {
+    background: linear-gradient(to right, #f8fafc, #ffffff);
+    border-bottom: 1px solid #e2e8f0;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.customer-card-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.customer-avatar-small {
+    width: 32px;
+    height: 32px;
+    background: #e0f2fe;
+    color: #0284c7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Payment Toggle Group */
+.payment-method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.payment-option-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    background: #fff;
+    position: relative;
+}
+
+.payment-option-card:hover {
+    border-color: #d1d5db;
+    background: #f9fafb;
+}
+
+.payment-option-card.selected {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 600;
+}
+
+.small-edit-btn {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+/* Expansion Panel Tweaks */
+::ng-deep .mat-expansion-panel-header {
+    background: #f9fafb;
+    border-radius: 8px;
+    height: 48px !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+    padding-top: 16px !important;
+}

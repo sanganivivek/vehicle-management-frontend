@@ -127,6 +127,7 @@ export interface VehicleQueryParams {
   brandId?: string;
   modelId?: string;
   isActive?: boolean;
+  currentStatus?: number;
   search?: string;
   brand?: string;
   sortBy?: string;

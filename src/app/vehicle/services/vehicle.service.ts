@@ -56,6 +56,9 @@ export class VehicleService {
       // Keep old typo version just in case it was working before
       params = params.set("DealorId", queryParams.dealerId.toString());
     }
+    if (queryParams.isActive !== undefined && queryParams.isActive !== null) {
+      params = params.set("isActive", queryParams.isActive.toString());
+    }
     return this.http
       .get<VehicleResponse>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));

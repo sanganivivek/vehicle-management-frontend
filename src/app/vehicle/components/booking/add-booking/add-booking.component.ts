@@ -14,6 +14,7 @@ import { VehicleMaster, VehicleQueryParams } from '../../../models/vehicle.model
 import { Customer } from '../../../models/customer.model';
 import { Dealer } from '../../../models/dealer.model';
 import { DealerService } from '../../../services/dealer.service';
+import { BookingService } from '../../../services/booking.service';
 
 // Angular Material Imports
 import { MatStepperModule } from '@angular/material/stepper';
@@ -76,6 +77,7 @@ export class AddBookingComponent implements OnInit {
     private vehicleService: VehicleService,
     private customerService: CustomerService,
     private dealerService: DealerService,
+    private bookingService: BookingService,
     private router: Router,
     private toastr: ToastrService
   ) {
@@ -131,21 +133,16 @@ export class AddBookingComponent implements OnInit {
       page: 1
     };
 
-    if (dealerId) {
-      queryParams.dealerId = dealerId;
-    }
-
-    this.isLoading = true;
     this.vehicles = []; // Clear existing vehicles while loading
 
-   this.vehicleService.getVehicles(queryParams).subscribe({
+    this.vehicleService.getVehicles(queryParams).subscribe({
       next: (response) => {
         let fetchedVehicles = response.data || [];
 
         // FIX: Manually filter vehicles by dealerId to ensure correctness
         // We check both 'dealerId' and 'DealorId' due to inconsistencies in the models
         if (dealerId) {
-          fetchedVehicles = fetchedVehicles.filter(v => 
+          fetchedVehicles = fetchedVehicles.filter(v =>
             (v.dealerId == dealerId) || (v.DealorId == dealerId)
           );
         }
@@ -192,9 +189,8 @@ export class AddBookingComponent implements OnInit {
       // In a real app, this would come from the vehicle details.
       const vehicle = this.vehicles.find(v => v.vehicleId === vehicleId);
       if (vehicle) {
-        // Simple hash to get a consistent "random" number for the session
-        const seed = vehicleId.charCodeAt(0) + (vehicleId.charCodeAt(vehicleId.length - 1) || 0);
-        this.dailyRate = 1000 + (seed % 20) * 100; // Rates between 1000 and 3000
+        // Use the vehicle's OneDayRate, defaulting to 0 if not set
+        this.dailyRate = vehicle.oneDayRate || 0;
       }
     } else {
       this.dailyRate = 0;
@@ -272,27 +268,52 @@ export class AddBookingComponent implements OnInit {
 
     this.isLoading = true;
 
-    // Combine form values
+    // Combine form values with Raw Value to get disabled fields (vehicleId)
+    const rawRental = this.rentalForm.getRawValue();
+    const rawCustomer = this.customerForm.getRawValue();
+
+    // Format Dates to YYYY-MM-DD to avoid timezone issues
+    const formatDate = (date: Date) => {
+      const d = new Date(date);
+      let month = '' + (d.getMonth() + 1);
+      let day = '' + d.getDate();
+      const year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+    };
+
     const formValues = {
-      ...this.rentalForm.value,
-      ...this.customerForm.value
+      ...rawRental,
+      ...rawCustomer,
+      startDate: formatDate(rawRental.startDate),
+      endDate: formatDate(rawRental.endDate),
+      // Map bookingStatus to Status (backend expects 'Status')
+      Status: rawCustomer.bookingstatus
     };
 
-    // MOCK SUBMISSION
-    const mockBookingData = {
+    // Real API Submission
+    const bookingData = {
       ...formValues,
-      amount: this.totalAmount,
-      bookingId: 'MOCK-' + Math.floor(Math.random() * 10000),
-      createdAt: new Date()
+      amount: this.totalAmount
     };
 
-    console.log('Booking Data to Save:', mockBookingData);
-
-    setTimeout(() => {
-      this.isLoading = false;
-      this.toastr.success('Booking created successfully!');
-      this.router.navigate(['/booking']); // Redirect to booking list
-    }, 1000);
+    this.bookingService.createBooking(bookingData).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.toastr.success('Booking created successfully!');
+        this.router.navigate(['/booking']);
+      },
+      error: (err) => {
+        console.error('Error creating booking', err);
+        this.isLoading = false;
+        // Extract error message if available
+        const msg = err.error?.message || 'Failed to create booking';
+        this.toastr.error(msg);
+      }
+    });
   }
 
   onCancel(): void {
