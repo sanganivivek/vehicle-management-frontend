@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingService } from '../../../../shared/services/loading.service';
-// import { BookingService } from '../../../services/booking.service';
+import { BookingService } from '../../../services/booking.service';
 
 export interface BookingListDTO {
   bookingId: string;
@@ -31,7 +31,7 @@ export class BookingListComponent implements OnInit {
   bookings: BookingListDTO[] = [];
   searchTerm: string = '';
   selectedStatus: any = '';
-  
+
   // Pagination & Sorting
   currentPage = 1;
   pageSize = 10;
@@ -48,12 +48,14 @@ export class BookingListComponent implements OnInit {
     { name: 'Cancelled', value: 3 }
   ];
 
+  allBookings: BookingListDTO[] = []; // Store all data for client-side filtering
+
   constructor(
-    // private bookingService: BookingService, 
+    private bookingService: BookingService,
     private router: Router,
     private toastr: ToastrService,
     private loadingService: LoadingService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadBookings();
@@ -61,64 +63,77 @@ export class BookingListComponent implements OnInit {
 
   loadBookings(): void {
     this.loadingService.show();
+    this.bookingService.getAllBookings().subscribe({
+      next: (data: any[]) => {
+        // Map API response to DTO if needed, or if keys match, just assign
+        this.allBookings = data.map(b => ({
+          bookingId: b.bookingId,
+          customerName: b.customerName,
+          vehicleRegNo: b.vehicleRegNo,
+          vehicleName: b.vehicleName,
+          amount: b.amount,
+          paymentMethod: b.paymentMethod,
+          paymentStatus: b.paymentStatus,
+          createdAt: b.createdAt,
+          startDate: b.startDate,
+          endDate: b.endDate,
+          status: b.status
+        }));
+        this.applyFilters();
+        this.loadingService.hide();
+      },
+      error: (err) => {
+        this.toastr.error('Failed to load bookings');
+        this.loadingService.hide();
+      }
+    });
+  }
 
-    const queryParams: any = {
-      search: this.searchTerm || undefined,
-      status: this.selectedStatus !== '' ? parseInt(this.selectedStatus) : undefined,
-      sortBy: this.sortColumn,
-      sortOrder: this.sortOrder,
-      page: this.currentPage,
-      pageSize: this.pageSize
-    };
+  applyFilters(): void {
+    let filtered = [...this.allBookings];
 
-    // MOCK DATA: Updated to include new fields
-    setTimeout(() => {
-      this.bookings = [
-        {
-          bookingId: '1001',
-          customerName: 'Vivek Sangani',
-          vehicleRegNo: 'GJ-01-AB-1234',
-          vehicleName: 'Toyota Fortuner',
-          amount: 15000,
-          paymentMethod: 'Credit Card',
-          paymentStatus: 'Paid',
-          createdAt: new Date('2026-01-20'),
-          startDate: new Date('2026-02-01'),
-          endDate: new Date('2026-02-05'),
-          status: 1
-        },
-        {
-          bookingId: '1002',
-          customerName: 'Rahul Sharma',
-          vehicleRegNo: 'MH-12-XY-9876',
-          vehicleName: 'Hyundai Creta',
-          amount: 8500,
-          paymentMethod: 'UPI',
-          paymentStatus: 'Pending',
-          createdAt: new Date('2026-01-22'),
-          startDate: new Date('2026-02-10'),
-          endDate: new Date('2026-02-12'),
-          status: 0
-        },
-        {
-          bookingId: '1003',
-          customerName: 'Amit Patel',
-          vehicleRegNo: 'GJ-05-ZZ-1111',
-          vehicleName: 'Maruti Swift',
-          amount: 3200,
-          paymentMethod: 'Cash',
-          paymentStatus: 'Paid',
-          createdAt: new Date('2026-01-25'),
-          startDate: new Date('2026-03-01'),
-          endDate: new Date('2026-03-02'),
-          status: 2
-        }
-      ];
-      this.totalRecords = 3;
-      this.totalPages = 1;
-      this.generatePagesArray();
-      this.loadingService.hide();
-    }, 500);
+    // 1. Search
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(b =>
+        b.customerName.toLowerCase().includes(term) ||
+        b.vehicleRegNo.toLowerCase().includes(term) ||
+        b.vehicleName.toLowerCase().includes(term) ||
+        b.bookingId.toLowerCase().includes(term)
+      );
+    }
+
+    // 2. Status Filter
+    if (this.selectedStatus !== '' && this.selectedStatus !== null && this.selectedStatus !== undefined) {
+      const statusVal = parseInt(this.selectedStatus.toString()); // ensure number
+      filtered = filtered.filter(b => b.status === statusVal);
+    }
+
+    // 3. Sorting
+    filtered.sort((a, b) => {
+      const valA = (a as any)[this.sortColumn];
+      const valB = (b as any)[this.sortColumn];
+
+      // Handle dates
+      if (this.sortColumn.includes('Date') || this.sortColumn === 'createdAt') {
+        const dateA = new Date(valA).getTime();
+        const dateB = new Date(valB).getTime();
+        return this.sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+      }
+
+      if (valA < valB) return this.sortOrder === 'asc' ? -1 : 1;
+      if (valA > valB) return this.sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    this.totalRecords = filtered.length;
+    this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+    if (this.totalPages === 0) this.totalPages = 1;
+    this.generatePagesArray();
+
+    // 4. Pagination
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    this.bookings = filtered.slice(startIndex, startIndex + this.pageSize);
   }
 
   addBooking(): void {
@@ -131,21 +146,28 @@ export class BookingListComponent implements OnInit {
 
   deleteBooking(id: string): void {
     if (confirm('Are you sure you want to delete this booking?')) {
-      this.toastr.success('Booking deleted successfully');
-      this.loadBookings();
+      this.loadingService.show();
+      this.bookingService.deleteBooking(id).subscribe({
+        next: () => {
+          this.toastr.success('Booking deleted successfully');
+          this.loadBookings();
+        },
+        error: (err) => {
+          this.toastr.error('Failed to delete booking');
+          this.loadingService.hide();
+        }
+      });
     }
   }
 
-  // --- Filtering & Sorting ---
-
   onSearch(): void {
     this.currentPage = 1;
-    this.loadBookings();
+    this.applyFilters();
   }
 
   onStatusFilter(): void {
     this.currentPage = 1;
-    this.loadBookings();
+    this.applyFilters();
   }
 
   sort(column: string): void {
@@ -155,7 +177,7 @@ export class BookingListComponent implements OnInit {
       this.sortColumn = column;
       this.sortOrder = 'asc';
     }
-    this.loadBookings();
+    this.applyFilters();
   }
 
   getSortIcon(column: string): string {
@@ -168,7 +190,7 @@ export class BookingListComponent implements OnInit {
   onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.loadBookings();
+      this.applyFilters();
     }
   }
 
