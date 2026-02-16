@@ -54,6 +54,15 @@
   font-size: 15px;
 }
 
+.Active-dropdown {
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  padding-left: 14px;
+  font-size: 15px;
+  width: 140px;
+}
+
 .loader-section {
   text-align: center;
   margin: 50px 0;

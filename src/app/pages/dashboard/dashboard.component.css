@@ -121,6 +121,7 @@
 
 .stat-cardA.clickable {
   cursor: pointer;
+   border: 1px solid #d4d4d4;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -392,7 +393,6 @@
   width: 100%;
   /* Ensures button fills the grid/row space */
   text-align: center;
-  padding: 20px;
   display: block;
 }
 

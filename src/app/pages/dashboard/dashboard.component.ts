@@ -9,8 +9,10 @@ import { LoadingService } from "src/app/shared/services/loading.service";
 // New Imports
 import { BookingService } from "src/app/vehicle/services/booking.service";
 import { CustomerService } from "src/app/vehicle/services/customer.service";
+import { DealerListComponent } from "src/app/vehicle/components/dealer/list-dealer/dealer-list.component";
 import { DealerService } from "src/app/vehicle/services/dealer.service";
 import { Booking } from "src/app/vehicle/models/booking.model";
+import { CdkAutofill } from "@angular/cdk/text-field";
 
 @Component({
   selector: "app-dashboard",
@@ -23,6 +25,7 @@ export class DashboardComponent implements OnInit {
   stats: DashboardData | null = null;
   activities: RecentActivity[] = [];
   complianceAlerts: any[] = [];
+  currentDate = new Date();
 
   // New Properties
   upcomingBookings: Booking[] = [];
@@ -52,6 +55,8 @@ export class DashboardComponent implements OnInit {
       queryParams: { status: status }
     });
   }
+
+ 
 
   navigateToEdit(id: string) {
     this.router.navigate(['/vehicle/edit', id]);

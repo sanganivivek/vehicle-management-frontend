@@ -23,6 +23,7 @@ export class VehicleListComponent implements OnInit {
   searchTerm = "";
   selectedBrand = "";
   selectedDealer = "";
+  selectedIsActive = "";
   sortColumn = "regNo";
   sortOrder: "asc" | "desc" = "asc";
   currentPage = 1;
@@ -101,6 +102,7 @@ export class VehicleListComponent implements OnInit {
     const queryParams: any = {
       brand: this.selectedBrand || undefined,
       search: this.searchTerm || undefined,
+      isActive: this.selectedIsActive ? (this.selectedIsActive === 'true') : undefined,
       dealerId: this.selectedDealer ? parseInt(this.selectedDealer) : undefined,
       // Status logic: check if it's a number (0 is falsy, so check for null/undefined explicitly if needed)
       // or if it's a non-empty string.
@@ -222,6 +224,11 @@ export class VehicleListComponent implements OnInit {
     this.currentPage = 1;
     // When manually changing the dropdown, selectedStatus is updated via ngModel.
     // Just reload the list.
+    this.loadVehicles();
+  }
+
+  onIsActiveFilter(): void {
+    this.currentPage = 1;
     this.loadVehicles();
   }
 

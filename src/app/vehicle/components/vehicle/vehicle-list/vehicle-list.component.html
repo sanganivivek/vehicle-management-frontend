@@ -9,7 +9,7 @@
     </div>
 
     <div class="filter-row d-flex gap-3 mb-4">
-      <input type="text" class="form-control search-box" placeholder="Search by Reg No or Name..."
+      <input type="text" class="form-control search-box" placeholder="Search by Reg No, Chassis No"
         [(ngModel)]="searchTerm" (input)="onSearch()" />
 
       <select class="form-select brand-dropdown" [(ngModel)]="selectedDealer" (change)="onDealerFilter()">
@@ -19,19 +19,17 @@
         </option>
       </select>
 
-      <select class="form-select brand-dropdown" [(ngModel)]="selectedBrand" (change)="onBrandFilter()">
-        <option value="">All Brands</option>
-        <option *ngFor="let brand of brandId" [value]="brand.brandName">
-          {{ brand.brandName }}
-        </option>
-      </select>
-
       <select class="form-select status-dropdown" [(ngModel)]="selectedStatus" (change)="onStatusFilter()">
         <option value="">All Status</option>
-
         <option *ngFor="let s of statusOptions" [value]="s.value">
           {{ s.name }}
         </option>
+      </select>
+
+       <select class="form-select Active-dropdown" [(ngModel)]="selectedIsActive" (change)="onIsActiveFilter()">
+        <option value="">All Select</option>
+       <option value="true">Active</option>
+        <option value="false">Inactive</option>
       </select>
     </div>
 
