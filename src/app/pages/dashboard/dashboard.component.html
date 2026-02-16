@@ -33,28 +33,37 @@
   <div class="content-row">
     <div class="content-card">
       <div class="card-header">
+        <h3>Active Dealers & Customers</h3>
+      </div>
+      <div class="stats-rowA">
+        <button class="stat-cardA clickable">
+          <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+          <h3>{{ activeDealersCount }}</h3>
+          <p>Dealers</p>
+        </button>
+        <button class="stat-cardA clickable">
+          <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+          <h3>{{ activeCustomersCount }}</h3>
+          <p>Customers</p>
+        </button>
+      </div>
+      <div class="card-header">
         <h3>Recent Activity</h3>
         <!-- <button class="btn btn-sm btn-light">View All</button> -->
       </div>
 
       <div class="activity-list" *ngIf="activities.length > 0; else noActivity">
         <div *ngFor="let activity of activities" class="activity-item">
-          <div
-            class="activity-icon"
-            [ngClass]="{
+          <div class="activity-icon" [ngClass]="{
               'bg-success-light text-success': activity.type === 'success',
               'bg-warning-light text-warning': activity.type === 'warning',
               'bg-info-light text-info': activity.type === 'info',
-            }"
-          >
-            <i
-              class="bi"
-              [ngClass]="{
+            }">
+            <i class="bi" [ngClass]="{
                 'bi-check-circle-fill': activity.type === 'success',
                 'bi-exclamation-circle-fill': activity.type === 'warning',
                 'bi-info-circle-fill': activity.type === 'info',
-              }"
-            ></i>
+              }"></i>
           </div>
 
           <div class="activity-details">
@@ -74,7 +83,7 @@
 
     <div class="content-card">
       <div class="card-header">
-        <h3>Upcomming Booking</h3>
+        <h3>Upcoming Bookings</h3>
       </div>
       <div class="booking-content">
         <div *ngIf="upcomingBookings.length > 0; else noBookings">
@@ -87,66 +96,53 @@
               <span class="vehicle-reg">{{ booking.vehicleRegNo }}</span>
               <span class="booking-dates">{{
                 booking.startDate | date: "dd MMM"
-              }} - {{ booking.endDate | date: "dd MMM" }}</span>
+                }} - {{ booking.endDate | date: "dd MMM" }}</span>
             </div>
+            <span class="status-badge" [ngClass]="getStatusClass(booking.status)">
+              {{ getStatusLabel(booking.status) }}
+            </span>
           </div>
         </div>
 
         <ng-template #noBookings>
           <div class="empty-state">
-            <i
-              class="bi bi-calendar-x-fill text-danger"
-              style="font-size: 2rem"
-            ></i>
+            <i class="bi bi-calendar-x-fill text-danger" style="font-size: 2rem"></i>
             <p>No upcoming bookings</p>
           </div>
         </ng-template>
 
-      <div class="card-header">
-        <h3>Quick Actions</h3>
-      </div>
-      <div class="actions-content">
-        <div
-          class="quick-actions-list"
-          *ngIf="complianceAlerts.length > 0; else noActions"
-        >
-          <div
-            *ngFor="let alert of complianceAlerts"
-            class="action-item"
-            [ngClass]="alert.type"
-          >
-            <div class="action-icon">
-              <i
-                class="bi"
-                [ngClass]="
+        <div class="card-header">
+          <h3>Quick Actions</h3>
+        </div>
+        <div class="actions-content">
+          <div class="quick-actions-list" *ngIf="complianceAlerts.length > 0; else noActions">
+            <div *ngFor="let alert of complianceAlerts" class="action-item" [ngClass]="alert.type">
+              <div class="action-icon">
+                <i class="bi" [ngClass]="
                   alert.type === 'danger'
                     ? 'bi-exclamation-octagon-fill'
                     : 'bi-exclamation-triangle-fill'
-                "
-              ></i>
+                "></i>
+              </div>
+              <div class="action-details">
+                <span class="reg-no">{{ alert.regNo }}</span>
+                <span class="alert-msg">{{ alert.message }}</span>
+                <span class="alert-date">{{
+                  alert.date | date: "dd MMM yyyy"
+                  }}</span>
+              </div>
+              <button class="btn-renew" (click)="navigateToEdit(alert.vehicleId)">
+                Renew
+              </button>
             </div>
-            <div class="action-details">
-              <span class="reg-no">{{ alert.regNo }}</span>
-              <span class="alert-msg">{{ alert.message }}</span>
-              <span class="alert-date">{{
-                alert.date | date: "dd MMM yyyy"
-              }}</span>
-            </div>
-            <button class="btn-renew" (click)="navigateToEdit(alert.vehicleId)">
-              Renew
-            </button>
           </div>
+          <ng-template #noActions>
+            <div class="empty-state">
+              <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem"></i>
+              <p>All vehicles are compliant!</p>
+            </div>
+          </ng-template>
         </div>
-        <ng-template #noActions>
-          <div class="empty-state">
-            <i
-              class="bi bi-check-circle-fill text-success"
-              style="font-size: 2rem"
-            ></i>
-            <p>All vehicles are compliant!</p>
-          </div>
-        </ng-template>
       </div>
     </div>
   </div>
-</div>

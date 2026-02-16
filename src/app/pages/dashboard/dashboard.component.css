@@ -22,6 +22,14 @@
   margin-bottom: 2rem;
 }
 
+.stats-rowA {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem
+}
+
+
 .stat-card {
   background: #ffffff;
   border-radius: 20px;
@@ -69,6 +77,61 @@
   font-weight: 500;
 }
 
+.stat-cardA {
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.stat-cardA .stat-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f7fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-cardA .stat-icon i {
+  font-size: 1.2rem;
+  color: #2d3748;
+}
+
+.stat-cardA h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0.5rem 0 0.25rem 0;
+}
+
+.stat-cardA p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.stat-cardA.clickable {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-cardA.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.stat-cardA.clickable:active {
+  transform: translateY(0);
+}
 
 .content-row {
   display: grid;
@@ -326,7 +389,8 @@
   border: 1px solid #eee;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 100%; /* Ensures button fills the grid/row space */
+  width: 100%;
+  /* Ensures button fills the grid/row space */
   text-align: center;
   padding: 20px;
   display: block;
@@ -336,11 +400,119 @@
 .stat-card.clickable:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-color: #000000; /* Optional: highlight border on hover */
+  border-color: #000000;
+  /* Optional: highlight border on hover */
 }
 
 /* Active/Click Effect */
 .stat-card.clickable:active {
   transform: translateY(0);
   background-color: #f8f9fa;
+}
+
+/* Upcoming Bookings Styling */
+.booking-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.booking-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #3b82f6;
+  /* Blue accent for bookings */
+  transition: all 0.2s ease;
+  margin-bottom: 2rem;
+}
+
+.booking-item:hover {
+  transform: translateY(-2px);
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.booking-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  /* Light blue */
+  color: #0284c7;
+  /* Dark blue */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.booking-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.booking-details .customer-name {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.booking-details .vehicle-reg {
+  color: #4b5563;
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+.booking-details .booking-dates {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* Status Badge Styling */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: auto;
+  /* Pushes to the right */
+  letter-spacing: 0.5px;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-completed {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.status-unknown {
+  background-color: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #d6d8db;
 }

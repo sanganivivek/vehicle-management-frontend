@@ -6,6 +6,12 @@ import { DashboardService } from "./dashboard.service";
 import { RecentActivity } from "./dashboard.model";
 import { LoadingService } from "src/app/shared/services/loading.service";
 
+// New Imports
+import { BookingService } from "src/app/vehicle/services/booking.service";
+import { CustomerService } from "src/app/vehicle/services/customer.service";
+import { DealerService } from "src/app/vehicle/services/dealer.service";
+import { Booking } from "src/app/vehicle/models/booking.model";
+
 @Component({
   selector: "app-dashboard",
   standalone: true,
@@ -18,25 +24,30 @@ export class DashboardComponent implements OnInit {
   activities: RecentActivity[] = [];
   complianceAlerts: any[] = [];
 
+  // New Properties
+  upcomingBookings: Booking[] = [];
+  activeCustomersCount: number = 0;
+  activeDealersCount: number = 0;
+
   constructor(
-    private vehicleService: VehicleService,
     private dashboardService: DashboardService,
+    private vehicleService: VehicleService,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    private customerService: CustomerService,
+    private dealerService: DealerService,
+    private bookingService: BookingService
   ) { }
 
   ngOnInit(): void {
     this.loadDashboard();
     this.loadActivity();
     this.loadComplianceAlerts();
+    this.loadStatsCounts();
+    this.loadUpcomingBookings();
   }
 
-  /**
-   * Handles the click on Dashboard cards.
-   * Navigates to the vehicle list and passes the status filter.
-   */
   filterVehicles(status: string) {
-    // Navigating to '/vehicle' which maps to VehicleListComponent
     this.router.navigate(['/vehicle'], {
       queryParams: { status: status }
     });
@@ -48,7 +59,7 @@ export class DashboardComponent implements OnInit {
 
   loadDashboard() {
     this.loadingService.show();
-    this.vehicleService.getDashboardData().subscribe({
+    this.dashboardService.getStats().subscribe({
       next: (data) => {
         this.stats = data;
         this.loadingService.hide();
@@ -57,6 +68,24 @@ export class DashboardComponent implements OnInit {
         console.error("Error loading dashboard stats", err);
         this.loadingService.hide();
       },
+    });
+  }
+
+  loadStatsCounts() {
+    // Active Customers
+    this.customerService.getAllCustomers().subscribe({
+      next: (customers) => {
+        this.activeCustomersCount = customers.filter(c => c.status === 'Active').length;
+      },
+      error: (err) => console.error("Error loading customers", err)
+    });
+
+    // Active Dealers
+    this.dealerService.getAllDealers().subscribe({
+      next: (dealers) => {
+        this.activeDealersCount = dealers.filter(d => d.status === 'Active').length;
+      },
+      error: (err) => console.error("Error loading dealers", err)
     });
   }
 
@@ -84,11 +113,24 @@ export class DashboardComponent implements OnInit {
           this.checkExpiry(v, v.fitnessCertificateExpiryDate, 'Fitness Cert Expired', 'Fitness Cert Expiring Soon');
         });
 
-        // Sort by date (oldest/most expired first) and limit to 4
         this.complianceAlerts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         this.complianceAlerts = this.complianceAlerts.slice(0, 4);
       },
       error: (err) => console.error("Error loading compliance alerts", err)
+    });
+  }
+
+  loadUpcomingBookings() {
+    this.bookingService.getAllBookings().subscribe({
+      next: (bookings) => {
+        const today = new Date();
+        // Filter for future dates and ignore cancelled (status 3)
+        this.upcomingBookings = bookings
+          .filter(b => new Date(b.startDate) >= today && b.status !== 3)
+          .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()) // Sort nearest first
+          .slice(0, 5); // Take top 5
+      },
+      error: (err) => console.error("Error loading bookings", err)
     });
   }
 
@@ -115,6 +157,26 @@ export class DashboardComponent implements OnInit {
         date: dateStr,
         type: 'warning'
       });
+    }
+  }
+
+  getStatusLabel(status: number): string {
+    switch (status) {
+      case 0: return 'Pending';
+      case 1: return 'Confirmed';
+      case 2: return 'Completed';
+      case 3: return 'Cancelled';
+      default: return 'Unknown';
+    }
+  }
+
+  getStatusClass(status: number): string {
+    switch (status) {
+      case 0: return 'status-pending';
+      case 1: return 'status-confirmed';
+      case 2: return 'status-completed';
+      case 3: return 'status-cancelled';
+      default: return 'status-unknown';
     }
   }
 }
