@@ -291,11 +291,7 @@ export class AddBookingComponent implements OnInit {
       startDate: formatDate(rawRental.startDate),
       endDate: formatDate(rawRental.endDate),
       // Map bookingStatus to Status (backend expects 'Status')
-<<<<<<< HEAD
       Status: rawCustomer.bookingstatus
-=======
-      Status: rawCustomer.bookingStatus
->>>>>>> 9976b60331970465d0574d88dfef10c5ef3d1b43
     };
 
     // Real API Submission

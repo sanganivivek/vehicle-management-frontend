@@ -315,11 +315,7 @@ export class EditBookingComponent implements OnInit {
       this.bookingService.updateBooking(this.bookingId, formValues).subscribe({
         next: () => {
           this.toastr.success('Booking updated successfully!');
-<<<<<<< HEAD
           setTimeout(() => this.router.navigate(['/booking']), 500);
-=======
-          setTimeout(() => this.router.navigate(['/vehicle/booking']), 500);
->>>>>>> 9976b60331970465d0574d88dfef10c5ef3d1b43
         },
         error: (err) => {
           this.isLoading = false;
@@ -331,10 +327,6 @@ export class EditBookingComponent implements OnInit {
   }
 
   onCancel(): void {
-<<<<<<< HEAD
     this.router.navigate(['/booking']);
-=======
-    this.router.navigate(['/vehicle/booking']);
->>>>>>> 9976b60331970465d0574d88dfef10c5ef3d1b43
   }
 }
