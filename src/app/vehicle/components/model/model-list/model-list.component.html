@@ -11,6 +11,13 @@
         <div class="filter-row d-flex gap-3 mb-4">
             <input type="text" class="form-control search-box" placeholder="Search by Model Code, Name or Brand..."
                 [(ngModel)]="searchTerm" (input)="onSearch()" />
+
+            <select class="form-select brand-dropdown" [(ngModel)]="selectedBrand" (change)="onBrandFilterChange()">
+                <option value="">All Brands</option>
+                <option *ngFor="let b of brands" [value]="b.brandId || b.brandId">
+                    {{ b.brandId || b.brandName }}
+                </option>
+            </select>
         </div>
 
         <div class="table-wrapper">
@@ -21,7 +28,6 @@
                         <th>Brand Name</th>
                         <th>Model Code</th>
                         <th>Model Name</th>
-
                         <th>Description</th>
                         <th style="text-align: center;">Actions</th>
                     </tr>

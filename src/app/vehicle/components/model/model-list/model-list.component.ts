@@ -12,6 +12,7 @@ import { ToastrService } from "ngx-toastr";
 export class ModelListComponent implements OnInit {
   models: Model[] = [];
   brands: Brand[] = [];
+  selectedBrand = '';
   loading = false;
 
   // Pagination & Search
@@ -44,7 +45,7 @@ export class ModelListComponent implements OnInit {
 
   loadModels() {
     this.loading = true;
-    this.modelService.getModels(this.searchTerm, this.currentPage, this.pageSize).subscribe({
+    this.modelService.getModels(this.searchTerm, this.currentPage, this.pageSize, this.selectedBrand).subscribe({
       next: (response: any) => {
         // Backend returns response object with data, totalCount, etc.
         this.models = response.data || [];
@@ -62,6 +63,11 @@ export class ModelListComponent implements OnInit {
   }
 
   onSearch(): void {
+    this.currentPage = 1;
+    this.loadModels();
+  }
+
+  onBrandFilterChange(): void {
     this.currentPage = 1;
     this.loadModels();
   }

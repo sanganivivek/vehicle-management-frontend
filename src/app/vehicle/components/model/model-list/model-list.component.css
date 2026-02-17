@@ -63,6 +63,14 @@
 /* =========================================
    3. Filters & Search
    ========================================= */
+.brand-dropdown {
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  padding-left: 14px;
+  font-size: 15px;
+}
+
 .filter-row {
   display: flex;
   gap: 20px;
