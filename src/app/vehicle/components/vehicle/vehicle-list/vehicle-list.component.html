@@ -19,6 +19,13 @@
         </option>
       </select>
 
+      <select class="form-select brand-dropdown" [(ngModel)]="selectedBrand" (change)="onBrandFilter()">
+        <option value="">All Brands</option>
+        <option *ngFor="let b of brandId" [value]="b.brandId">
+          {{ b.brandName }}
+        </option>
+      </select>
+
       <select class="form-select status-dropdown" [(ngModel)]="selectedStatus" (change)="onStatusFilter()">
         <option value="">All Status</option>
         <option *ngFor="let s of statusOptions" [value]="s.value">

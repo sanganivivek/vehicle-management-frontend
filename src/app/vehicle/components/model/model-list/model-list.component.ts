@@ -66,46 +66,53 @@ export class ModelListComponent implements OnInit {
   }
 
   processCSV(csvText: string) {
-    const lines = csvText.split('\n');
-    const result: CreateModelDTO[] = [];
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const lines = csvText.split('\n');
+  const result: CreateModelDTO[] = [];
+  
+  // 1. Parse Headers and find indices
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const brandIndex = headers.indexOf('brandname');
+  const codeIndex = headers.indexOf('modelcode');
+  const nameIndex = headers.indexOf('modelname');
+  const descIndex = headers.indexOf('description');
 
-    // Expected CSV Headers: BrandName, ModelCode, ModelName, Description
+  // Validate required columns
+  if (brandIndex === -1 || nameIndex === -1) {
+    alert("CSV is missing required columns: BrandName or ModelName");
+    return;
+  }
 
-    for (let i = 1; i < lines.length; i++) {
-      const currentLine = lines[i].split(',');
-      if (currentLine.length < 2) continue; // Skip empty lines
+  for (let i = 1; i < lines.length; i++) {
+    const currentLine = lines[i].split(',');
+    if (currentLine.length < 2) continue;
 
-      const brandName = currentLine[0]?.trim();
-      const modelCode = currentLine[1]?.trim();
-      const modelName = currentLine[2]?.trim();
-      const description = currentLine[3]?.trim();
+    // 2. Use indices to get data
+    const brandName = currentLine[brandIndex]?.trim();
+    const modelCode = codeIndex > -1 ? currentLine[codeIndex]?.trim() : '';
+    const modelName = currentLine[nameIndex]?.trim();
+    const description = descIndex > -1 ? currentLine[descIndex]?.trim() : '';
 
-      // 1. Find BrandId by Name (Case insensitive)
-      // Note: 'this.brands' must be populated (which it is in your html via *ngFor)
-      const matchedBrand = this.brands.find(b =>
-        b.brandName.toLowerCase() === brandName.toLowerCase()
-      );
+    // 3. Find Brand
+    const matchedBrand = this.brands.find(b =>
+      b.brandName.toLowerCase() === brandName?.toLowerCase()
+    );
 
-      if (matchedBrand) {
-        result.push({
-          brandId: matchedBrand.brandId, // Map found ID
-          modelCode: modelCode,
-          name: modelName, // DTO property is 'name'
-          description: description
-        });
-      } else {
-        console.warn(`Brand '${brandName}' not found. Skipping row ${i + 1}`);
-        // Optional: Add logic to show a toast warning user
-      }
-    }
-
-    if (result.length > 0) {
-      this.uploadBulkData(result);
-    } else {
-      alert("No valid models found in CSV. Please check Brand Names.");
+    if (matchedBrand) {
+      result.push({
+        brandId: matchedBrand.brandId,
+        modelCode: modelCode,
+        name: modelName,
+        description: description
+      });
     }
   }
+
+  if (result.length > 0) {
+    this.uploadBulkData(result);
+  } else {
+    alert("No valid models found. Check Brand Names.");
+  }
+}
 
   uploadBulkData(data: CreateModelDTO[]) {
     this.loading = true; // Use your existing loading variable
