@@ -208,11 +208,12 @@ export class VehicleAddComponent implements OnInit {
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
         this.loading = false;
-        alert("Vehicle Saved Successfully!");
+        this.toastr.success("Vehicle added successfully!");
         this.router.navigate(["/vehicle"]);
       },
       error: (error) => {
         this.loading = false;
+        this.toastr.error("Failed to add vehicle", "Error");
         console.error("Error adding vehicle:", error);
 
         // Display specific error message from backend

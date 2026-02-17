@@ -14,8 +14,8 @@
 
             <select class="form-select brand-dropdown" [(ngModel)]="selectedBrand" (change)="onBrandFilterChange()">
                 <option value="">All Brands</option>
-                <option *ngFor="let b of brands" [value]="b.brandId || b.brandId">
-                    {{ b.brandId || b.brandName }}
+                <option *ngFor="let b of brands" [value]="b.brandId">
+                    {{ b.brandName }}
                 </option>
             </select>
         </div>

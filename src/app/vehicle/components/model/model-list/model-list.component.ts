@@ -33,8 +33,15 @@ export class ModelListComponent implements OnInit {
 
   ngOnInit(): void {
     // Only load brands initially, models will be loaded via loadModels with pagination
-    this.brandService.getBrands().subscribe((brands) => {
-      this.brands = brands;
+    this.brandService.getBrands().subscribe((response: any) => {
+      if (response && Array.isArray(response.data)) {
+        this.brands = response.data;
+      } else if (Array.isArray(response)) {
+        this.brands = response;
+      } else {
+        this.brands = [];
+        console.error('Unexpected brands response format:', response);
+      }
       this.loadModels();
     });
   }
@@ -47,10 +54,29 @@ export class ModelListComponent implements OnInit {
     this.loading = true;
     this.modelService.getModels(this.searchTerm, this.currentPage, this.pageSize, this.selectedBrand).subscribe({
       next: (response: any) => {
+        console.log('Model Response:', response);
+        console.log('Response Type:', typeof response);
+        console.log('Is Array:', Array.isArray(response));
+        if (response && response.data) {
+          console.log('Response.data Is Array:', Array.isArray(response.data));
+        }
+
         // Backend returns response object with data, totalCount, etc.
-        this.models = response.data || [];
-        this.totalRecords = response.totalCount || 0;
-        this.totalPages = response.totalPages || 1;
+        if (response && Array.isArray(response.data)) {
+          this.models = response.data;
+          this.totalRecords = response.totalCount || 0;
+          this.totalPages = response.totalPages || 1;
+        } else if (Array.isArray(response)) {
+          // Fallback if response is directly an array
+          this.models = response;
+          this.totalRecords = response.length;
+          this.totalPages = 1;
+        } else {
+          console.error('Unexpected response format - models set to empty array:', response);
+          this.models = [];
+          this.totalRecords = 0;
+        }
+
         this.generatePagesArray();
         this.loading = false;
       },
