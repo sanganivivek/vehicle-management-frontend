@@ -61,4 +61,12 @@ export class ModelService {
     }
     return throwError(() => errorMessage);
   }
+
+  bulkAddModels(models: CreateModelDTO[]): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/bulk`, models, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .pipe(catchError(this.handleError));
+  }
 }

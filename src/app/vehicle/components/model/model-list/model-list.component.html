@@ -2,9 +2,17 @@
     <div class="vehicle-container">
         <div class="header-section" *ngIf="showHeader">
             <h2 class="title">Model List</h2>
-            <button class="custom-add-btn" routerLink="/models/add">
-                + Add Model
-            </button>
+            <div class="d-flex gap-2">
+                <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept=".csv" />
+
+                <button class="btn btn-outline-success" (click)="fileInput.click()">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Import CSV
+                </button>
+
+                <button class="custom-add-btn" routerLink="/models/add">
+                    + Add Model
+                </button>
+            </div>
         </div>
 
         <!-- Filter Row (Search) -->
