@@ -252,3 +252,13 @@
   color: #6c757d;
   padding: 20px;
 }
+
+/* Add to model-list.component.css */
+
+.custom-pagination .page-item.disabled .page-link {
+  background-color: transparent;
+  border-color: transparent;
+  color: #6c757d;
+  cursor: default;
+  pointer-events: none; /* Prevents clicking */
+}

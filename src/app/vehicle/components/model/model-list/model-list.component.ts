@@ -21,7 +21,7 @@ export class ModelListComponent implements OnInit {
   totalRecords = 0;
   totalPages = 1;
   searchTerm = '';
-  pagesArray: number[] = [];
+  pagesArray: (number | string)[] = [];
 
   @Input() showHeader: boolean = true;
 
@@ -66,53 +66,53 @@ export class ModelListComponent implements OnInit {
   }
 
   processCSV(csvText: string) {
-  const lines = csvText.split('\n');
-  const result: CreateModelDTO[] = [];
-  
-  // 1. Parse Headers and find indices
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-  const brandIndex = headers.indexOf('brandname');
-  const codeIndex = headers.indexOf('modelcode');
-  const nameIndex = headers.indexOf('modelname');
-  const descIndex = headers.indexOf('description');
+    const lines = csvText.split('\n');
+    const result: CreateModelDTO[] = [];
 
-  // Validate required columns
-  if (brandIndex === -1 || nameIndex === -1) {
-    alert("CSV is missing required columns: BrandName or ModelName");
-    return;
-  }
+    // 1. Parse Headers and find indices
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+    const brandIndex = headers.indexOf('brandname');
+    const codeIndex = headers.indexOf('modelcode');
+    const nameIndex = headers.indexOf('modelname');
+    const descIndex = headers.indexOf('description');
 
-  for (let i = 1; i < lines.length; i++) {
-    const currentLine = lines[i].split(',');
-    if (currentLine.length < 2) continue;
+    // Validate required columns
+    if (brandIndex === -1 || nameIndex === -1) {
+      alert("CSV is missing required columns: BrandName or ModelName");
+      return;
+    }
 
-    // 2. Use indices to get data
-    const brandName = currentLine[brandIndex]?.trim();
-    const modelCode = codeIndex > -1 ? currentLine[codeIndex]?.trim() : '';
-    const modelName = currentLine[nameIndex]?.trim();
-    const description = descIndex > -1 ? currentLine[descIndex]?.trim() : '';
+    for (let i = 1; i < lines.length; i++) {
+      const currentLine = lines[i].split(',');
+      if (currentLine.length < 2) continue;
 
-    // 3. Find Brand
-    const matchedBrand = this.brands.find(b =>
-      b.brandName.toLowerCase() === brandName?.toLowerCase()
-    );
+      // 2. Use indices to get data
+      const brandName = currentLine[brandIndex]?.trim();
+      const modelCode = codeIndex > -1 ? currentLine[codeIndex]?.trim() : '';
+      const modelName = currentLine[nameIndex]?.trim();
+      const description = descIndex > -1 ? currentLine[descIndex]?.trim() : '';
 
-    if (matchedBrand) {
-      result.push({
-        brandId: matchedBrand.brandId,
-        modelCode: modelCode,
-        name: modelName,
-        description: description
-      });
+      // 3. Find Brand
+      const matchedBrand = this.brands.find(b =>
+        b.brandName.toLowerCase() === brandName?.toLowerCase()
+      );
+
+      if (matchedBrand) {
+        result.push({
+          brandId: matchedBrand.brandId,
+          modelCode: modelCode,
+          name: modelName,
+          description: description
+        });
+      }
+    }
+
+    if (result.length > 0) {
+      this.uploadBulkData(result);
+    } else {
+      alert("No valid models found. Check Brand Names.");
     }
   }
-
-  if (result.length > 0) {
-    this.uploadBulkData(result);
-  } else {
-    alert("No valid models found. Check Brand Names.");
-  }
-}
 
   uploadBulkData(data: CreateModelDTO[]) {
     this.loading = true; // Use your existing loading variable
@@ -179,7 +179,51 @@ export class ModelListComponent implements OnInit {
   }
 
   generatePagesArray(): void {
-    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const windowSize = 2; // total middle pages including current
+
+    if (total <= windowSize + 2) {
+      this.pagesArray = Array.from({ length: total }, (_, i) => i + 1);
+      return;
+    }
+
+    const pages: (number | string)[] = [];
+
+    const half = Math.floor(windowSize / 2);
+
+    let start = current - half;
+    let end = current + half;
+
+    // Adjust when near beginning
+    if (start <= 2) {
+      start = 2;
+      end = start + windowSize - 1;
+    }
+
+    // Adjust when near end
+    if (end >= total - 1) {
+      end = total - 1;
+      start = end - windowSize + 1;
+    }
+
+    pages.push(1);
+
+    if (start > 2) {
+      pages.push('...');
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < total - 1) {
+      pages.push('...');
+    }
+
+    pages.push(total);
+
+    this.pagesArray = pages;
   }
 
   nextPage(): void {
@@ -196,7 +240,12 @@ export class ModelListComponent implements OnInit {
     }
   }
 
-  goToPage(page: number): void {
+  goToPage(page: number | string): void {
+    // Ignore clicks on '...'
+    if (page === '...' || typeof page !== 'number') {
+      return;
+    }
+
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.loadModels();

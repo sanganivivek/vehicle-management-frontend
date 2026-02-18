@@ -24,6 +24,7 @@
     "@angular/platform-server": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@angular/ssr": "^18.0.0",
+    "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^19.1.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.3.0",

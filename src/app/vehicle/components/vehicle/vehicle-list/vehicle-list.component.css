@@ -299,3 +299,12 @@
 .car-icon:hover {
   transform: scale(1.2);
 }
+
+/* Add to vehicle-list.component.css */
+.page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: default;
+}

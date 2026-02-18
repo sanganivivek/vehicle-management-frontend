@@ -30,7 +30,7 @@ export class VehicleListComponent implements OnInit {
   pageSize = 10;
   totalPages = 1;
   totalRecords = 0;
-  pagesArray: number[] = [];
+  pagesArray: (number | string)[] = [];
 
   // This variable holds the current status filter (can be string from URL or number from dropdown)
   selectedStatus: any = "";
@@ -242,7 +242,11 @@ export class VehicleListComponent implements OnInit {
     this.loadVehicles();
   }
 
-  onPageChange(page: number): void {
+  onPageChange(page: number | string): void {
+    if (page === '...' || typeof page !== 'number') {
+      return;
+    }
+
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.loadVehicles();
@@ -250,8 +254,55 @@ export class VehicleListComponent implements OnInit {
   }
 
   generatePagesArray(): void {
-    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const windowSize = 2; // total middle pages including current
+
+    if (total <= windowSize + 2) {
+      this.pagesArray = Array.from({ length: total }, (_, i) => i + 1);
+      return;
+    }
+
+    const pages: (number | string)[] = [];
+
+    const half = Math.floor(windowSize / 2);
+
+    let start = current - half;
+    let end = current + half;
+
+    // Adjust when near beginning
+    if (start <= 2) {
+      start = 2;
+      end = start + windowSize - 1;
+    }
+
+    // Adjust when near end
+    if (end >= total - 1) {
+      end = total - 1;
+      start = end - windowSize + 1;
+    }
+
+    pages.push(1);
+
+    if (start > 2) {
+      pages.push('...');
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < total - 1) {
+      pages.push('...');
+    }
+
+    pages.push(total);
+
+    this.pagesArray = pages;
   }
+
+  // ... rest of your code
+
 
   addVehicle(): void {
     this.router.navigate(["/vehicle/add"]);

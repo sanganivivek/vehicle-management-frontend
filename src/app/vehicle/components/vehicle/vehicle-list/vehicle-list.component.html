@@ -33,9 +33,9 @@
         </option>
       </select>
 
-       <select class="form-select Active-dropdown" [(ngModel)]="selectedIsActive" (change)="onIsActiveFilter()">
+      <select class="form-select Active-dropdown" [(ngModel)]="selectedIsActive" (change)="onIsActiveFilter()">
         <option value="">All Select</option>
-       <option value="true">Active</option>
+        <option value="true">Active</option>
         <option value="false">Inactive</option>
       </select>
     </div>
@@ -130,8 +130,9 @@
             <span class="page-link">‹ Prev</span>
           </li>
 
-          <li class="page-item number" *ngFor="let page of pagesArray" [class.active]="page === currentPage"
-            (click)="onPageChange(page)">
+          <li class="page-item" *ngFor="let page of pagesArray" [class.active]="page === currentPage"
+            [class.disabled]="page === '...'" (click)="onPageChange(page)">
+
             <span class="page-link">{{ page }}</span>
           </li>
 

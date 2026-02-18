@@ -143,30 +143,29 @@
       </table>
     </div>
 
-    <div class="pagination-container" *ngIf="totalRecords > 0">
-      <div class="pagination-info">
-        Showing {{ (currentPage - 1) * pageSize + 1 }} -
-        {{ getMathMin(currentPage * pageSize, totalRecords) }}
-        of {{ totalRecords }} records
-      </div>
+    <!-- Pagination Controls -->
+        <div class="pagination-container" *ngIf="totalRecords > 0">
+            <div class="pagination-info">
+                {{ getDisplayRange() }}
+            </div>
 
-      <nav class="pagination-wrapper">
-        <ul class="custom-pagination">
-          <li class="page-item" [class.disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
-            <span class="page-link">‹ Prev</span>
-          </li>
+            <nav class="pagination-wrapper">
+                <ul class="custom-pagination">
+                    <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
+                        <span class="page-link">‹ Prev</span>
+                    </li>
 
-          <li class="page-item number" *ngFor="let page of pagesArray" [class.active]="page === currentPage"
-            (click)="onPageChange(page)">
-            <span class="page-link">{{ page }}</span>
-          </li>
+                    <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
+                        [class.disabled]="p === '...'" (click)="goToPage(p)">
+                        <span class="page-link">{{ p }}</span>
+                    </li>
 
-          <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
-            <span class="page-link">Next ›</span>
-          </li>
-        </ul>
-      </nav>
-    </div>
+                    <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
+                        <span class="page-link">Next ›</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
   </div>
 </div>

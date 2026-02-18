@@ -61,26 +61,26 @@
 
     <!-- Pagination Controls -->
     <div class="pagination-container" *ngIf="totalRecords > 0">
-      <div class="pagination-info">
-        {{ getDisplayRange() }}
-      </div>
+            <div class="pagination-info">
+                {{ getDisplayRange() }}
+            </div>
 
-      <nav class="pagination-wrapper">
-        <ul class="custom-pagination">
-          <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
-            <span class="page-link">‹ Prev</span>
-          </li>
+            <nav class="pagination-wrapper">
+                <ul class="custom-pagination">
+                    <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
+                        <span class="page-link">‹ Prev</span>
+                    </li>
 
-          <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
-            (click)="goToPage(p)">
-            <span class="page-link">{{ p }}</span>
-          </li>
+                    <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
+                        [class.disabled]="p === '...'" (click)="goToPage(p)">
+                        <span class="page-link">{{ p }}</span>
+                    </li>
 
-          <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
-            <span class="page-link">Next ›</span>
-          </li>
-        </ul>
-      </nav>
-    </div>
+                    <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
+                        <span class="page-link">Next ›</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
   </div>
 </div>

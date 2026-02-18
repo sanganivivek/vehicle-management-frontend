@@ -44,8 +44,9 @@
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 1rem;
   text-decoration: none;
+margin-right: 10px;
 }
 
 .custom-add-btn:hover {
@@ -59,6 +60,8 @@
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+
 
 /* =========================================
    3. Filters & Search
@@ -258,3 +261,13 @@
     color: #6c757d;
     padding: 20px;
 }
+
+/* Add to model-list.component.css */
+
+.custom-pagination .page-item.disabled .page-link {
+  background-color: transparent;
+  border-color: transparent;
+  color: #6c757d;
+  cursor: default;
+  pointer-events: none; /* Prevents clicking */
+} 

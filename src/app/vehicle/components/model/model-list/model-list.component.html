@@ -5,7 +5,7 @@
             <div class="d-flex gap-2">
                 <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept=".csv" />
 
-                <button class="btn btn-outline-success" (click)="fileInput.click()">
+                <button class="custom-add-btn btn-outline-success" (click)="fileInput.click()">
                     <i class="bi bi-file-earmark-spreadsheet"></i> Import CSV
                 </button>
 
@@ -89,7 +89,7 @@
                     </li>
 
                     <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
-                        (click)="goToPage(p)">
+                        [class.disabled]="p === '...'" (click)="goToPage(p)">
                         <span class="page-link">{{ p }}</span>
                     </li>
 

@@ -84,7 +84,7 @@
           </li>
 
           <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
-            (click)="goToPage(p)">
+            [class.disabled]="p === '...'" (click)="goToPage(p)">
             <span class="page-link">{{ p }}</span>
           </li>
 

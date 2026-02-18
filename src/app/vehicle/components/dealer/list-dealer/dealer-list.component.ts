@@ -19,7 +19,7 @@ export class DealerListComponent implements OnInit {
   totalRecords = 0;
   totalPages = 1;
   searchTerm = '';
-  pagesArray: number[] = [];
+  pagesArray: (number | string)[] = [];
 
   constructor(
     private dealerService: DealerService,
@@ -76,9 +76,53 @@ export class DealerListComponent implements OnInit {
   }
 
   generatePagesArray(): void {
-    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const windowSize = 2; // total middle pages including current
 
+    if (total <= windowSize + 2) {
+      this.pagesArray = Array.from({ length: total }, (_, i) => i + 1);
+      return;
+    }
+
+    const pages: (number | string)[] = [];
+
+    const half = Math.floor(windowSize / 2);
+
+    let start = current - half;
+    let end = current + half;
+
+    // Adjust when near beginning
+    if (start <= 2) {
+      start = 2;
+      end = start + windowSize - 1;
+    }
+
+    // Adjust when near end
+    if (end >= total - 1) {
+      end = total - 1;
+      start = end - windowSize + 1;
+    }
+
+    pages.push(1);
+
+    if (start > 2) {
+      pages.push('...');
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < total - 1) {
+      pages.push('...');
+    }
+
+    pages.push(total);
+
+    this.pagesArray = pages;
+  }
+  
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -93,10 +137,15 @@ export class DealerListComponent implements OnInit {
     }
   }
 
-  goToPage(page: number): void {
+  goToPage(page: number | string): void {
+    // Ignore clicks on '...'
+    if (page === '...' || typeof page !== 'number') {
+      return;
+    }
+
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.applyFilter();
+      this.loadDealers();
     }
   }
 

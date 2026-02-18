@@ -17,6 +17,7 @@ export interface BookingListDTO {
   createdAt: string | Date; // Renamed from bookingDate for clarity
   startDate: string | Date;
   endDate: string | Date;
+
   status: number; // 0: Pending, 1: Confirmed/Active, 2: Completed/Cancelled
 }
 
@@ -37,7 +38,7 @@ export class BookingListComponent implements OnInit {
   pageSize = 10;
   totalRecords = 0;
   totalPages = 1;
-  pagesArray: number[] = [];
+  pagesArray: (number | string)[] = [];
   sortColumn = 'createdAt';
   sortOrder: 'asc' | 'desc' = 'desc';
 
@@ -194,10 +195,85 @@ export class BookingListComponent implements OnInit {
     }
   }
 
-  generatePagesArray(): void {
-    this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+generatePagesArray(): void {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const windowSize = 2; // total middle pages including current
+
+    if (total <= windowSize + 2) {
+      this.pagesArray = Array.from({ length: total }, (_, i) => i + 1);
+      return;
+    }
+
+    const pages: (number | string)[] = [];
+
+    const half = Math.floor(windowSize / 2);
+
+    let start = current - half;
+    let end = current + half;
+
+    // Adjust when near beginning
+    if (start <= 2) {
+      start = 2;
+      end = start + windowSize - 1;
+    }
+
+    // Adjust when near end
+    if (end >= total - 1) {
+      end = total - 1;
+      start = end - windowSize + 1;
+    }
+
+    pages.push(1);
+
+    if (start > 2) {
+      pages.push('...');
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < total - 1) {
+      pages.push('...');
+    }
+
+    pages.push(total);
+
+    this.pagesArray = pages;
   }
 
+  goToPage(page: number | string): void {
+    // Ignore clicks on '...'
+    if (page === '...' || typeof page !== 'number') {
+      return;
+    }
+
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadBookings();
+    }
+  }
+
+  getDisplayRange(): string {
+    if (this.totalRecords === 0) return 'No Booking found';
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+    const end = Math.min(this.currentPage * this.pageSize, this.totalRecords);
+    return `Showing ${start}-${end} of ${this.totalRecords} Booking`;
+  }
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadBookings();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadBookings();
+    }
+  }
   // --- Helpers ---
 
   getMathMin(a: number, b: number): number {
