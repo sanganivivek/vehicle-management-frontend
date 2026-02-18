@@ -34,6 +34,9 @@
             <th (click)="sort('vehicleRegNo')" class="sortable cursor-pointer">
               Vehicle Reg No <i [class]="getSortIcon('vehicleRegNo')"></i>
             </th>
+            <!-- <th (click)="sort('dealerName')" class="sortable cursor-pointer">
+              Dealer <i [class]="getSortIcon('dealerName')"></i>
+            </th> -->
             <th (click)="sort('amount')" class="sortable cursor-pointer">
               Amount <i [class]="getSortIcon('amount')"></i>
             </th>
@@ -61,7 +64,11 @@
             <td>
               <div class="fw-bold">{{ booking.vehicleRegNo }}</div>
               <small class="text-muted">{{ booking.vehicleName }}</small>
+              <div>
+              <small class="text-muted mt-auto">{{ booking.dealerName }}</small></div>
             </td>
+
+            
 
             <td>{{ booking.amount | currency:'INR' }}</td>
 

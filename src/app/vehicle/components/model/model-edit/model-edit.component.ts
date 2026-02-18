@@ -101,7 +101,12 @@ export class ModelEditComponent implements OnInit {
     }
 
     this.submitting = true;
-    const modelData = this.editModelForm.value;
+    const modelData: any = {
+      brandId: this.editModelForm.value.brandId,
+      modelCode: this.editModelForm.value.modelCode?.trim() || undefined,
+      name: this.editModelForm.value.modelName?.trim(), // Backend expects 'Name', form has 'modelName'
+      description: this.editModelForm.value.description?.trim() || undefined
+    };
 
     this.modelService.updateModel(this.modelId, modelData).subscribe({
       next: () => {

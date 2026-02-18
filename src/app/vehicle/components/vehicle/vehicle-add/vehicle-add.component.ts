@@ -33,7 +33,7 @@ export class VehicleAddComponent implements OnInit {
 
   // Enum arrays for dropdowns
   vehicleTypes = ["Hatchback", "Sedan", "SUV"];
-  fuelTypes = ["Petrol", "Diesel", "CNG", "E20"];
+  fuelTypes = ["Petrol", "Diesel", "CNG", "EV", "E20"];
   transmissionTypes = ["Manual", "Automatic"];
   statusOptions = [
     { value: 0, label: "Available" },

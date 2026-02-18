@@ -9,6 +9,7 @@ import { BookingService } from '../../../services/booking.service';
 export interface BookingListDTO {
   bookingId: string;
   customerName: string;
+  dealerName: string;
   vehicleRegNo: string;
   vehicleName: string;
   amount: number;          // New Field
@@ -72,6 +73,7 @@ export class BookingListComponent implements OnInit {
           customerName: b.customerName,
           vehicleRegNo: b.vehicleRegNo,
           vehicleName: b.vehicleName,
+          dealerName: b.dealerName,
           amount: b.amount,
           paymentMethod: b.paymentMethod,
           paymentStatus: b.paymentStatus,

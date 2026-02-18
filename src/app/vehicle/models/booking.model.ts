@@ -14,6 +14,7 @@ export interface Booking {
 
     // Optional expanded properties for UI display if backend joins tables
     vehicleBrand?: string;
+    vehicleName?: string;
     vehicleModel?: string;
     vehicleRegNo?: string;
     customerName?: string;

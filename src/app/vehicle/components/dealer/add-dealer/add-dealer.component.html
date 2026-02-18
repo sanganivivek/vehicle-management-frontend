@@ -6,7 +6,7 @@
       </div>
 
       <div class="form-body">
-        <form [formGroup]="dealerForm">
+        <form [formGroup]="dealerForm" (ngSubmit)="onSubmit()">
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label">Dealer Name *</label>
@@ -74,7 +74,7 @@
             <button type="button" class="btn btn-cancel" routerLink="/dealers">
               Cancel
             </button>
-            <button type="submit" class="btn btn-submit" (click)="onSubmit()" [disabled]="loading">
+            <button type="submit" class="btn btn-submit" [disabled]="loading">
               {{ loading ? "Saving..." : "Save" }}
             </button>
           </div>

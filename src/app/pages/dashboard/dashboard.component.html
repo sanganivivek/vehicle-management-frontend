@@ -94,7 +94,8 @@
             </div>
             <div class="booking-details">
               <span class="customer-name">{{ booking.customerName }}</span>
-              <span class="vehicle-reg">{{ booking.vehicleRegNo }}</span>
+              <span class="vehicle-reg">{{ booking.vehicleName }} ({{ booking.vehicleRegNo }})</span>
+              <span class="vehicle-dealer">{{ booking.dealerName }}</span>
               <span class="booking-dates">{{
                 booking.startDate | date: "dd MMM"
                 }} - {{ booking.endDate | date: "dd MMM" }}</span>
