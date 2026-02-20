@@ -149,11 +149,11 @@ export class BookingListComponent implements OnInit {
 
   deleteBooking(id: string): void {
     if (confirm('Are you sure you want to delete this booking?')) {
-      this.loadingService.show();
+
       this.bookingService.deleteBooking(id).subscribe({
         next: () => {
           this.toastr.success('Booking deleted successfully');
-          this.loadBookings();
+          this.bookings = this.bookings.filter(booking => booking.bookingId !== id);
         },
         error: (err) => {
           this.toastr.error('Failed to delete booking');
@@ -197,7 +197,7 @@ export class BookingListComponent implements OnInit {
     }
   }
 
-generatePagesArray(): void {
+  generatePagesArray(): void {
     const total = this.totalPages;
     const current = this.currentPage;
     const windowSize = 2; // total middle pages including current

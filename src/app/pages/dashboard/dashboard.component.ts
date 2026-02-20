@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
- 
+
 
   navigateToEdit(id: string) {
     this.router.navigate(['/vehicle/edit', id]);
