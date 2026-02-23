@@ -24,8 +24,6 @@ export class CustomerEditComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
-
-
   ngOnInit(): void {
     // 1. Get ID from URL
     const idParam = this.route.snapshot.paramMap.get("id");

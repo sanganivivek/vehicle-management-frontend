@@ -1,6 +1,6 @@
 .vehicle-page-bg {
   padding: 30px;
-  display:flex;
+  display: flex;
   justify-content: center;
 }
 
@@ -13,7 +13,7 @@
   background: #fff;
   border-radius: 10px;
   padding: 25px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.12);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
 }
 
 .form-header {
@@ -104,4 +104,37 @@
 
 .form-error span {
   display: block;
+}
+
+/* Inline model-loading indicator */
+.models-loading-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.spinner-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4e4e4e;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
 }

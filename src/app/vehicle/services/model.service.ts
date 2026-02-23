@@ -1,13 +1,20 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+// 1. Import HttpContext
+import { HttpClient, HttpErrorResponse, HttpContext } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { Model, CreateModelDTO } from "../models/vehicle.model";
+
+// 2. Import the SKIP_LOADING token from your interceptor
+import { SKIP_LOADING } from "../../shared/interceptors/loading.interceptor";
+
 @Injectable({ providedIn: "root" })
 export class ModelService {
   private apiUrl = `${environment.apiUrl}/models`;
+  
   constructor(private http: HttpClient) { }
+
   getModels(search?: string, page: number = 1, pageSize: number = 10, brandId?: string): Observable<any> {
     let params: any = {
       page: page.toString(),
@@ -23,11 +30,17 @@ export class ModelService {
       .get<any>(this.apiUrl, { params })
       .pipe(catchError(this.handleError));
   }
+
+  // 3. Update this method to use the token
   getModelsByBrand(brandId: string): Observable<Model[]> {
     return this.http
-      .get<Model[]>(`${this.apiUrl}/by-brand/${brandId}`)
+      .get<Model[]>(`${this.apiUrl}/by-brand/${brandId}`, {
+        // Attach the token to the context of this specific request
+        context: new HttpContext().set(SKIP_LOADING, true)
+      })
       .pipe(catchError(this.handleError));
   }
+
   getModelById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
@@ -49,6 +62,7 @@ export class ModelService {
       .delete(`${this.apiUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
+
   private handleError(error: HttpErrorResponse) {
     console.error("ModelService Error:", error);
     let errorMessage = "An error occurred";

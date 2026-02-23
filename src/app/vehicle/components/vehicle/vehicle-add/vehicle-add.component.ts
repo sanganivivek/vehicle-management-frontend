@@ -26,6 +26,7 @@ export class VehicleAddComponent implements OnInit {
   vehicleForm!: FormGroup;
   submitted = false;
   loading = false;
+  modelsLoading = false;
   brands: Brand[] = [];
   models: Model[] = [];
   dealers: Dealer[] = [];
@@ -139,9 +140,9 @@ export class VehicleAddComponent implements OnInit {
   }
 
   loadDealers(): void {
-    this.dealerService.getAllDealers().subscribe({
+    // Skip global loading spinner — this is a background dropdown fetch
+    this.dealerService.getAllDealers(true).subscribe({
       next: (response: any) => {
-        // Adjust this depending on whether your API returns the array directly or inside a 'data' object
         this.dealers = Array.isArray(response) ? response : response.data || [];
       },
       error: (error) => {
@@ -152,7 +153,8 @@ export class VehicleAddComponent implements OnInit {
   }
 
   loadBrands(): void {
-    this.vehicleService.getBrands().subscribe({
+    // Skip global loading spinner — this is a background dropdown fetch
+    this.vehicleService.getBrands(true).subscribe({
       next: (response: any) => {
         if (Array.isArray(response)) {
           this.brands = response;
@@ -172,14 +174,18 @@ export class VehicleAddComponent implements OnInit {
 
   loadModels(brandId: string): void {
     this.errorMessage = "";
-    this.vehicleService.getModelsByBrand(brandId).subscribe({
+    this.modelsLoading = true;
+    // Skip global loading spinner — show inline spinner on the model dropdown instead
+    this.vehicleService.getModelsByBrand(brandId, true).subscribe({
       next: (models: Model[]) => {
         this.models = models;
+        this.modelsLoading = false;
         console.log("Models loaded:", models);
       },
       error: (error) => {
         console.error("Failed to load models:", error);
         this.models = [];
+        this.modelsLoading = false;
         this.toastr.error("Failed to load models", "Error");
       },
     });
@@ -205,6 +211,7 @@ export class VehicleAddComponent implements OnInit {
     console.log("Submitting vehicle with Model ID:", vehicle.modelId);
     console.log("Full vehicle data:", vehicle);
 
+    // The addVehicle POST intentionally goes through the full-screen spinner
     this.vehicleService.addVehicle(vehicle).subscribe({
       next: (response) => {
         this.loading = false;

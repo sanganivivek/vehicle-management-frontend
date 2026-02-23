@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Dealer, CreateDealerDTO, UpdateDealerDTO } from '../models/dealer.model';
 import { environment } from '../../../environments/environment';
+import { SKIP_LOADING } from '../../shared/interceptors/loading.interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ export class DealerService {
 
   constructor(private http: HttpClient) { }
 
-  getAllDealers(): Observable<Dealer[]> {
-    return this.http.get<Dealer[]>(this.apiUrl);
+  getAllDealers(skipLoading = false): Observable<Dealer[]> {
+    const context = skipLoading ? new HttpContext().set(SKIP_LOADING, true) : undefined;
+    return this.http.get<Dealer[]>(this.apiUrl, { context });
   }
 
   getDealerById(id: number): Observable<Dealer> {

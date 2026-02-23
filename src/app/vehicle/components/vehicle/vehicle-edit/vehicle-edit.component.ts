@@ -25,7 +25,7 @@ export class VehicleEditComponent implements OnInit {
 
   // Enum arrays for dropdowns
   vehicleTypes = ['Hatchback', 'Sedan', 'SUV'];
-  fuelTypes = ['Petrol', 'Diesel', 'CNG',  'EV', 'E20'];
+  fuelTypes = ['Petrol', 'Diesel', 'CNG', 'EV', 'E20'];
   transmissionTypes = ['Manual', 'Automatic'];
   statusOptions = [
     { value: 0, label: 'Available' },
@@ -113,7 +113,8 @@ export class VehicleEditComponent implements OnInit {
   }
 
   loadBrands() {
-    this.vehicleService.getBrands().subscribe({
+    // Skip global loading spinner — background dropdown fetch
+    this.vehicleService.getBrands(true).subscribe({
       next: (response: any) => {
         if (Array.isArray(response)) {
           this.brands = response;
@@ -129,7 +130,8 @@ export class VehicleEditComponent implements OnInit {
   }
 
   loadDealers() {
-    this.dealerService.getAllDealers().subscribe({
+    // Skip global loading spinner — background dropdown fetch
+    this.dealerService.getAllDealers(true).subscribe({
       next: (response: any) => {
         this.dealers = Array.isArray(response) ? response : (response.data || []);
       },
@@ -187,7 +189,8 @@ export class VehicleEditComponent implements OnInit {
   }
 
   loadModels(brandId: string) {
-    this.vehicleService.getModelsByBrand(brandId).subscribe({
+    // Skip global loading spinner — background dropdown fetch
+    this.vehicleService.getModelsByBrand(brandId, true).subscribe({
       next: (data) => (this.models = data),
       error: (err) => console.error("Failed to load models", err),
     });
@@ -195,7 +198,8 @@ export class VehicleEditComponent implements OnInit {
 
   loadModelsAsync(brandId: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.vehicleService.getModelsByBrand(brandId).subscribe({
+      // Skip global loading spinner — background dropdown fetch
+      this.vehicleService.getModelsByBrand(brandId, true).subscribe({
         next: (data) => {
           this.models = data;
           resolve();

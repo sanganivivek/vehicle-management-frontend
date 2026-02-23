@@ -185,7 +185,6 @@ export class VehicleListComponent implements OnInit {
     return dealer ? dealer.name : "Unknown Dealer";
   }
 
-
   loadBrands(): void {
     this.vehicleService.getBrands().subscribe({
       next: (response: any) => {

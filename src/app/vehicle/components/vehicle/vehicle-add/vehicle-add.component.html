@@ -69,12 +69,16 @@
             <!-- Model -->
             <div class="form-group">
               <label class="form-label">Model *</label>
-              <select class="form-control form-input" formControlName="modelId" [disabled]="!models.length">
-                <option value="">Select Model</option>
+              <select class="form-control form-input" formControlName="modelId"
+                [disabled]="!models.length || modelsLoading">
+                <option value="">{{ modelsLoading ? 'Loading models...' : 'Select Model' }}</option>
                 <option *ngFor="let model of models" [value]="model.modelId">
                   {{ model.modelName }}
                 </option>
               </select>
+              <small *ngIf="modelsLoading" class="models-loading-hint">
+                <span class="spinner-dot"></span> Fetching models…
+              </small>
               <div class="form-error" *ngIf="
                   (submitted || f['modelId'].touched) && f['modelId'].errors
                 ">

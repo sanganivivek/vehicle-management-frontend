@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpContext, HttpParams } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { SKIP_LOADING } from "../../shared/interceptors/loading.interceptor";
 import {
   VehicleMaster,
   VehicleQueryParams,
@@ -94,14 +95,16 @@ export class VehicleService {
       .delete<any>(`${this.apiUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
-  getBrands(): Observable<Brand[]> {
+  getBrands(skipLoading = false): Observable<Brand[]> {
+    const context = skipLoading ? new HttpContext().set(SKIP_LOADING, true) : undefined;
     return this.http
-      .get<Brand[]>(this.brandUrl)
+      .get<Brand[]>(this.brandUrl, { context })
       .pipe(catchError(this.handleError));
   }
-  getModelsByBrand(brandId: string): Observable<Model[]> {
+  getModelsByBrand(brandId: string, skipLoading = false): Observable<Model[]> {
+    const context = skipLoading ? new HttpContext().set(SKIP_LOADING, true) : undefined;
     return this.http
-      .get<Model[]>(`${this.modelUrl}/by-brand/${brandId}`)
+      .get<Model[]>(`${this.modelUrl}/by-brand/${brandId}`, { context })
       .pipe(catchError(this.handleError));
   }
   addModel(model: any): Observable<any> {
