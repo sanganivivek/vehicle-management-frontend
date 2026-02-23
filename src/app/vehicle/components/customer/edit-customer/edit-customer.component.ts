@@ -28,9 +28,7 @@ export class CustomerEditComponent implements OnInit {
     // 1. Get ID from URL
     const idParam = this.route.snapshot.paramMap.get("id");
     this.customerId = idParam ? idParam : "";
-
     this.initForm();
-
     if (this.customerId) {
       this.loadCustomer();
     } else {
@@ -66,7 +64,6 @@ export class CustomerEditComponent implements OnInit {
           const date = new Date(customer.dateOfBirth);
           formattedDate = date.toISOString().split('T')[0];
         }
-
         this.customerForm.patchValue({
           ...customer,
           dateOfBirth: formattedDate,
@@ -85,7 +82,6 @@ export class CustomerEditComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-
     if (this.customerForm.invalid) {
       this.toastr.warning(
         "Please correct the errors in the form",
@@ -94,16 +90,13 @@ export class CustomerEditComponent implements OnInit {
       this.customerForm.markAllAsTouched();
       return;
     }
-
     this.loading = true;
-
     const formValue = this.customerForm.value;
     const updatedCustomer = {
       ...formValue,
       status: formValue.isActive ? "Active" : "Inactive",
       id: this.customerId,
     };
-
     this.customerService
       .updateCustomer(this.customerId, updatedCustomer)
       .subscribe({
