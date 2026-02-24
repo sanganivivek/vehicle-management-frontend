@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { ModelService } from "../../../services/model.service";
 import { BrandService } from "../../../services/brand.service";
 import { Model, Brand, CreateModelDTO } from "../../../models/vehicle.model";
+import { LoadingService } from "src/app/shared/services/loading.service";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
@@ -28,7 +29,8 @@ export class ModelListComponent implements OnInit {
   constructor(
     private modelService: ModelService,
     private brandService: BrandService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit(): void {
@@ -131,7 +133,8 @@ export class ModelListComponent implements OnInit {
   }
 
   loadModels() {
-    this.loading = true;
+    this.loadingService.show();
+
     this.modelService.getModels(this.searchTerm, this.currentPage, this.pageSize, this.selectedBrand).subscribe({
       next: (response: any) => {
         console.log('Model Response:', response);
@@ -158,11 +161,11 @@ export class ModelListComponent implements OnInit {
         }
 
         this.generatePagesArray();
-        this.loading = false;
+        this.loadingService.hide();
       },
       error: (err) => {
         console.error(err);
-        this.loading = false;
+        this.loadingService.hide();
         this.toastr.error("Failed to load models", "Error");
       },
     });

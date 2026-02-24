@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DealerService } from '../../../services/dealer.service';
 import { Dealer } from '../../../models/dealer.model';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -23,7 +24,8 @@ export class DealerListComponent implements OnInit {
 
   constructor(
     private dealerService: DealerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit(): void {
@@ -31,16 +33,16 @@ export class DealerListComponent implements OnInit {
   }
 
   loadDealers(): void {
-    this.loading = true;
+    this.loadingService.show();
     this.dealerService.getAllDealers().subscribe({
       next: (data) => {
         this.allDealers = data;
         this.applyFilter(); // Apply search and pagination
-        this.loading = false;
+        this.loadingService.hide();
       },
       error: (err) => {
         console.error('Error fetching dealers', err);
-        this.loading = false;
+        this.loadingService.hide();
         this.toastr.error('Failed to load dealers', "Error");
       }
     });

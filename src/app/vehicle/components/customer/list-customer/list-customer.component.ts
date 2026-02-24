@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CustomerService } from "../../../services/customer.service";
 import { Customer } from "../../../models/customer.model";
+import { LoadingService } from "src/app/shared/services/loading.service";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
@@ -24,6 +25,7 @@ export class ListCustomerComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private toastr: ToastrService,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit(): void {
@@ -31,16 +33,16 @@ export class ListCustomerComponent implements OnInit {
   }
 
   loadCustomers(): void {
-    this.loading = true;
+    this.loadingService.show();
     this.customerService.getAllCustomers().subscribe({
       next: (data: Customer[]) => {
         this.allCustomers = data;
         this.applyFilter();
-        this.loading = false;
+        this.loadingService.hide();
       },
       error: (err: any) => {
         console.error("Error fetching customers", err);
-        this.loading = false;
+        this.loadingService.hide();
         this.toastr.error("Failed to load customers", "Error");
       },
     });

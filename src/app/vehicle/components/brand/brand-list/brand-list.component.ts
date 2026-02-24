@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BrandService } from '../../../services/brand.service';
 import { Brand } from '../../../models/vehicle.model';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -22,13 +23,14 @@ export class BrandListComponent implements OnInit {
 
   @Input() showHeader: boolean = true;
 
-  constructor(private brandService: BrandService, private toastr: ToastrService) { }
+  constructor(private brandService: BrandService, private toastr: ToastrService, private loadingService: LoadingService) { }
 
   ngOnInit(): void {
     this.loadBrands();
   }
 
   loadBrands() {
+    this.loadingService.show();
     this.loading = true;
     this.brandService.getBrands(this.searchTerm, this.currentPage, this.pageSize).subscribe({
       next: (response: any) => {
@@ -37,13 +39,13 @@ export class BrandListComponent implements OnInit {
         this.totalRecords = response.totalCount || 0;
         this.totalPages = response.totalPages || 1;
         this.generatePagesArray();
-        this.loading = false;
+        this.loadingService.hide();
       },
       error: (err) => {
         console.error("Error loading brands", err);
         this.brands = []; // Clear list on error
         this.toastr.error("Failed to load brands", "Error");
-        this.loading = false;
+        this.loadingService.hide();
       }
     });
   }

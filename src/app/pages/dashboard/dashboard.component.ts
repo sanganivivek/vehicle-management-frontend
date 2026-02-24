@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { VehicleService, DashboardData } from "src/app/vehicle/services/vehicle.service";
 import { DashboardService } from "./dashboard.service";
 import { RecentActivity } from "./dashboard.model";
@@ -9,6 +9,7 @@ import { LoadingService } from "src/app/shared/services/loading.service";
 // New Imports
 import { BookingService } from "src/app/vehicle/services/booking.service";
 import { CustomerService } from "src/app/vehicle/services/customer.service";
+import { ListCustomerComponent } from "src/app/vehicle/components/customer/list-customer/list-customer.component";
 import { DealerListComponent } from "src/app/vehicle/components/dealer/list-dealer/dealer-list.component";
 import { DealerService } from "src/app/vehicle/services/dealer.service";
 import { Booking } from "src/app/vehicle/models/booking.model";
@@ -17,7 +18,7 @@ import { CdkAutofill } from "@angular/cdk/text-field";
 @Component({
   selector: "app-dashboard",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.css"],
 })
@@ -56,6 +57,13 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  navigateToDealer(id: string) {
+    this.router.navigate(['/dealer', id]);
+  }
+
+  navigateToCustomer(id: string) {
+    this.router.navigate(['/customer', id]);
+  }
 
 
   navigateToEdit(id: string) {
