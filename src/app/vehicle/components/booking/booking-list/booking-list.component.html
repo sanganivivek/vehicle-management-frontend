@@ -13,6 +13,14 @@
       <input type="text" class="form-control search-box" placeholder="Search by Customer or Reg No..."
         [(ngModel)]="searchTerm" (input)="onSearch()" />
 
+      <select class="form-select status-dropdown" [(ngModel)]="selectedPaymentStatus"
+        (change)="onPaymentStatusFilter()">
+        <option value="">All Payment Status</option>
+        <option *ngFor="let p of paymentStatusOptions" [value]="p.value">
+          {{ p.name }}
+        </option>
+      </select>
+
       <select class="form-select status-dropdown" [(ngModel)]="selectedStatus" (change)="onStatusFilter()">
         <option value="">All Status</option>
         <option *ngFor="let s of statusOptions" [value]="s.value">
@@ -57,7 +65,7 @@
 
         <tbody>
           <tr *ngFor="let booking of bookings">
-            <td class="fw-bold">#{{ booking.bookingId }}</td>
+            <td class="fw-bold">#{{ booking.formattedId }}</td>
 
             <td>{{ booking.customerName }}</td>
 
@@ -65,10 +73,11 @@
               <div class="fw-bold">{{ booking.vehicleRegNo }}</div>
               <small class="text-muted">{{ booking.vehicleName }}</small>
               <div>
-              <small class="text-muted mt-auto">{{ booking.dealerName }}</small></div>
+                <small class="text-muted mt-auto">{{ booking.dealerName }}</small>
+              </div>
             </td>
 
-            
+
 
             <td>{{ booking.amount | currency:'INR' }}</td>
 
@@ -151,28 +160,28 @@
     </div>
 
     <!-- Pagination Controls -->
-        <div class="pagination-container" *ngIf="totalRecords > 0">
-            <div class="pagination-info">
-                {{ getDisplayRange() }}
-            </div>
+    <div class="pagination-container" *ngIf="totalRecords > 0">
+      <div class="pagination-info">
+        {{ getDisplayRange() }}
+      </div>
 
-            <nav class="pagination-wrapper">
-                <ul class="custom-pagination">
-                    <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
-                        <span class="page-link">‹ Prev</span>
-                    </li>
+      <nav class="pagination-wrapper">
+        <ul class="custom-pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1" (click)="prevPage()">
+            <span class="page-link">‹ Prev</span>
+          </li>
 
-                    <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
-                        [class.disabled]="p === '...'" (click)="goToPage(p)">
-                        <span class="page-link">{{ p }}</span>
-                    </li>
+          <li class="page-item number" *ngFor="let p of pagesArray" [class.active]="currentPage === p"
+            [class.disabled]="p === '...'" (click)="goToPage(p)">
+            <span class="page-link">{{ p }}</span>
+          </li>
 
-                    <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
-                        <span class="page-link">Next ›</span>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+          <li class="page-item" [class.disabled]="currentPage === totalPages" (click)="nextPage()">
+            <span class="page-link">Next ›</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
   </div>
 </div>

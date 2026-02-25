@@ -8,18 +8,19 @@ import { BookingService } from '../../../services/booking.service';
 
 export interface BookingListDTO {
   bookingId: string;
+  bookingNumber: number;
+  formattedId: string;      // e.g. #0001 — from backend
   customerName: string;
   dealerName: string;
   vehicleRegNo: string;
   vehicleName: string;
-  amount: number;          // New Field
-  paymentMethod: string;   // New Field
-  paymentStatus: string;   // New Field
-  createdAt: string | Date; // Renamed from bookingDate for clarity
+  amount: number;
+  paymentMethod: string;
+  paymentStatus: string;
+  createdAt: string | Date;
   startDate: string | Date;
   endDate: string | Date;
-
-  status: number; // 0: Pending, 1: Confirmed/Active, 2: Completed/Cancelled
+  status: number; // 0: Pending, 1: Confirmed, 2: Completed, 3: Cancelled
 }
 
 @Component({
@@ -33,6 +34,8 @@ export class BookingListComponent implements OnInit {
   bookings: BookingListDTO[] = [];
   searchTerm: string = '';
   selectedStatus: any = '';
+  selectedPaymentStatus: any = '';
+
 
   // Pagination & Sorting
   currentPage = 1;
@@ -48,6 +51,12 @@ export class BookingListComponent implements OnInit {
     { name: 'Confirmed', value: 1 },
     { name: 'Completed', value: 2 },
     { name: 'Cancelled', value: 3 }
+  ];
+
+  paymentStatusOptions = [
+    { name: 'Paid', value: 'Paid' },
+    { name: 'Pending', value: 'Pending' },
+    { name: 'Failed', value: 'Failed' }
   ];
 
   allBookings: BookingListDTO[] = []; // Store all data for client-side filtering
@@ -70,6 +79,8 @@ export class BookingListComponent implements OnInit {
         // Map API response to DTO if needed, or if keys match, just assign
         this.allBookings = data.map(b => ({
           bookingId: b.bookingId,
+          bookingNumber: b.bookingNumber,
+          formattedId: b.formattedId,
           customerName: b.customerName,
           vehicleRegNo: b.vehicleRegNo,
           vehicleName: b.vehicleName,
@@ -111,6 +122,12 @@ export class BookingListComponent implements OnInit {
       const statusVal = parseInt(this.selectedStatus.toString()); // ensure number
       filtered = filtered.filter(b => b.status === statusVal);
     }
+
+    if (this.selectedPaymentStatus !== '' && this.selectedPaymentStatus !== null && this.selectedPaymentStatus !== undefined) {
+      const paymentStatusVal = this.selectedPaymentStatus.toString();
+      filtered = filtered.filter(b => b.paymentStatus === paymentStatusVal);
+    }
+
 
     // 3. Sorting
     filtered.sort((a, b) => {
@@ -169,6 +186,11 @@ export class BookingListComponent implements OnInit {
   }
 
   onStatusFilter(): void {
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  onPaymentStatusFilter(): void {
     this.currentPage = 1;
     this.applyFilters();
   }
@@ -285,5 +307,14 @@ export class BookingListComponent implements OnInit {
   getStatusName(status: number): string {
     const found = this.statusOptions.find(s => s.value === status);
     return found ? found.name : 'Unknown';
+  }
+
+  getPaymentStatusClass(paymentStatus: string): string {
+    const statusMap: Record<string, string> = {
+      'Paid': 'badge bg-success',
+      'Pending': 'badge bg-warning text-dark',
+      'Failed': 'badge bg-danger'
+    };
+    return statusMap[paymentStatus] ?? 'badge bg-secondary';
   }
 }
