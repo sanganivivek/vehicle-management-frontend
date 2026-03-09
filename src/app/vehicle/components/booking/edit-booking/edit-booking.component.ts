@@ -305,21 +305,44 @@ export class EditBookingComponent implements OnInit {
 
     this.isLoading = true;
 
-    const formValues = {
-      ...this.rentalForm.value,
-      ...this.customerForm.value,
-      amount: this.totalAmount
+    // getRawValue() captures disabled fields (vehicleId is disabled until dealer is selected)
+    const rawRental = this.rentalForm.getRawValue();
+    const rawCustomer = this.customerForm.getRawValue();
+
+    // Format Dates to YYYY-MM-DD to avoid timezone/parse issues
+    const formatDate = (date: Date | string) => {
+      const d = new Date(date);
+      let month = '' + (d.getMonth() + 1);
+      let day = '' + d.getDate();
+      const year = d.getFullYear();
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+      return [year, month, day].join('-');
+    };
+
+    // Build clean payload matching UpdateBookingDTO exactly
+    const bookingData = {
+      vehicleId: rawRental.vehicleId,
+      dealerId: rawRental.dealerId,
+      customerId: rawCustomer.customerId,
+      startDate: formatDate(rawRental.startDate),
+      endDate: formatDate(rawRental.endDate),
+      paymentMethod: rawCustomer.paymentMethod,
+      paymentStatus: rawCustomer.paymentStatus,
+      bookingStatus: rawCustomer.bookingStatus  // maps to UpdateBookingDTO.BookingStatus
     };
 
     if (this.bookingId) {
-      this.bookingService.updateBooking(this.bookingId, formValues).subscribe({
+      this.bookingService.updateBooking(this.bookingId, bookingData as any).subscribe({
         next: () => {
+          this.isLoading = false;
           this.toastr.success('Booking updated successfully!');
           setTimeout(() => this.router.navigate(['/booking']), 500);
         },
         error: (err) => {
           this.isLoading = false;
-          this.toastr.error('Failed to update booking');
+          const msg = err.error?.message || 'Failed to update booking';
+          this.toastr.error(msg);
           console.error(err);
         }
       });

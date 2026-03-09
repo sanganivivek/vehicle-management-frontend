@@ -65,7 +65,7 @@
 
         <tbody>
           <tr *ngFor="let booking of bookings">
-            <td class="fw-bold">#{{ booking.formattedId }}</td>
+            <td class="fw-bold">#{{ booking.bookingNumber | number:'4.0-0' }}</td>
 
             <td>{{ booking.customerName }}</td>
 

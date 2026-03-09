@@ -80,7 +80,7 @@ export class BookingListComponent implements OnInit {
         this.allBookings = data.map(b => ({
           bookingId: b.bookingId,
           bookingNumber: b.bookingNumber,
-          formattedId: b.formattedId,
+          formattedId: b.bookingNumber ? b.bookingNumber.toString().padStart(4, '0') : '0000',
           customerName: b.customerName,
           vehicleRegNo: b.vehicleRegNo,
           vehicleName: b.vehicleName,

@@ -285,19 +285,16 @@ export class AddBookingComponent implements OnInit {
       return [year, month, day].join('-');
     };
 
-    const formValues = {
-      ...rawRental,
-      ...rawCustomer,
+    // Build a clean payload matching CreateBookingDTO exactly
+    const bookingData = {
+      vehicleId: rawRental.vehicleId,
+      dealerId: rawRental.dealerId,
+      customerId: rawCustomer.customerId,
       startDate: formatDate(rawRental.startDate),
       endDate: formatDate(rawRental.endDate),
-      // Map bookingStatus to Status (backend expects 'Status')
-      Status: rawCustomer.bookingstatus
-    };
-
-    // Real API Submission
-    const bookingData = {
-      ...formValues,
-      amount: this.totalAmount
+      paymentMethod: rawCustomer.paymentMethod,
+      paymentStatus: rawCustomer.paymentStatus,
+      status: rawCustomer.bookingStatus  // Fixed: was 'bookingstatus' (typo)
     };
 
     this.bookingService.createBooking(bookingData).subscribe({
